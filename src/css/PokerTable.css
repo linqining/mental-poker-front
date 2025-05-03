@@ -1,0 +1,322 @@
+/* 扑克桌容器 */
+.poker-table-container {
+  width: 100%;
+  height: 100vh; /* 占满整个视口高度 */
+  background-color: #0a1929;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 顶部导航栏 */
+.table-header {
+  background-color: #0a1929;
+  padding: 10px 15px;
+  color: white;
+  position: relative; 
+  z-index: 30; 
+  display: flex; /* 改回 flex 布局 */
+  justify-content: space-between; /* 两端对齐 */
+  align-items: center;
+}
+
+.menu-button {
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+.room-info {
+  font-size: 14px;
+  color: white;
+  text-align: center; 
+  /* 移除绝对定位，让 flex 布局处理 */
+  /* position: absolute; 
+  left: 50%;
+  transform: translateX(-50%); */
+}
+
+.balance-display {
+  background-color: #e94560;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin-icon {
+  color: gold;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* 扑克桌 */
+.poker-table {
+  flex: 1;
+  background-color: transparent; 
+  border: none; 
+  margin: 0; /* 移除外边距 */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px; /* 增加内边距，给玩家位置留出更多空间 */
+  box-sizing: border-box;
+}
+
+/* 内部绿色区域 */
+.table-inner {
+  width: 100%;
+  height: 150px; 
+  background-color: #0e6e3a;
+  border-radius: 75px; 
+  border: 8px solid #6a3cb5;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; 
+}
+
+.table-logo {
+  color: rgba(255, 255, 255, 0.2); 
+  font-size: 36px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+/* 玩家位置 */
+.player-position {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80px; 
+  z-index: 20;
+}
+
+.player-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid gold; 
+  background-color: #333;
+  margin-bottom: 5px; 
+}
+
+.player-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player-name {
+  color: white;
+  font-size: 12px; 
+  margin-top: 0; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.player-balance {
+  color: gold;
+  font-size: 10px; 
+}
+
+.player-status {
+  color: #e94560;
+  font-weight: bold;
+  font-size: 10px; 
+}
+
+/* 玩家筹码 */
+.player-bet-chips {
+  position: absolute; 
+  top: -15px; 
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+}
+
+.chip-amount {
+  background-color: #1f78b4; 
+  color: white; 
+  border-radius: 50%;
+  padding: 4px 8px; 
+  font-size: 10px; 
+  border: 1px solid #a6cee3; 
+  min-width: 30px; 
+  text-align: center;
+}
+
+/* 中央玩家的牌 */
+.center-cards {
+  position: absolute;
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+  /* 重新定位到桌子中心 */
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.card {
+  width: 40px;
+  height: 60px;
+  background-color: white;
+  border-radius: 5px;
+  margin: 0 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card-q {
+  color: #e94560;
+}
+
+.card-a {
+  color: #000;
+}
+
+/* 玩家位置定位 - 再次调整 */
+.top-left {
+  top: 50%; /* 垂直居中 */
+  left: 10%; /* 更靠近左边 */
+  transform: translateY(-120%); /* 向上移动更多 */
+}
+
+.top {
+  top: 0; /* 移到最顶部 */
+  left: 50%;
+  transform: translate(-50%, -50%); /* 向上移出头像一半 */
+}
+
+.top-right {
+  top: 50%; /* 垂直居中 */
+  right: 10%; /* 更靠近右边 */
+  transform: translateY(-120%); /* 向上移动更多 */
+}
+
+.right {
+  top: 50%;
+  right: 0; /* 移到最右边 */
+  transform: translate(50%, -50%); /* 向右移出头像一半 */
+}
+
+.bottom-right {
+  bottom: 0; /* 移到最底部 */
+  right: 25%; /* 调整水平位置 */
+  transform: translateY(50%); /* 向下移出头像一半 */
+}
+
+.bottom {
+  bottom: 0; /* 移到最底部 */
+  left: 50%;
+  transform: translate(-50%, 50%); /* 向下移出头像一半 */
+}
+
+.bottom-left {
+  bottom: 0; /* 移到最底部 */
+  left: 25%; /* 调整水平位置 */
+  transform: translateY(50%); /* 向下移出头像一半 */
+}
+
+.left {
+  top: 50%;
+  left: 0; /* 移到最左边 */
+  transform: translate(-50%, -50%); /* 向左移出头像一半 */
+}
+
+/* 中央玩家特殊定位 */
+.center {
+  /* 定位在桌子中心偏下 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 30%); /* 向下移动 */
+  z-index: 20;
+}
+
+/* 当前玩家高亮 */
+.current-player .player-avatar {
+  border: 3px solid #4cc9f0;
+  box-shadow: 0 0 10px #4cc9f0;
+}
+
+/* 玩家操作区 */
+.player-actions {
+  background-color: #0a1929;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex; /* 使用 flex 布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+  gap: 20px; /* 增加选项和按钮之间的间距 */
+}
+
+.bet-amount-options {
+  display: flex;
+  gap: 10px;
+}
+
+.bet-chip {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.chip-100 {
+  background-color: #06d6a0;
+}
+
+.chip-500 {
+  background-color: #ef476f;
+}
+
+.chip-1k {
+  background-color: #ffd166;
+  color: #333;
+}
+
+.action-buttons {
+  /* margin-left: 20px; */ /* 移除左边距，使用 gap */
+  display: flex; /* 确保内部也是 flex */
+  gap: 10px; /* 按钮之间的间距 */
+}
+
+.action-button {
+  padding: 10px 30px;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.bet-button {
+  background-color: #06d6a0;
+}
+
+.fold-button {
+  background-color: #ef476f;
+}

@@ -1,0 +1,33 @@
+.home-container{
+    background-image: url("/background/sharebg4.jpg");
+    width: 100% ;
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative; /* 添加这一行 */
+}
+
+/* 为黄色按钮添加样式 */
+.yellow-button {
+    background-image: url(/ui/Button_Game0.png);
+    width: 326px;
+    height: 107px;
+    background-repeat: no-repeat;
+    background-position: -160px -0px;
+    position: absolute;
+    top: 70%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    color: black;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+}
+
+/*!* 可以添加一个悬停效果 *!*/
+/*.yellow-button:hover {*/
+/*  background-color: #ffeb3b; !* 悬停时颜色变浅 *!*/
+/*}*/
