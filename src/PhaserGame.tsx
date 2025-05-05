@@ -13,9 +13,10 @@ interface IProps
 {
     currentActiveScene?: (scene_instance: Phaser.Scene) => void
     account?: any
+    actionLogin?: (scene_instance: Phaser.Scene) => void
 }
 
-export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene,account }, ref)
+export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene,account,actionLogin }, ref)
 {
     const game = useRef<Phaser.Game | null>(null!);
 
@@ -68,13 +69,16 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
             {
                 ref.current = { game: game.current, scene: scene_instance };
             }
-            
         });
+        EventBus.on('action_login', (scene_instance: Phaser.Scene) =>{
+            actionLogin && actionLogin(scene_instance);
+            // EventBus.removeListener('action_login');
+        })
         return () =>
         {
             EventBus.removeListener('current-scene-ready');
         }
-    }, [currentActiveScene, ref]);
+    }, [currentActiveScene, ref,actionLogin]);
 
     return (
         <div id="game-container"></div>

@@ -19,11 +19,13 @@ export class MainMenu extends Scene
     {
 
         this.background = this.add.image(512, 384, 'background');
-
-        if (!this.registry.get("current_account")) {
+        console.log("login",this.login);
+        if (!this.registry.get("current_account") ) {
             this.login = this.add.image(512, 550   , 'guest_login');
+            EventBus.removeListener("action_login")
             this.login.setInteractive().on("pointerdown", () => {
                 console.log('图片被点击');
+                EventBus.emit('action_login', this);
             })
         }
         

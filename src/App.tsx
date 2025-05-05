@@ -3,6 +3,7 @@ import { IRefPhaserGame, PhaserGame } from './PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
 import { useCurrentAccount,ConnectButton} from "@mysten/dapp-kit";
 import {Box, Container, Flex, Heading} from "@radix-ui/themes";
+import {EventBus} from "./game/EventBus.ts";
 
 
 function App()
@@ -82,6 +83,12 @@ function App()
         setCanMoveSprite(scene.scene.key !== 'MainMenu');
     }
 
+    const actionLoginFunction = (scene_instance: Phaser.Scene) =>{
+        console.log(scene_instance);
+    };
+
+
+
     phaserRef.current?.scene?.data.set("current_account",account)
 
     return (
@@ -99,11 +106,11 @@ function App()
                     <Heading>TRUSTED POKER</Heading>
                 </Box>
                 <Box>
-                    <ConnectButton />
+                    <ConnectButton  />
                 </Box>
             </Flex>
             <div>
-                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} account={account}/>
+                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} account={account} actionLogin={actionLoginFunction}/>
                 <div>
                     <div>
                         <button className="button" onClick={changeScene}>Change Scene</button>
