@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import StartGame from './game/main';
 import { EventBus } from './game/EventBus';
+import BetApi from './Poker/betapi.js';
 
 
 export interface IRefPhaserGame
@@ -36,7 +37,10 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
             }
 
         }
+
         game.current.registry.set("current_account", account);
+        const betApi =  new BetApi();
+        game.current.registry.set("betApi", betApi);
 
         return () =>
         {

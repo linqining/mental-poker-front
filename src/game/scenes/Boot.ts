@@ -22,6 +22,8 @@ export class Boot extends Scene
 
         this.load.image("table_background","src/assets/Desktop/Desktop_atlas1.png")
         this.load.image("table","src/assets/Desktop/Desktop_atlas2.png")
+
+        this.load.image("exit_game","src/assets/joinmatch/JoinMatch_atlas0.png")
     }
 
     create ()
