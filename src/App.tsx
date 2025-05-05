@@ -114,7 +114,7 @@ function App()
                     </div>
                 </div>
             </div>
-            <div ref={connectBTNRef} className="connect-button" style={{visibility: "hidden"}}>
+            <div ref={connectBTNRef} className="connect-button" style={{visibility: "visible"}}>
                 <ConnectButton className="connectBtn"/>
             </div>
         </div>

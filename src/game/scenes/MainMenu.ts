@@ -8,6 +8,7 @@ export class MainMenu extends Scene
     logo: GameObjects.Image;
     title: GameObjects.Text;
     login: GameObjects.Image;
+    avatar:GameObjects.Image;
     logoTween: Phaser.Tweens.Tween | null;
 
     constructor ()
@@ -20,7 +21,18 @@ export class MainMenu extends Scene
 
         this.background = this.add.image(650, 390, 'background');
         this.background.setScale(0.76);
-        console.log("login",this.login);
+        this.background.setDepth(-1);
+
+        this.background = this.add.image(650, 390, 'background');
+        this.background.setScale(0.76);
+        this.background.setDepth(-1);
+
+        this.avatar = this.add.image(500, 370, 'loading_avatar');
+        this.avatar.setScale(0.7);
+        // this.background.setDepth(-1);
+
+
+
         if (!this.registry.get("current_account") ) {
             this.login = this.add.image(512, 550   , 'guest_login');
             this.login.displayHeight= 50;
@@ -31,14 +43,14 @@ export class MainMenu extends Scene
                 EventBus.emit('action_login', this);
             })
         }
-        
-        this.logo = this.add.image(512, 300, 'logo').setDepth(100);
 
-            // this.title = this.add.text(512, 460, 'Main Menu', {
-            //     fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            //     stroke: '#000000', strokeThickness: 8,
-            //     align: 'center'
-            // }).setOrigin(0.5).setDepth(100);
+        // this.logo = this.add.image(512, 300, 'logo').setDepth(100);
+
+        this.title = this.add.text(512, 150, 'Trusted Poker', {
+            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
+            stroke: '#000000', strokeThickness: 8,
+            align: 'center'
+        }).setOrigin(0.5).setDepth(100);
 
         EventBus.emit('current-scene-ready', this);
     }

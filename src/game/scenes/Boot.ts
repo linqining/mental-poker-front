@@ -14,6 +14,7 @@ export class Boot extends Scene
 
         this.load.image('background', 'assets/loading/loading.png');
         this.load.image('guest_login','assets/loading/guest_login.png')
+        this.load.image('loading_avatar','avatars/avater0.png')
     }
 
     create ()
