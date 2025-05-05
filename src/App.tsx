@@ -95,10 +95,6 @@ function App()
 
     return (
         <div id="app">
-
-            <div ref={connectBTNRef} className="connect-button" style={{visibility:"visible"}}>
-                <ConnectButton className="connectBtn"/>
-            </div>
             <div>
                 <PhaserGame ref={phaserRef} currentActiveScene={currentScene} account={account}
                             actionLogin={actionLoginFunction}/>
@@ -117,6 +113,9 @@ function App()
                         <button className="button" onClick={addSprite}>Add New Sprite</button>
                     </div>
                 </div>
+            </div>
+            <div ref={connectBTNRef} className="connect-button" style={{visibility: "hidden"}}>
+                <ConnectButton className="connectBtn"/>
             </div>
         </div>
     )
