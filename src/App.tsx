@@ -2,8 +2,6 @@ import { useRef, useState } from 'react';
 import { IRefPhaserGame, PhaserGame } from './PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
 import { useCurrentAccount,ConnectButton} from "@mysten/dapp-kit";
-import {Box, Container, Flex, Heading} from "@radix-ui/themes";
-import {EventBus} from "./game/EventBus.ts";
 
 
 function App()
@@ -115,7 +113,7 @@ function App()
                 </div>
             </div>
             <div ref={connectBTNRef} className="connect-button" style={{visibility: "visible"}}>
-                <ConnectButton className="connectBtn"/>
+                <ConnectButton className="connectBtn" />
             </div>
         </div>
     )

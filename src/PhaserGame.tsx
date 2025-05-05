@@ -79,7 +79,6 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
             EventBus.removeListener('current-scene-ready');
         }
     }, [currentActiveScene, ref,actionLogin]);
-
     return (
         <div id="game-container"></div>
     );

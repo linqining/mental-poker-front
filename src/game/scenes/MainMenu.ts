@@ -23,9 +23,6 @@ export class MainMenu extends Scene
         this.background.setScale(0.76);
         this.background.setDepth(-1);
 
-        this.background = this.add.image(650, 390, 'background');
-        this.background.setScale(0.76);
-        this.background.setDepth(-1);
 
         this.avatar = this.add.image(500, 370, 'loading_avatar');
         this.avatar.setScale(0.7);
@@ -42,6 +39,8 @@ export class MainMenu extends Scene
                 console.log('图片被点击');
                 EventBus.emit('action_login', this);
             })
+        }else{
+            this.scene.start('Hall');
         }
 
         // this.logo = this.add.image(512, 300, 'logo').setDepth(100);
