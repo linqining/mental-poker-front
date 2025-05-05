@@ -5,7 +5,7 @@ var BetApi = function() {
 	this.betServer;
 	this.userName = "";
 	this.userID = "";
-	this.roomID = "";
+	this.roomID = "1";
 }
 
 BetApi.prototype = {
@@ -19,6 +19,17 @@ BetApi.prototype = {
 	registerCallback:function(openCallback, closeCallback, messageCallback, errorCallback) {
 
 		this.betServer.registerCallback(openCallback, closeCallback, messageCallback, errorCallback);
+	},
+
+	connectWithCallback: async function(userAddress,openCallback, closeCallback, messageCallback, errorCallback) {
+		this.userID = userAddress;
+		this.betServer = new Server();
+		this.betServer.registerCallback(openCallback, closeCallback, messageCallback, errorCallback);
+		 this.betServer.connect();
+	},
+
+	disconnect(){
+		this.betServer.quit();
 	},
 
 	setUserID:function(strUserID) {
@@ -55,13 +66,13 @@ BetApi.prototype = {
 	},
 
 	getRoomInfo:function(callback) {
-
-		var data = {type:"iq", id:"getRoomInfo", from:this.userID, to:this.roomID, action:"get", class: "room"};
+		var data = {type:"iq",
+			id:"getRoomInfo",
+			from:this.userID, to:this.roomID, action:"get", class: "room"};
 		this.betServer.sendCommand(data, callback);
 	},
 
 	getUserInfo:function(playerID, callback) {
-
 		var data = {type:"iq", id:"getUserInfo", from:this.userID, to:playerID, action:"get", class: "occupant"};
 		this.betServer.sendCommand(data, callback);
 	},

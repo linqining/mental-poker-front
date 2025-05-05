@@ -1,5 +1,18 @@
 'use strict';
 
+import Animations   from "./animations.js";
+import User from "./user.js";
+
+function _fontString(size, fontname) {
+    if (fontname == undefined) {
+        //fontname = "Impact"
+        fontname = "Apple LiSung Light"
+    };
+    var gFontScale = 1.0;
+
+    return (size * gFontScale)+"px " + fontname
+}
+
 
 // game main state
 var MainState = function() {
@@ -171,112 +184,101 @@ var MainState = function() {
     this.gameStateObj.chipboxValue3 = 40;
 }
 
+var gImageDir = "src/assets/2x"
 
 
 MainState.prototype = {
 
-    preload:function() {
-        game.load.image('gamecenterbackground', gImageDir+'background.png');
-        game.load.image('playerBK', gImageDir+'player-me.png');
-        game.load.image('userBK', gImageDir+'player-guest.png');
-        game.load.image('blankBK', gImageDir+'player-blank.png');
-        game.load.image('winBK', gImageDir+'win-frame-bg.png');
-        game.load.image('winBKFrame', gImageDir+'win-frame.png');
-        //game.load.image('defaultUserImage', gImageDir+'coin.png');
-        game.load.image('buttonblue', gImageDir+'btn-big-green.png');
-        game.load.image('buttongrey', gImageDir+'btn-big-green.png');
-        game.load.image('buttonyellow', gImageDir+'btn-big-blue.png');
-        game.load.image('animeCoins', gImageDir+'coin.png');
-        game.load.image('light', gImageDir+'roomLight.png');
-        var cardImageName = ["spades", "hearts", "clubs", "diamonds"];
-        var cardName = ["S", "H", "C", "D"];
-        var cardNumber = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
-        for(var i = 0; i < cardImageName.length; i++)
-        {
-            for(var j = 0; j < cardNumber.length; j++)
-            {
-                game.load.image(cardName[i] + cardNumber[j], gImageDir+'cards/card_' + cardImageName[i] + "_" + (j + 1) + ".png");
-            }
-        }
+    // preload:function(game) {
+    //     game.load.image('gamecenterbackground', gImageDir+'background.png');
+    //     game.load.image('playerBK', gImageDir+'player-me.png');
+    //     game.load.image('userBK', gImageDir+'player-guest.png');
+    //     game.load.image('blankBK', gImageDir+'player-blank.png');
+    //     game.load.image('winBK', gImageDir+'win-frame-bg.png');
+    //     game.load.image('winBKFrame', gImageDir+'win-frame.png');
+    //     //game.load.image('defaultUserImage', gImageDir+'coin.png');
+    //     game.load.image('buttonblue', gImageDir+'btn-big-green.png');
+    //     game.load.image('buttongrey', gImageDir+'btn-big-green.png');
+    //     game.load.image('buttonyellow', gImageDir+'btn-big-blue.png');
+    //     game.load.image('animeCoins', gImageDir+'coin.png');
+    //     game.load.image('light', gImageDir+'roomLight.png');
+    //     var cardImageName = ["spades", "hearts", "clubs", "diamonds"];
+    //     var cardName = ["S", "H", "C", "D"];
+    //     var cardNumber = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
+    //     for(var i = 0; i < cardImageName.length; i++)
+    //     {
+    //         for(var j = 0; j < cardNumber.length; j++)
+    //         {
+    //             game.load.image(cardName[i] + cardNumber[j], gImageDir+'cards/card_' + cardImageName[i] + "_" + (j + 1) + ".png");
+    //         }
+    //     }
+    //
+    //     game.load.image("cardBK", gImageDir+'cards/card_back.png');
+    //     game.load.image("chipPool", gImageDir+'chip-pool.png');
+    //     game.load.image("chip01", gImageDir+'texas_chip01.png');
+    //     game.load.image("chip05", gImageDir+'texas_chip05.png');
+    //     game.load.image("chip1k", gImageDir+'texas_chip1k.png');
+    //     game.load.image("chip5k", gImageDir+'texas_chip5k.png');
+    //     game.load.image("chip10w", gImageDir+'texas_chip10w.png');
+    //     game.load.image("chip50w", gImageDir+'texas_chip50w.png');
+    //     game.load.image("dcardBK", gImageDir+'card_backs_rotate.png');
+    //     game.load.image("checkOn", gImageDir+'check-on.png');
+    //     game.load.image("checkOff", gImageDir+'check-off.png');
+    //     game.load.image("chipbox", gImageDir+'add-chips-box.png');
+    //     game.load.image("winLight", gImageDir+'light_dot.png');
+    //     game.load.image("groove", gImageDir+'sliderGroove.png');
+    //     game.load.image("slidebar", gImageDir+'slidebar.png');
+    //     game.load.image("btnslider", gImageDir+'btn-slider.png');
+    //     game.load.image("fillbox", gImageDir+'fill-box.png');
+    //     game.load.image("exitdoor", gImageDir+'btn-grey.png');
+    //     game.load.image("dealer", gImageDir+'dealer.png');
+    //     game.load.image("waitingRound", gImageDir+'win-frameWaiting.png');
+    //     game.load.image("card_typebg", gImageDir+'card_typebg.png');
+    //     game.load.image("defaultProfile", gImageDir+'defaultProfile.png');
+    //     game.load.image("buttonrules", gImageDir+'btn-rules.png');
+    //
+    //
+    //
+    //
+    //     game.load.audio('sendcard', 'assets/sound/sendcard.mp3');
+    //     game.load.audio('click', 'assets/sound/click.mp3');
+    //     game.load.audio('chipsmoving', 'assets/sound/chipsmoving.mp3');
+    //     game.load.audio('reordercard', 'assets/sound/reordercard.mp3');
+    //     game.load.audio('ding', 'assets/sound/ding.mp3');
+    //     game.load.audio('win', 'assets/sound/win.mp3');
+    //     game.load.audio('lost', 'assets/sound/lose.mp3');
+    //
+    //
+    //     // game.Canvas.setSmoothingEnabled(this.game.context, false);
+    //
+    //     // this.game.scale.scaleMode = game.ScaleManager.EXACT_FIT;
+    //     // this.game.scale.setScreenSize();
+    //
+    // },
 
-        game.load.image("cardBK", gImageDir+'cards/card_back.png');
-        game.load.image("chipPool", gImageDir+'chip-pool.png');
-        game.load.image("chip01", gImageDir+'texas_chip01.png');
-        game.load.image("chip05", gImageDir+'texas_chip05.png');
-        game.load.image("chip1k", gImageDir+'texas_chip1k.png');
-        game.load.image("chip5k", gImageDir+'texas_chip5k.png');
-        game.load.image("chip10w", gImageDir+'texas_chip10w.png');
-        game.load.image("chip50w", gImageDir+'texas_chip50w.png');
-        game.load.image("dcardBK", gImageDir+'card_backs_rotate.png');
-        game.load.image("checkOn", gImageDir+'check-on.png');
-        game.load.image("checkOff", gImageDir+'check-off.png');
-        game.load.image("chipbox", gImageDir+'add-chips-box.png');
-        game.load.image("winLight", gImageDir+'light_dot.png');
-        game.load.image("groove", gImageDir+'sliderGroove.png');
-        game.load.image("slidebar", gImageDir+'slidebar.png');
-        game.load.image("btnslider", gImageDir+'btn-slider.png');
-        game.load.image("fillbox", gImageDir+'fill-box.png');
-        game.load.image("exitdoor", gImageDir+'btn-grey.png');
-        game.load.image("dealer", gImageDir+'dealer.png');
-        game.load.image("waitingRound", gImageDir+'win-frameWaiting.png');
-        game.load.image("card_typebg", gImageDir+'card_typebg.png');
-        game.load.image("defaultProfile", gImageDir+'defaultProfile.png');
-        game.load.image("buttonrules", gImageDir+'btn-rules.png');
-       
-        
+    create: function(game) {
 
-
-        game.load.audio('sendcard', 'assets/sound/sendcard.mp3');
-        game.load.audio('click', 'assets/sound/click.mp3');
-        game.load.audio('chipsmoving', 'assets/sound/chipsmoving.mp3');
-        game.load.audio('reordercard', 'assets/sound/reordercard.mp3');
-        game.load.audio('ding', 'assets/sound/ding.mp3');
-        game.load.audio('win', 'assets/sound/win.mp3');
-        game.load.audio('lost', 'assets/sound/lose.mp3');
-        
-        
-        Phaser.Canvas.setSmoothingEnabled(this.game.context, false);
-        
-        this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-        this.game.scale.setScreenSize();
-
-    },
-
-    create: function() {
-
-        this.soundSendCard = game.add.audio("sendcard");
-        this.soundReorderCard = game.add.audio("reordercard");
-        this.soundClick = game.add.audio("click");
-        this.soundDing = game.add.audio("ding");
-        this.soundWin = game.add.audio("win");
-        this.soundLost = game.add.audio("lost");
-        this.chipsmoving = game.add.audio("chipsmoving");
-
-
-        this.appToken = gParam["app_token"]
-
-        if( this.appToken != undefined && this.appToken != null) {
-            game.betApi.connect();
-            game.betApi.registerCallback(this.callbackOpen.bind(this), this.callbackClose.bind(this), this.callbackMessage.bind(this), this.callbackError.bind(this));
-        }
+        this.soundSendCard = game.sound.add("sendcard");
+        this.soundReorderCard = game.sound.add("reordercard");
+        this.soundClick = game.sound.add("click");
+        this.soundDing = game.sound.add("ding");
+        this.soundWin = game.sound.add("win");
+        this.soundLost = game.sound.add("lost");
+        this.chipsmoving = game.sound.add("chipsmoving");
 
         this.animation = new Animations();
         this.imageBK = game.add.image(0, 0, "gamecenterbackground");
         
         var xScale = game.width / this.imageBK.width;
         var yScale = game.height / this.imageBK.height;
-        
-        //if(gParam.platform == "IOS") {
-        //    xScale = 1;
-        //    yScale = 1;
-        //}
+
 
         this.scale = xScale < yScale ? xScale : yScale;
         this.xOffset = (game.width - this.imageBK.width * this.scale) / 2;
         this.yOffset = (game.height - this.imageBK.height * this.scale) / 2;
-        this.imageBK.scale.setTo(this.scale, this.scale);
+        this.imageBK.setScale(this.scale, this.scale);
         this.background = this.imageBK;
-        this.imageBK.reset(this.xOffset, this.yOffset);
+        this.imageBK.setOrigin(this.xOffset, this.yOffset);
         this.currentDrawUser = 0;
         this.timeoutMaxCount = 30;
         this.sliderMinNum = 0;
@@ -306,10 +308,10 @@ MainState.prototype = {
         var userCoinWidth = coinsize * this.scale;
         var userTextRate = [{x:0.69, y:0.292}, {x:0.856, y:0.329}, {x:0.768, y:0.484}, {x:0.61, y:0.613}, {x:0.5, y:0.557}, {x:0.339, y:0.613}, {x:0.173, y:0.484}, {x:0.142, y:0.329}, {x:0.306, y:0.292}];
 
-        game.load.onFileComplete.add(this._fileComplete, this);
+        game.load.on('filecomplete',this._fileComplete,this);
 
+        game.load.once('loaderror',this._fileError,this);
 
-        game.load.onFileError.add(this._fileError, this);
 
         this.animation.setPosParam(this.background.width, this.background.height, this.xOffset, this.yOffset);
         this.groupUser = game.add.group();
@@ -323,15 +325,14 @@ MainState.prototype = {
             user.setRect((dict.x - this.userSizeRate.width / 2) * this.imageBK.width + this.xOffset, (dict.y - this.userSizeRate.height / 2) * this.imageBK.height + this.yOffset, this.userSizeRate.width * this.imageBK.width, this.userSizeRate.height * this.imageBK.height);
             user.setCoinRect(userCoinRate[i].x * this.imageBK.width + userCoinWidth / 2 + this.xOffset, userCoinRate[i].y * this.imageBK.height + userCoinWidth / 2 + this.yOffset, userCoinWidth, userCoinWidth);
             user.setCoinTextPos(userTextRate[i].x * this.imageBK.width + this.xOffset, userTextRate[i].y * this.imageBK.height + this.yOffset);
-            if(dict.x == 0.5)
-            {
+            if(dict.x == 0.5) {
                 //user.create("", "defaultUserImage", "", true);
-                user.create("", null, "", true);
+                user.create(game,"", null, "", true);
             }
             else
             {
                 //user.create("", "defaultUserImage", "", false);
-                user.create("", null, "", false);
+                user.create(game,"", null, "", false);
             }
             user.setOnClickListener(function(thisuser){
                 var userid = thisuser.param["userID"]
@@ -356,8 +357,8 @@ MainState.prototype = {
         {
             var dict = this.cardPosRate[i];
             var imageCard = game.add.image(dict.x * this.imageBK.width + this.xOffset, dict.y * this.imageBK.height + this.yOffset, "cardBK");
-            imageCard.anchor.set(0.5);
-            imageCard.scale.setTo(this.scale, this.scale);
+            imageCard.setOrigin(0.5);
+            imageCard.setScale(this.scale, this.scale);
             imageCard.visible = false;
             this.publicCards.push(imageCard);
         }
@@ -368,7 +369,7 @@ MainState.prototype = {
         {
             var dict = preflopBKRate[i];
             var imageCard = game.add.image(dict.x * this.imageBK.width + this.xOffset, dict.y * this.imageBK.height + this.yOffset, "dcardBK");
-            imageCard.scale.setTo(this.scale, this.scale);
+            imageCard.setScale(this.scale, this.scale);
             imageCard.visible = false;
             this.praviteCards.push(imageCard);
 
@@ -381,35 +382,58 @@ MainState.prototype = {
 
         var selfCardRate = {x:0.57, y:0.79};
         var imageCard1 = game.add.image(selfCardRate.x * this.imageBK.width + this.xOffset, selfCardRate.y * this.imageBK.height + this.yOffset, "cardBK");
-        imageCard1.scale.setTo(this.scale * 0.75, this.scale * 0.75);
-        imageCard1.anchor = new PIXI.Point(0.5, 0.5);
+        imageCard1.setScale(this.scale * 0.75, this.scale * 0.75);
+        // imageCard1.anchor = new PIXI.Point(0.5, 0.5);
+
         imageCard1.angle = -20;
         imageCard1.visible = false;
         this.selfCards.push(imageCard1);
         var imageCard2 = game.add.image(selfCardRate.x * this.imageBK.width + imageCard1.width / 2 + this.xOffset, selfCardRate.y * this.imageBK.height + this.yOffset, "cardBK");
-        imageCard2.scale.setTo(this.scale * 0.75, this.scale * 0.75);
-        imageCard2.anchor = new PIXI.Point(0.5, 0.5);
+        imageCard2.setScale(this.scale * 0.75, this.scale * 0.75);
+        // imageCard2.anchor = new PIXI.Point(0.5, 0.5);
         imageCard2.angle = 20;
         imageCard2.visible = false;
         this.selfCards.push(imageCard2);
 
         this.light = game.add.sprite(this.imageBK.width / 2 + this.xOffset, this.imageBK.height / 2 + this.yOffset, 'light');
-        this.light.anchor.setTo(0, 0.5);
-        this.light.scale.setTo(this.scale);
+        this.light.setOrigin(0, 0.5);
+        this.light.setScale(this.scale);
         this.light.visible = false;
         this.animation.setLight(this.light);
 
         this.chipbox = game.add.sprite(0, 0, "fillbox");
-        this.chipbox.scale.setTo(this.scale, this.scale);
-        this.chipboxButton1 = game.add.button(0, 0, 'buttonblue', this.chipOnClick1, this);
-        this.chipboxButton2 = game.add.button(0, 0, 'buttonyellow', this.chipOnClick2, this);
-        this.chipboxButton3 = game.add.button(0, 0, 'buttonyellow', this.chipOnClick3, this);
-        this.chipboxButton4 = game.add.button(0, 0, 'buttonyellow', this.chipOnClick4, this);
+        this.chipbox.setScale(this.scale, this.scale);
 
-        this.chipboxButton1.scale.setTo(this.scale, this.scale);
-        this.chipboxButton2.scale.setTo(this.scale, this.scale);
-        this.chipboxButton3.scale.setTo(this.scale, this.scale);
-        this.chipboxButton4.scale.setTo(this.scale, this.scale);
+
+        this.chipboxButton1 = game.add.image(0,0, "buttonblue");
+        this.chipboxButton1.setInteractive();
+        this.chipboxButton1.on('pointerdown', () => {
+            this.chipOnClick1();
+        });
+
+        this.chipboxButton2 = game.add.image(0,0, "buttonyellow");
+        this.chipboxButton2.setInteractive();
+        this.chipboxButton2.on('pointerdown', () => {
+            this.chipOnClick2();
+        });
+
+        this.chipboxButton3 = game.add.image(0,0, "buttonyellow");
+        this.chipboxButton3.setInteractive();
+        this.chipboxButton3.on('pointerdown', () => {
+            this.chipOnClick3();
+        });
+
+        this.chipboxButton4 = game.add.image(0,0, "buttonyellow");
+        this.chipboxButton4.setInteractive();
+        this.chipboxButton4.on('pointerdown', () => {
+            this.chipOnClick4();
+        });
+
+
+        this.chipboxButton1.setScale(this.scale, this.scale);
+        this.chipboxButton2.setScale(this.scale, this.scale);
+        this.chipboxButton3.setScale(this.scale, this.scale);
+        this.chipboxButton4.setScale(this.scale, this.scale);
 
         var style = { font: _fontString(28), fill: "#FFFFFF"};
         this.chipboxText1 = game.add.text(0, 0, "全部", style);
@@ -417,26 +441,26 @@ MainState.prototype = {
         this.chipboxText2 = game.add.text(0, 0, "120", style);
         this.chipboxText3 = game.add.text(0, 0, "80", style);
         this.chipboxText4 = game.add.text(0, 0, "50", style);
-        this.chipboxText1.anchor.set(0.5);
-        this.chipboxText2.anchor.set(0.5);
-        this.chipboxText3.anchor.set(0.5);
-        this.chipboxText4.anchor.set(0.5);
-        this.chipboxText1.scale.setTo(this.scale, this.scale);
-        this.chipboxText2.scale.setTo(this.scale, this.scale);
-        this.chipboxText3.scale.setTo(this.scale, this.scale);
-        this.chipboxText4.scale.setTo(this.scale, this.scale);
+        this.chipboxText1.setOrigin(0.5);
+        this.chipboxText2.setOrigin(0.5);
+        this.chipboxText3.setOrigin(0.5);
+        this.chipboxText4.setOrigin(0.5);
+        this.chipboxText1.setScale(this.scale, this.scale);
+        this.chipboxText2.setScale(this.scale, this.scale);
+        this.chipboxText3.setScale(this.scale, this.scale);
+        this.chipboxText4.setScale(this.scale, this.scale);
         //this.chipboxSliderGroove = game.add.sprite(0, 0, "groove");
         //this.chipboxSliderHandle = game.add.sprite(0, 0, "buttonblu;
         this.chipboxSliderGroove = game.add.sprite(0, 0, "slidebar");
         this.chipboxSliderHandle = game.add.sprite(0, 0, "btnslider");
-        this.chipboxSliderGroove.scale.setTo(this.scale, this.scale);
-        this.chipboxSliderHandle.scale.setTo(this.scale, this.scale);
-        this.chipboxSliderGroove.anchor.set(0.5);
-        this.chipboxSliderHandle.anchor.set(0.5);
+        this.chipboxSliderGroove.setScale(this.scale, this.scale);
+        this.chipboxSliderHandle.setScale(this.scale, this.scale);
+        this.chipboxSliderGroove.setOrigin(0.5);
+        this.chipboxSliderHandle.setOrigin(0.5);
         style = { font: _fontString(32), fill: "#CE8D00"};
         this.chipboxTextSlider = game.add.text(0, 0, "0", style);
-        this.chipboxTextSlider.anchor.set(0.5);
-        this.chipboxTextSlider.scale.setTo(this.scale, this.scale);
+        this.chipboxTextSlider.setOrigin(0.5);
+        this.chipboxTextSlider.setScale(this.scale, this.scale);
         this.chipboxGroup = game.add.group();
         this.chipboxGroup.add(this.chipbox);
         this.chipboxGroup.add(this.chipboxButton1);
@@ -458,22 +482,22 @@ MainState.prototype = {
         var buttonSizeRate = {width:0.213, height:0.119};
 
         this.buttonrules = game.add.button(buttonPosRate1.x * this.imageBK.width * 0.3 + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonrules', this.actionOnRuleShow, this);
-        this.buttonrules.scale.setTo(this.scale, this.scale);
+        this.buttonrules.setScale(this.scale, this.scale);
 
 
 
         this.button1 = game.add.button(buttonPosRate1.x * this.imageBK.width + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonyellow', this.actionOnClick1, this);
         this.button2 = game.add.button(buttonPosRate2.x * this.imageBK.width + this.xOffset, buttonPosRate2.y * this.imageBK.height + this.yOffset, 'buttonyellow', this.actionOnClick2, this);
         this.button3 = game.add.button(buttonPosRate3.x * this.imageBK.width + this.xOffset, buttonPosRate3.y * this.imageBK.height + this.yOffset, 'buttonyellow', this.actionOnClick3, this);
-        this.button1.scale.setTo(this.scale, this.scale);
-        this.button2.scale.setTo(this.scale, this.scale);
-        this.button3.scale.setTo(this.scale, this.scale);
+        this.button1.setScale(this.scale, this.scale);
+        this.button2.setScale(this.scale, this.scale);
+        this.button3.setScale(this.scale, this.scale);
         this.waitbutton1 = game.add.button(buttonPosRate1.x * this.imageBK.width + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonblue', this.waitOnClick1, this);
         this.waitbutton2 = game.add.button(buttonPosRate2.x * this.imageBK.width + this.xOffset, buttonPosRate2.y * this.imageBK.height + this.yOffset, 'buttonblue', this.waitOnClick2, this);
         this.waitbutton3 = game.add.button(buttonPosRate3.x * this.imageBK.width + this.xOffset, buttonPosRate3.y * this.imageBK.height + this.yOffset, 'buttonblue', this.waitOnClick3, this);
-        this.waitbutton1.scale.setTo(this.scale, this.scale);
-        this.waitbutton2.scale.setTo(this.scale, this.scale);
-        this.waitbutton3.scale.setTo(this.scale, this.scale);
+        this.waitbutton1.setScale(this.scale, this.scale);
+        this.waitbutton2.setScale(this.scale, this.scale);
+        this.waitbutton3.setScale(this.scale, this.scale);
 
         this.buttonGroup1 = game.add.group();
         this.buttonGroup2 = game.add.group();
@@ -486,50 +510,50 @@ MainState.prototype = {
 
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button1.width, align: "center" };
         this.lbLookorGiveup = game.add.text(buttonPosRate1.x * this.imageBK.width + this.xOffset + 0.5 * this.button1.width, buttonPosRate1.y * this.imageBK.height + this.yOffset + 0.51 * this.button1.height, "弃牌", style);
-        this.lbLookorGiveup.anchor.set(0.5);
-        this.lbLookorGiveup.scale.setTo(this.scale, this.scale);
+        this.lbLookorGiveup.setOrigin(0.5);
+        this.lbLookorGiveup.setScale(this.scale, this.scale);
         this.buttonGroup1.add(this.button1);
         this.buttonGroup1.add(this.lbLookorGiveup);
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button2.width, align: "center" };
         this.lbCall = game.add.text(buttonPosRate2.x * this.imageBK.width + this.xOffset + 0.32 * this.button2.width, buttonPosRate2.y * this.imageBK.height + this.yOffset + 0.51 * this.button2.height, "跟注", style);
-        this.lbCall.anchor.set(0, 0.5);
-        this.lbCall.scale.setTo(this.scale, this.scale);
+        this.lbCall.setOrigin(0, 0.5);
+        this.lbCall.setScale(this.scale, this.scale);
         this.buttonGroup2.add(this.button2);
         this.buttonGroup2.add(this.lbCall);
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button3.width, align: "center" };
         this.lbCallEvery = game.add.text(buttonPosRate3.x * this.imageBK.width + this.xOffset + 0.5 * this.waitbutton3.width, buttonPosRate3.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton3.height, "加注", style);
-        this.lbCallEvery.anchor.set(0.5);
-        this.lbCallEvery.scale.setTo(this.scale, this.scale);
+        this.lbCallEvery.setOrigin(0.5);
+        this.lbCallEvery.setScale(this.scale, this.scale);
         this.buttonGroup3.add(this.button3);
         this.buttonGroup3.add(this.lbCallEvery);
 
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton1.width, align: "left" };
         this.lbLookorGiveupWait = game.add.text(buttonPosRate1.x * this.imageBK.width + this.xOffset + 0.35 * this.waitbutton1.width, buttonPosRate1.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton1.height, "看牌或弃牌", style);
-        this.lbLookorGiveupWait.anchor.set(0, 0.5);
-        this.lbLookorGiveupWait.scale.setTo(this.scale, this.scale);
+        this.lbLookorGiveupWait.setOrigin(0, 0.5);
+        this.lbLookorGiveupWait.setScale(this.scale, this.scale);
         this.imgLookorGiveupWait = game.add.image(buttonPosRate1.x * this.imageBK.width + this.xOffset + 0.2 * this.waitbutton1.width, buttonPosRate1.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton1.height, "checkOff");
-        this.imgLookorGiveupWait.anchor.set(0.5);
-        this.imgLookorGiveupWait.scale.setTo(this.scale, this.scale);
+        this.imgLookorGiveupWait.setOrigin(0.5);
+        this.imgLookorGiveupWait.setScale(this.scale, this.scale);
         this.waitButtonGroup1.add(this.waitbutton1);
         this.waitButtonGroup1.add(this.lbLookorGiveupWait);
         this.waitButtonGroup1.add(this.imgLookorGiveupWait);
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton2.width, align: "left" };
         this.lbCallWait = game.add.text(buttonPosRate2.x * this.imageBK.width + this.xOffset + 0.35 * this.waitbutton2.width, buttonPosRate2.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton2.height, "跟注", style);
-        this.lbCallWait.anchor.set(0, 0.5);
-        this.lbCallWait.scale.setTo(this.scale, this.scale);
+        this.lbCallWait.setOrigin(0, 0.5);
+        this.lbCallWait.setScale(this.scale, this.scale);
         this.imgCallWait = game.add.image(buttonPosRate2.x * this.imageBK.width + this.xOffset + 0.2 * this.waitbutton2.width, buttonPosRate2.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton2.height, "checkOff");
-        this.imgCallWait.anchor.set(0.5);
-        this.imgCallWait.scale.setTo(this.scale, this.scale);
+        this.imgCallWait.setOrigin(0.5);
+        this.imgCallWait.setScale(this.scale, this.scale);
         this.waitButtonGroup2.add(this.waitbutton2);
         this.waitButtonGroup2.add(this.lbCallWait);
         this.waitButtonGroup2.add(this.imgCallWait);
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton3.width, align: "left" };
         this.lbCallEveryWait = game.add.text(buttonPosRate3.x * this.imageBK.width + this.xOffset + 0.35 * this.waitbutton3.width, buttonPosRate3.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton3.height, "跟任何注", style);
-        this.lbCallEveryWait.anchor.set(0, 0.5);
-        this.lbCallEveryWait.scale.setTo(this.scale, this.scale);
+        this.lbCallEveryWait.setOrigin(0, 0.5);
+        this.lbCallEveryWait.setScale(this.scale, this.scale);
         this.imgCallEveryWait = game.add.image(buttonPosRate3.x * this.imageBK.width + this.xOffset + 0.2 * this.waitbutton3.width, buttonPosRate3.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton3.height, "checkOff");
-        this.imgCallEveryWait.anchor.set(0.5);
-        this.imgCallEveryWait.scale.setTo(this.scale, this.scale);
+        this.imgCallEveryWait.setOrigin(0.5);
+        this.imgCallEveryWait.setScale(this.scale, this.scale);
         this.waitButtonGroup3.add(this.waitbutton3);
         this.waitButtonGroup3.add(this.lbCallEveryWait);
         this.waitButtonGroup3.add(this.imgCallEveryWait);
@@ -583,16 +607,16 @@ MainState.prototype = {
 
         style = { font: _fontString(16), fill: "#76FF68", wordWrap: true, wordWrapWidth: this.background.width, align: "center" };
         this.blinds = game.add.text(this.background.width / 2 + this.xOffset, 0.28 * this.background.height + this.yOffset, "$" + this.sb + " / $" + this.bb, style);
-        this.blinds.anchor.set(0.5);
-        this.blinds.scale.setTo(this.scale);
+        this.blinds.setOrigin(0.5);
+        this.blinds.setScale(this.scale);
 
         this.chipPoolBK = game.add.image(0.451 * this.imageBK.width + this.xOffset, 0.306 * this.imageBK.height + this.yOffset, "chipPool");
-        this.chipPoolBK.scale.setTo(this.scale, this.scale);
+        this.chipPoolBK.setScale(this.scale, this.scale);
 
         style = { font: _fontString(16), fill: "#FFFFFF", wordWrap: true, wordWrapWidth: this.chipPoolBK.width, align: "center" };
         this.chipPool = game.add.text(this.chipPoolBK.x + this.chipPoolBK.width / 2, this.chipPoolBK.y + this.chipPoolBK.height / 2, "0", style);
-        this.chipPool.anchor.set(0.5);
-        this.chipPool.scale.setTo(this.scale);
+        this.chipPool.setOrigin(0.5);
+        this.chipPool.setScale(this.scale);
 
         //this.btnExitRoom = game.add.button(0.92 * this.imageBK.width + this.xOffset, 0.02 * this.imageBK.height + this.yOffset, 'exitdoor', this.actionOnExit, this);
         //this.btnExitRoom.width = this.chipboxButton1.width;
@@ -607,7 +631,7 @@ MainState.prototype = {
             var star = this.starGroup.create((i + 0.5) * this.imageBK.width / coinCount + this.xOffset, 0, 'animeCoins');
             star.visible = false;
             star.body.velocity.y = 0;
-            star.anchor.setTo(0.5, 0.5);
+            star.setOrigin(0.5, 0.5);
             star.rotation = 100*Math.random();
         }
 
@@ -629,8 +653,8 @@ MainState.prototype = {
         }
         
         this.card_typebg=game.add.sprite(0, 0, "card_typebg");
-        this.card_typebg.anchor.setTo(0);
-        this.card_typebg.scale.setTo(this.scale, this.scale);
+        this.card_typebg.setOrigin(0);
+        this.card_typebg.setScale(this.scale, this.scale);
         this.card_typebg.x = - this.card_typebg.width
         this.card_typebg.inputEnabled = true;
         var that = this
@@ -1159,8 +1183,8 @@ MainState.prototype = {
         
         if(this.dealer == null) {
             this.dealer = game.add.sprite(this.dealerPosRate[seatIndex].x * this.imageBK.width + this.xOffset, this.dealerPosRate[seatIndex].y * this.imageBK.height + this.yOffset, "dealer");
-            this.dealer.anchor.setTo(0.5);
-            this.dealer.scale.setTo(this.scale, this.scale);
+            this.dealer.setOrigin(0.5);
+            this.dealer.setScale(this.scale, this.scale);
 
             this.groupUser.add(this.dealer);
 
@@ -1954,7 +1978,7 @@ MainState.prototype = {
                 return
             }
             var dcard = game.add.sprite(sendPoint.x, sendPoint.y, "dcardBK");
-            dcard.scale.setTo(that.scale, that.scale);
+            dcard.setScale(that.scale, that.scale);
             var tweens = game.add.tween(dcard)
             //tweens.to({x:usr.dcard.x, y:usr.dcard.y},500,Phaser.Easing.Linear.None, true);
             if(that.userID == usr.param.userID) {
@@ -2030,3 +2054,5 @@ MainState.prototype = {
     }*/
 
 };
+
+export default MainState

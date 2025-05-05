@@ -236,3 +236,6 @@ Animations.prototype = {
 		this.showPublicCard(lstCardID, lstCardImage, true);
 	}
 }
+
+
+export default Animations

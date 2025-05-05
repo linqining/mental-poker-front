@@ -16,7 +16,7 @@ var Server = function() {
 
 Server.prototype = {
 
-	connect:function() {
+	connect:  function() {
 
 		console.log("ready to connect ...");
 		if(this.websocket && (this.websocket.readyState == 0 || this.websocket.readyState == 1))

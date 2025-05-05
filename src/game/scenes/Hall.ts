@@ -1,6 +1,5 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
-import { joinRoomApi } from '../../api/api.js';
 
 export class Hall extends Scene
 {

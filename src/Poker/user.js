@@ -1,5 +1,17 @@
 'use strict';
 
+var gFontScale = 1.0;
+
+
+function _fontString(size, fontname) {
+	if (fontname == undefined) {
+		//fontname = "Impact"
+		fontname = "Apple LiSung Light"
+	};
+
+	return (size * gFontScale)+"px " + fontname
+}
+
 var User = function() {
 
 	this.rect = {left:0, top:0, width:0, height:0};
@@ -39,7 +51,7 @@ var User = function() {
 
 User.prototype = {
 
-	create:function(userName, userImage, userCoin, isPlayer) {
+	create:function(game,userName, userImage, userCoin, isPlayer) {
 
 		this.param["userName"] = userName;
 		this.param["userImage"] = userImage;
@@ -51,26 +63,26 @@ User.prototype = {
 		this.containerblank = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "blankBK");
 		this.containerwin = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "winBK");
 		this.containerwinEffect = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "winBKFrame");
-		this.containerplayer.anchor.set(0.5);
-		this.containeruser.anchor.set(0.5);
-		this.containerblank.anchor.set(0.5);
-		this.containerwin.anchor.set(0.5);
-		this.containerwinEffect.anchor.set(0.5);
-		this.containerplayer.scale.setTo(this.scale, this.scale);
-		this.containeruser.scale.setTo(this.scale, this.scale);
-		this.containerblank.scale.setTo(this.scale, this.scale);
-		this.containerwin.scale.setTo(this.scale, this.scale);
-		this.containerwinEffect.scale.setTo(this.scale, this.scale);
+		this.containerplayer.setOrigin(0.5);
+		this.containeruser.setOrigin(0.5);
+		this.containerblank.setOrigin(0.5);
+		this.containerwin.setOrigin(0.5);
+		this.containerwinEffect.setOrigin(0.5);
+		this.containerplayer.setScale(this.scale, this.scale);
+		this.containeruser.setScale(this.scale, this.scale);
+		this.containerblank.setScale(this.scale, this.scale);
+		this.containerwin.setScale(this.scale, this.scale);
+		this.containerwinEffect.setScale(this.scale, this.scale);
 		this.winLightDot[0] = game.add.sprite(this.containerwin.x - this.containerwin.width * 0.41, this.containerwin.y + this.containerwin.height * 0.3, "winLight");
-		this.winLightDot[0].scale.setTo(this.scale, this.scale);
+		this.winLightDot[0].setScale(this.scale, this.scale);
 		this.winLightDot[1] = game.add.sprite(this.containerwin.x + this.containerwin.width * 0.41, this.containerwin.y - this.containerwin.height * 0.3, "winLight");
-		this.winLightDot[1].scale.setTo(this.scale, this.scale);
-		this.winLightDot[0].anchor.set(0.5);
-		this.winLightDot[1].anchor.set(0.5);
+		this.winLightDot[1].setScale(this.scale, this.scale);
+		this.winLightDot[0].setOrigin(0.5);
+		this.winLightDot[1].setOrigin(0.5);
 		this.winCards[0] = game.add.image(this.rect.left + this.rect.width * 0.05, this.rect.top + this.rect.height * 0.26, "cardBK");
-		this.winCards[0].scale.setTo(this.scale * 0.75, this.scale * 0.75);
+		this.winCards[0].setScale(this.scale * 0.75, this.scale * 0.75);
 		this.winCards[1] = game.add.image(this.rect.left + this.rect.width * 0.4, this.rect.top + this.rect.height * 0.26, "cardBK");
-		this.winCards[1].scale.setTo(this.scale * 0.75, this.scale * 0.75);
+		this.winCards[1].setScale(this.scale * 0.75, this.scale * 0.75);
 
 		this.winGroup = game.add.group();
 		this.winGroup.add(this.containerwin);
@@ -102,8 +114,8 @@ User.prototype = {
 			style = { font: _fontString(20), fill: "#000000", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" };
 		}
 		this.lbname = game.add.text(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height * 0.1, this.param["userName"], style);
-		this.lbname.anchor.set(0.5);
-		this.lbname.scale.setTo(this.scale, this.scale);
+		this.lbname.setOrigin(0.5);
+		this.lbname.setScale(this.scale, this.scale);
         var userProfile = this.param["userImage"]
         if(userProfile == undefined || userProfile == "" || userProfile == null) {
             userProfile = "defaultProfile"
@@ -111,20 +123,20 @@ User.prototype = {
         this.imagebody = game.add.sprite(this.rect.left + this.rect.width * 0.05, this.rect.top + this.rect.height * 0.2, userProfile);
         this.imagebody.inputEnabled = true;
         var that = this
-        this.imagebody.events.onInputDown.add(function(){
-                if(that.userClickedLisenger != undefined && that.userClickedLisenger != null) {
-                        that.userClickedLisenger(that);
-                }
-        }, this);
+        // this.imagebody.events.onInputDown.add(function(){
+        //         if(that.userClickedLisenger != undefined && that.userClickedLisenger != null) {
+        //                 that.userClickedLisenger(that);
+        //         }
+        // }, this);
         
-		this.imagebody.scale.setTo(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
+		this.imagebody.setScale(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
 		this.lbcoin = game.add.text(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height * 0.9, this.param["userCoin"], style);
-		this.lbcoin.anchor.set(0.5);
-		this.lbcoin.scale.setTo(this.scale, this.scale);
+		this.lbcoin.setOrigin(0.5);
+		this.lbcoin.setScale(this.scale, this.scale);
 
 		style = { font: _fontString(20), fill: "#FFFF00"};
 		this.textCoin = game.add.text(this.coinTextRect.left, this.coinTextRect.top, "", style);
-		this.textCoin.scale.setTo(this.scale, this.scale);
+		this.textCoin.setScale(this.scale, this.scale);
 		if(this.coinTextRect.left < this.coinRect.left)
 		{
 			this.textCoin.x = this.coinRect.left - this.textCoin.width - this.coinRect.width * 0.9;
@@ -132,8 +144,8 @@ User.prototype = {
 		this.textCoin.visible = false;
 
 		this.waitingLine = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "waitingRound");
-		this.waitingLine.anchor.set(0.5);
-		this.waitingLine.scale.setTo(this.scale, this.scale);
+		this.waitingLine.setOrigin(0.5);
+		this.waitingLine.setScale(this.scale, this.scale);
 		this.waitingLine.visible = false;
 		this.mask = game.add.graphics(0, 0);
 
@@ -162,7 +174,7 @@ User.prototype = {
 
         this.lbname.style = this.userTitleStyle
 	    
-		this.lbname.scale.setTo(this.scale, this.scale);
+		this.lbname.setScale(this.scale, this.scale);
 		this.lbname.setText(title);
 
 	},
@@ -246,8 +258,8 @@ User.prototype = {
 		{
 			this.textCoin.visible = true;
 			var coin = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "chip01");
-			coin.anchor.set(0.5);
-			coin.scale.setTo(this.scale, this.scale)
+			coin.setOrigin(0.5);
+			coin.setScale(this.scale, this.scale)
 			coin.width = this.coinRect.width;
 			coin.height = this.coinRect.height;
 			this.imageCoin.push(coin);
@@ -269,8 +281,8 @@ User.prototype = {
 	showGetCoins:function(srcX, srcY)
 	{
 		var coin = game.add.image(srcX, srcY, "chip01");
-		coin.anchor.set(0.5);
-		coin.scale.setTo(this.scale,this.scale)
+		coin.setOrigin(0.5);
+		coin.setScale(this.scale,this.scale)
 		coin.width = this.coinRect.width;
 		coin.height = this.coinRect.height;
 
@@ -340,9 +352,9 @@ User.prototype = {
 			imageid = "defaultProfile"
 		}
 		this.param["userImage"] = imageid;
-	    this.imagebody.scale.setTo(1, 1);
+	    this.imagebody.setScale(1, 1);
 		this.imagebody.loadTexture(imageid, this.imagebody.frame);
-		this.imagebody.scale.setTo(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
+		this.imagebody.setScale(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
 	},
 
 	setGiveUp:function(bGiveUp)
@@ -382,7 +394,7 @@ User.prototype = {
 		this.winCards[1].loadTexture(key2, this.winCards[1].frame);
 		this.winLightDot[0].y = this.containerwin.y + this.containerwin.height * 0.3;
 		this.winLightDot[1].y = this.containerwin.y - this.containerwin.height * 0.3;
-		this.containerwinEffect.scale.setTo(this.scale, this.scale);
+		this.containerwinEffect.setScale(this.scale, this.scale);
 		this.winLightDot[0].visible = true;
 		this.winLightDot[1].visible = true;
 		this.containerwinEffect.alpha = 1;
@@ -522,3 +534,5 @@ User.prototype = {
 		}
 	},
 }
+
+export default User
