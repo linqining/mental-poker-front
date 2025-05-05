@@ -481,20 +481,29 @@ MainState.prototype = {
         var buttonPosRate3 = {x:0.62, y:0.881};
         var buttonSizeRate = {width:0.213, height:0.119};
 
-        this.buttonrules = game.add.button(buttonPosRate1.x * this.imageBK.width * 0.3 + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonrules', this.actionOnRuleShow, this);
+
+        this.buttonrules = game.add.image(buttonPosRate1.x * this.imageBK.width * 0.3 + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset,'buttonrules')
+        this.buttonrules.setInteractive()
+        this.buttonrules.on('pointerdown',function (){
+            this.actionOnRuleShow()
+        })
+
         this.buttonrules.setScale(this.scale, this.scale);
 
 
 
-        this.button1 = game.add.button(buttonPosRate1.x * this.imageBK.width + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonyellow', this.actionOnClick1, this);
-        this.button2 = game.add.button(buttonPosRate2.x * this.imageBK.width + this.xOffset, buttonPosRate2.y * this.imageBK.height + this.yOffset, 'buttonyellow', this.actionOnClick2, this);
-        this.button3 = game.add.button(buttonPosRate3.x * this.imageBK.width + this.xOffset, buttonPosRate3.y * this.imageBK.height + this.yOffset, 'buttonyellow', this.actionOnClick3, this);
+        this.button1 = game.add.image(buttonPosRate1.x * this.imageBK.width + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick1);
+        this.button2 = game.add.image(buttonPosRate2.x * this.imageBK.width + this.xOffset, buttonPosRate2.y * this.imageBK.height + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick2);
+        this.button3 = game.add.image(buttonPosRate3.x * this.imageBK.width + this.xOffset, buttonPosRate3.y * this.imageBK.height + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick3);
+
         this.button1.setScale(this.scale, this.scale);
         this.button2.setScale(this.scale, this.scale);
         this.button3.setScale(this.scale, this.scale);
-        this.waitbutton1 = game.add.button(buttonPosRate1.x * this.imageBK.width + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonblue', this.waitOnClick1, this);
-        this.waitbutton2 = game.add.button(buttonPosRate2.x * this.imageBK.width + this.xOffset, buttonPosRate2.y * this.imageBK.height + this.yOffset, 'buttonblue', this.waitOnClick2, this);
-        this.waitbutton3 = game.add.button(buttonPosRate3.x * this.imageBK.width + this.xOffset, buttonPosRate3.y * this.imageBK.height + this.yOffset, 'buttonblue', this.waitOnClick3, this);
+
+        this.waitbutton1 = game.add.image(buttonPosRate1.x * this.imageBK.width + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick1);
+        this.waitbutton2 = game.add.image(buttonPosRate2.x * this.imageBK.width + this.xOffset, buttonPosRate2.y * this.imageBK.height + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick2);
+        this.waitbutton3 = game.add.image(buttonPosRate3.x * this.imageBK.width + this.xOffset, buttonPosRate3.y * this.imageBK.height + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick3);
+
         this.waitbutton1.setScale(this.scale, this.scale);
         this.waitbutton2.setScale(this.scale, this.scale);
         this.waitbutton3.setScale(this.scale, this.scale);
@@ -599,8 +608,8 @@ MainState.prototype = {
         this.chipboxSliderHandle.x = this.chipbox.x + this.chipbox.width * 0.7;
         this.chipboxSliderHandle.y = this.chipboxSliderGroove.y + this.chipboxSliderGroove.height * 0.5 - this.chipboxSliderHandle.height * 0.5;
         this.chipboxSliderHandle.inputEnabled = true;
-        this.chipboxSliderHandle.input.enableDrag();
-        this.chipboxSliderHandle.input.setDragLock(false);
+        // this.chipboxSliderHandle.input.enableDrag();
+        // this.chipboxSliderHandle.input.setDragLock(false);
         this.dealer = null;
         //this.chipboxSliderHandle.events.onDragStart.add(sliderDragStart, this);
         //this.chipboxSliderHandle.events.onDragStop.add(sliderDragStop, this);
@@ -630,7 +639,7 @@ MainState.prototype = {
         {
             var star = this.starGroup.create((i + 0.5) * this.imageBK.width / coinCount + this.xOffset, 0, 'animeCoins');
             star.visible = false;
-            star.body.velocity.y = 0;
+            // star.body.velocity.y = 0;
             star.setOrigin(0.5, 0.5);
             star.rotation = 100*Math.random();
         }
@@ -638,19 +647,19 @@ MainState.prototype = {
         //this.drawRectAnime = new rectdrawer(this.groupUser);
 
         this._currentPlayButtonUpdate(false);
-        if(gParam["app_token"] == undefined || gParam["app_token"] == null) {
-            game.betApi.enterRoom(function(isOK){
-                console.log("enterRoom is " +  isOK);
-                if(isOK)
-                {
-                }
-                else
-                {
-                //game.state.start("LoginState");
-                alert("进入房间失败!");
-                }
-            });
-        }
+        // if(gParam["app_token"] == undefined || gParam["app_token"] == null) {
+        //     game.betApi.enterRoom(function(isOK){
+        //         console.log("enterRoom is " +  isOK);
+        //         if(isOK)
+        //         {
+        //         }
+        //         else
+        //         {
+        //         //game.state.start("LoginState");
+        //         alert("进入房间失败!");
+        //         }
+        //     });
+        // }
         
         this.card_typebg=game.add.sprite(0, 0, "card_typebg");
         this.card_typebg.setOrigin(0);
@@ -658,11 +667,10 @@ MainState.prototype = {
         this.card_typebg.x = - this.card_typebg.width
         this.card_typebg.inputEnabled = true;
         var that = this
-        this.card_typebg.events.onInputDown.add(function(){
+        this.card_typebg.setInteractive().on('pointerdown',function () {
             console.log("card_typebg clicked");
             that.actionCardTypeToggle();
-        }, this);
-
+        })
     },
 
     actionCardTypeToggle:function() {
