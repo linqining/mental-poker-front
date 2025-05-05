@@ -20,6 +20,10 @@ export class Hall extends Scene
     {
         this.camera = this.cameras.main;
 
+        if (!this.registry.get("current_account") ) {
+            this.scene.start('MainMenu');
+        }
+
         this.background = this.add.image(512, 384, 'hall_background');
         this.background.displayWidth = 1024;
         this.background.displayHeight = 768;

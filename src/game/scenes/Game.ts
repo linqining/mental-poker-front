@@ -24,11 +24,6 @@ export class Game extends Scene
         this.table = this.add.image(650, 430, 'table');
         this.table.setScale(0.7);
 
-        // this.gameText = this.add.text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-        //     fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-        //     stroke: '#000000', strokeThickness: 8,
-        //     align: 'center'
-        // }).setOrigin(0.5).setDepth(100);
 
         EventBus.emit('current-scene-ready', this);
     }
