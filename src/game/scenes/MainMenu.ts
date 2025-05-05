@@ -18,10 +18,13 @@ export class MainMenu extends Scene
     create ()
     {
 
-        this.background = this.add.image(512, 384, 'background');
+        this.background = this.add.image(650, 390, 'background');
+        this.background.setScale(0.76);
         console.log("login",this.login);
         if (!this.registry.get("current_account") ) {
             this.login = this.add.image(512, 550   , 'guest_login');
+            this.login.displayHeight= 50;
+            this.login.displayWidth = 150;
             EventBus.removeListener("action_login")
             this.login.setInteractive().on("pointerdown", () => {
                 console.log('图片被点击');

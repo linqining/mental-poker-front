@@ -71,7 +71,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
             }
         });
         EventBus.on('action_login', (scene_instance: Phaser.Scene) =>{
-            actionLogin && actionLogin(scene_instance);
+            actionLogin? actionLogin(scene_instance) : null;
             // EventBus.removeListener('action_login');
         })
         return () =>

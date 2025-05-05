@@ -85,38 +85,30 @@ function App()
 
     const actionLoginFunction = (scene_instance: Phaser.Scene) =>{
         console.log(scene_instance);
+        connectBTNRef.current?.getElementsByTagName("button")[0].click();
+        // connectBTNRef.current?.getElementsByTagName("button")[0].reset();
+        // todo button click 后充值
     };
-
-
+    const connectBTNRef = useRef<HTMLDivElement>(null);
 
     phaserRef.current?.scene?.data.set("current_account",account)
 
     return (
         <div id="app">
-            <Flex
-                position="sticky"
-                px="4"
-                py="2"
-                justify="between"
-                style={{
-                    borderBottom: "1px solid var(--gray-a2)",
-                }}
-            >
-                <Box>
-                    <Heading>TRUSTED POKER</Heading>
-                </Box>
-                <Box>
-                    <ConnectButton  />
-                </Box>
-            </Flex>
+
+            <div ref={connectBTNRef} className="connect-button" style={{visibility:"visible"}}>
+                <ConnectButton className="connectBtn"/>
+            </div>
             <div>
-                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} account={account} actionLogin={actionLoginFunction}/>
+                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} account={account}
+                            actionLogin={actionLoginFunction}/>
                 <div>
                     <div>
                         <button className="button" onClick={changeScene}>Change Scene</button>
                     </div>
                     <div>
-                        <button disabled={canMoveSprite} className="button" onClick={moveSprite}>Toggle Movement</button>
+                        <button disabled={canMoveSprite} className="button" onClick={moveSprite}>Toggle Movement
+                        </button>
                     </div>
                     <div className="spritePosition">Sprite Position:
                         <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
