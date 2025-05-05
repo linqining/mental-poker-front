@@ -21,6 +21,7 @@ export class Boot extends Scene
         this.load.image('match_button','src/assets/main/match.png')
 
         this.load.image("table_background","src/assets/Desktop/Desktop_atlas1.png")
+        this.load.image("table","src/assets/Desktop/Desktop_atlas2.png")
     }
 
     create ()
