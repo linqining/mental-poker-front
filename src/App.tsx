@@ -3,8 +3,6 @@ import { IRefPhaserGame, PhaserGame } from './PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
 import { useCurrentAccount,ConnectButton} from "@mysten/dapp-kit";
 import {Box, Container, Flex, Heading} from "@radix-ui/themes";
-import {BrowserRouter as Router} from "react-router-dom";
-import Home from "./component/Home/Home.tsx";
 
 
 function App()
@@ -105,7 +103,7 @@ function App()
                 </Box>
             </Flex>
             <div>
-                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
+                <PhaserGame ref={phaserRef} currentActiveScene={currentScene} account={account}/>
                 <div>
                     <div>
                         <button className="button" onClick={changeScene}>Change Scene</button>

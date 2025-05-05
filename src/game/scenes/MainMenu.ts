@@ -19,8 +19,8 @@ export class MainMenu extends Scene
     {
 
         this.background = this.add.image(512, 384, 'background');
-        
-        if (!this.data.get("current_account")) {
+
+        if (!this.registry.get("current_account")) {
             this.login = this.add.image(512, 550   , 'guest_login');
             this.login.setInteractive().on("pointerdown", () => {
                 console.log('图片被点击');

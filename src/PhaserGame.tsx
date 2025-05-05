@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import StartGame from './game/main';
 import { EventBus } from './game/EventBus';
 
+
 export interface IRefPhaserGame
 {
     game: Phaser.Game | null;
@@ -11,9 +12,10 @@ export interface IRefPhaserGame
 interface IProps
 {
     currentActiveScene?: (scene_instance: Phaser.Scene) => void
+    account?: any
 }
 
-export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene }, ref)
+export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene,account }, ref)
 {
     const game = useRef<Phaser.Game | null>(null!);
 
@@ -33,6 +35,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
             }
 
         }
+        game.current.registry.set("current_account", account);
 
         return () =>
         {
@@ -45,7 +48,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
                 }
             }
         }
-    }, [ref]);
+    }, [ref,account]);
 
     useEffect(() =>
     {
