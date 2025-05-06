@@ -15,8 +15,8 @@ function _fontString(size, fontname) {
 
 
 // game main state
-var MainState = function() {
-
+var MainState = function(game) {
+    this.game = game
     this.strVersion = "1.0";
     this.CONST = {}
 
@@ -192,72 +192,6 @@ var gImageDir = "src/assets/2x"
 
 MainState.prototype = {
 
-    // preload:function(game) {
-    //     game.load.image('gamecenterbackground', gImageDir+'background.png');
-    //     game.load.image('playerBK', gImageDir+'player-me.png');
-    //     game.load.image('userBK', gImageDir+'player-guest.png');
-    //     game.load.image('blankBK', gImageDir+'player-blank.png');
-    //     game.load.image('winBK', gImageDir+'win-frame-bg.png');
-    //     game.load.image('winBKFrame', gImageDir+'win-frame.png');
-    //     //game.load.image('defaultUserImage', gImageDir+'coin.png');
-    //     game.load.image('buttonblue', gImageDir+'btn-big-green.png');
-    //     game.load.image('buttongrey', gImageDir+'btn-big-green.png');
-    //     game.load.image('buttonyellow', gImageDir+'btn-big-blue.png');
-    //     game.load.image('animeCoins', gImageDir+'coin.png');
-    //     game.load.image('light', gImageDir+'roomLight.png');
-    //     var cardImageName = ["spades", "hearts", "clubs", "diamonds"];
-    //     var cardName = ["S", "H", "C", "D"];
-    //     var cardNumber = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
-    //     for(var i = 0; i < cardImageName.length; i++)
-    //     {
-    //         for(var j = 0; j < cardNumber.length; j++)
-    //         {
-    //             game.load.image(cardName[i] + cardNumber[j], gImageDir+'cards/card_' + cardImageName[i] + "_" + (j + 1) + ".png");
-    //         }
-    //     }
-    //
-    //     game.load.image("cardBK", gImageDir+'cards/card_back.png');
-    //     game.load.image("chipPool", gImageDir+'chip-pool.png');
-    //     game.load.image("chip01", gImageDir+'texas_chip01.png');
-    //     game.load.image("chip05", gImageDir+'texas_chip05.png');
-    //     game.load.image("chip1k", gImageDir+'texas_chip1k.png');
-    //     game.load.image("chip5k", gImageDir+'texas_chip5k.png');
-    //     game.load.image("chip10w", gImageDir+'texas_chip10w.png');
-    //     game.load.image("chip50w", gImageDir+'texas_chip50w.png');
-    //     game.load.image("dcardBK", gImageDir+'card_backs_rotate.png');
-    //     game.load.image("checkOn", gImageDir+'check-on.png');
-    //     game.load.image("checkOff", gImageDir+'check-off.png');
-    //     game.load.image("chipbox", gImageDir+'add-chips-box.png');
-    //     game.load.image("winLight", gImageDir+'light_dot.png');
-    //     game.load.image("groove", gImageDir+'sliderGroove.png');
-    //     game.load.image("slidebar", gImageDir+'slidebar.png');
-    //     game.load.image("btnslider", gImageDir+'btn-slider.png');
-    //     game.load.image("fillbox", gImageDir+'fill-box.png');
-    //     game.load.image("exitdoor", gImageDir+'btn-grey.png');
-    //     game.load.image("dealer", gImageDir+'dealer.png');
-    //     game.load.image("waitingRound", gImageDir+'win-frameWaiting.png');
-    //     game.load.image("card_typebg", gImageDir+'card_typebg.png');
-    //     game.load.image("defaultProfile", gImageDir+'defaultProfile.png');
-    //     game.load.image("buttonrules", gImageDir+'btn-rules.png');
-    //
-    //
-    //
-    //
-    //     game.load.audio('sendcard', 'assets/sound/sendcard.mp3');
-    //     game.load.audio('click', 'assets/sound/click.mp3');
-    //     game.load.audio('chipsmoving', 'assets/sound/chipsmoving.mp3');
-    //     game.load.audio('reordercard', 'assets/sound/reordercard.mp3');
-    //     game.load.audio('ding', 'assets/sound/ding.mp3');
-    //     game.load.audio('win', 'assets/sound/win.mp3');
-    //     game.load.audio('lost', 'assets/sound/lose.mp3');
-    //
-    //
-    //     // game.Canvas.setSmoothingEnabled(this.game.context, false);
-    //
-    //     // this.game.scale.scaleMode = game.ScaleManager.EXACT_FIT;
-    //     // this.game.scale.setScreenSize();
-    //
-    // },
 
     create: function(game,betApi) {
         this.game = game;
@@ -272,18 +206,41 @@ MainState.prototype = {
         this.chipsmoving = game.sound.add("chipsmoving");
 
         this.animation = new Animations();
-        this.imageBK = game.add.image(0, 0, "gamecenterbackground");
-        
-        var xScale = game.width / this.imageBK.width;
-        var yScale = game.height / this.imageBK.height;
+        // this.imageBK = game.add.image(0, 0, "gamecenterbackground");
+
+        this.background = this.game.add.image(512, 384, 'table_background');
+        this.background.setDepth(-1);
+        this.background.displayWidth = 1024;
+        this.background.displayHeight = 768;
+
+        this.imageBK = this.game.add.image(650, 400, 'table');
+        this.imageBK.setScale(0.7);
+
+        // this.imageBK.displayWidth = 1024;
+        // this.imageBK.displayHeight = 768;
+
+        // this.background = this.imageBK;
 
 
+        const gameWidth = game.game.config.width;
+        const gameHeight = game.game.config.height;
+
+        var xScale = gameWidth / gameWidth;
+        var yScale = gameHeight / this.imageBK.height;
+
+        // 计算资源的缩放比
         this.scale = xScale < yScale ? xScale : yScale;
-        this.xOffset = (game.width - this.imageBK.width * this.scale) / 2;
-        this.yOffset = (game.height - this.imageBK.height * this.scale) / 2;
-        this.imageBK.setScale(this.scale, this.scale);
-        this.background = this.imageBK;
-        this.imageBK.setOrigin(this.xOffset, this.yOffset);
+        this.scale = 0.6;
+        this.xOffset = (gameWidth - this.imageBK.width * this.scale) / 2;
+        console.log("xoffset",this.xOffset,gameWidth,gameWidth)
+        this.xOffset = 0
+
+
+        this.yOffset = (gameHeight - this.imageBK.height * this.scale) / 2;
+        console.log("yoffset",this.yOffset,gameHeight,this.imageBK.height)
+        this.yOffset = 0
+
+
         this.currentDrawUser = 0;
         this.timeoutMaxCount = 30;
         this.sliderMinNum = 0;
@@ -301,16 +258,16 @@ MainState.prototype = {
         this.waitSelected2 = false;
         this.waitSelected3 = false;
         this.dealerPosRate = [{x:0.632, y:0.312}, {x:0.796, y:0.349}, {x:0.841, y:0.434}, {x:0.694, y:0.570}, {x: 0.44, y:0.574}, {x:0.306, y:0.570}, {x:0.154, y:0.434}, {x:0.204, y:0.349}, {x:0.368, y:0.312}];
-        //this.userPosRate = [{x:0.692, y:0.152}, {x:0.856, y:0.187}, {x:0.914, y:0.54}, {x:0.754, y:0.734}, {x: 0.5, y:0.734}, {x:0.246, y:0.734}, {x:0.086, y:0.54}, {x:0.144, y:0.187}, {x:0.308, y:0.152}];
-        this.userPosRate = [{x:0.692, y:0.152}, {x:0.856, y:0.187}, {x:0.914, y:0.54}, {x:0.754, y:0.734}, {x: 0.5, y:0.734}, {x:0.246, y:0.734}, {x:0.086, y:0.54}, {x:0.144, y:0.187}, {x:0.308, y:0.152}];
-        this.userSizeRate = {width:0.096, height:0.262};
+        // this.dealerPosRate = [{x:0.632, y:0.362}, {x:0.796, y:0.399}, {x:0.841, y:0.484}, {x:0.694, y:0.620}, {x: 0.44, y:0.624}, {x:0.306, y:0.620}, {x:0.154, y:0.484}, {x:0.204, y:0.399}, {x:0.368, y:0.362}];
+        // this.userPosRate = [{x:0.692, y:0.152}, {x:0.856, y:0.187}, {x:0.914, y:0.54}, {x:0.754, y:0.734}, {x: 0.5, y:0.734}, {x:0.246, y:0.734}, {x:0.086, y:0.54}, {x:0.144, y:0.187}, {x:0.308, y:0.152}];
+        this.userPosRate = [{x:0.692, y:0.252}, {x:0.856, y:0.307}, {x:0.914, y:0.54}, {x:0.754, y:0.734}, {x: 0.5, y:0.734}, {x:0.246, y:0.734}, {x:0.086, y:0.54}, {x:0.144, y:0.307}, {x:0.308, y:0.252}];
+
+        this.userSizeRate = {width:0.076, height:0.152};
         var userCoinRate = [{x:0.656, y:0.292}, {x:0.82, y:0.329}, {x:0.831, y:0.484}, {x:0.673, y:0.613}, {x:0.464, y:0.557}, {x:0.305, y:0.613}, {x:0.139, y:0.484}, {x:0.108, y:0.329}, {x:0.27, y:0.292}];
        
         var coinsize = 27
-        if(gImageDir == "assets/1x/") {
-           coinsize = coinsize / 2
-        }
-        var userCoinWidth = coinsize * this.scale;
+
+        var userCoinWidth = coinsize * 1;
         var userTextRate = [{x:0.69, y:0.292}, {x:0.856, y:0.329}, {x:0.768, y:0.484}, {x:0.61, y:0.613}, {x:0.5, y:0.557}, {x:0.339, y:0.613}, {x:0.173, y:0.484}, {x:0.142, y:0.329}, {x:0.306, y:0.292}];
 
         game.load.on('filecomplete',this._fileComplete,this);
@@ -321,47 +278,34 @@ MainState.prototype = {
         this.animation.setPosParam(this.background.width, this.background.height, this.xOffset, this.yOffset);
         this.groupUser = game.add.group();
 
-        for (var i = 0; i < this.userPosRate.length; i++)
-        {
+        for (var i = 0; i < this.userPosRate.length; i++) {
             var dict = this.userPosRate[i];
-            var user = new User();
+            var user = new User(this.game);
+            // console.log("user pos scale",this.scale);
             user.setScale(this.scale);
             user.setAnimation(this.animation);
-            user.setRect((dict.x - this.userSizeRate.width / 2) * this.imageBK.width + this.xOffset, (dict.y - this.userSizeRate.height / 2) * this.imageBK.height + this.yOffset, this.userSizeRate.width * this.imageBK.width, this.userSizeRate.height * this.imageBK.height);
-            user.setCoinRect(userCoinRate[i].x * this.imageBK.width + userCoinWidth / 2 + this.xOffset, userCoinRate[i].y * this.imageBK.height + userCoinWidth / 2 + this.yOffset, userCoinWidth, userCoinWidth);
-            user.setCoinTextPos(userTextRate[i].x * this.imageBK.width + this.xOffset, userTextRate[i].y * this.imageBK.height + this.yOffset);
+            user.setRect((dict.x - this.userSizeRate.width / 2) * gameWidth + this.xOffset, (dict.y - this.userSizeRate.height / 2) * gameHeight + this.yOffset, this.userSizeRate.width * gameWidth, this.userSizeRate.height * gameHeight);
+            user.setCoinRect(userCoinRate[i].x * gameWidth + userCoinWidth / 2 + this.xOffset, userCoinRate[i].y * gameHeight + userCoinWidth / 2 + this.yOffset, userCoinWidth, userCoinWidth);
+            user.setCoinTextPos(userTextRate[i].x * gameWidth + this.xOffset, userTextRate[i].y * gameHeight + this.yOffset);
             if(dict.x == 0.5) {
-                //user.create("", "defaultUserImage", "", true);
                 user.create(game,"", null, "", true);
             }
             else
             {
-                //user.create("", "defaultUserImage", "", false);
                 user.create(game,"", null, "", false);
             }
-            user.setOnClickListener(function(thisuser){
-                var userid = thisuser.param["userID"]
-                if(userid != null && userid != undefined) {
-                    game.Native.yesOrNoPopupWindow("你将跳出游戏","你要跳转到用户信息界面吗？", "放弃", "确认",function(data){
-                                                   if(data.sender == "popButton2") {
-                                                        game.Native.showProfile(userid);
-                                                   }
-                                                });
-                    
-                }
-            })
             user.addUserToGroup(this.groupUser)
-            user.setVisable(false);
+            user.visible = false;
             this.userList.push(user);
-            
         }
+        console.log("userlist",this.userList)
 
         this.cardPosRate = [{x:0.344, y:0.456}, {x:0.422, y:0.456}, {x:0.5, y:0.456}, {x:0.578, y:0.456}, {x:0.656, y:0.456}];
         this.cardSizeRate = {width:0.064, height:0.156};
         for (var i = 0; i < this.cardPosRate.length; i++)
         {
             var dict = this.cardPosRate[i];
-            var imageCard = game.add.image(dict.x * this.imageBK.width + this.xOffset, dict.y * this.imageBK.height + this.yOffset, "cardBK");
+            var imageCard = game.add.image(dict.x * gameWidth + this.xOffset, dict.y * gameHeight + this.yOffset, "cardBK");
             imageCard.setOrigin(0.5);
             imageCard.setScale(this.scale, this.scale);
             imageCard.visible = false;
@@ -373,7 +317,7 @@ MainState.prototype = {
         for (var i = 0; i < preflopBKRate.length; i++)
         {
             var dict = preflopBKRate[i];
-            var imageCard = game.add.image(dict.x * this.imageBK.width + this.xOffset, dict.y * this.imageBK.height + this.yOffset, "dcardBK");
+            var imageCard = game.add.image(dict.x * gameWidth + this.xOffset, dict.y * gameHeight + this.yOffset, "dcardBK");
             imageCard.setScale(this.scale, this.scale);
             imageCard.visible = false;
             this.praviteCards.push(imageCard);
@@ -386,21 +330,21 @@ MainState.prototype = {
         }
 
         var selfCardRate = {x:0.57, y:0.79};
-        var imageCard1 = game.add.image(selfCardRate.x * this.imageBK.width + this.xOffset, selfCardRate.y * this.imageBK.height + this.yOffset, "cardBK");
+        var imageCard1 = game.add.image(selfCardRate.x * gameWidth + this.xOffset, selfCardRate.y * gameHeight + this.yOffset, "cardBK");
         imageCard1.setScale(this.scale * 0.75, this.scale * 0.75);
         // imageCard1.anchor = new PIXI.Point(0.5, 0.5);
 
         imageCard1.angle = -20;
         imageCard1.visible = false;
         this.selfCards.push(imageCard1);
-        var imageCard2 = game.add.image(selfCardRate.x * this.imageBK.width + imageCard1.width / 2 + this.xOffset, selfCardRate.y * this.imageBK.height + this.yOffset, "cardBK");
+        var imageCard2 = game.add.image(selfCardRate.x * gameWidth + imageCard1.width / 2 + this.xOffset, selfCardRate.y * gameHeight + this.yOffset, "cardBK");
         imageCard2.setScale(this.scale * 0.75, this.scale * 0.75);
         // imageCard2.anchor = new PIXI.Point(0.5, 0.5);
         imageCard2.angle = 20;
         imageCard2.visible = false;
         this.selfCards.push(imageCard2);
 
-        this.light = game.add.sprite(this.imageBK.width / 2 + this.xOffset, this.imageBK.height / 2 + this.yOffset, 'light');
+        this.light = game.add.sprite(gameWidth / 2 + this.xOffset, gameHeight / 2 + this.yOffset, 'light');
         this.light.setOrigin(0, 0.5);
         this.light.setScale(this.scale);
         this.light.visible = false;
@@ -487,7 +431,7 @@ MainState.prototype = {
         var buttonSizeRate = {width:0.213, height:0.119};
 
 
-        this.buttonrules = game.add.image(buttonPosRate1.x * this.imageBK.width * 0.3 + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset,'buttonrules')
+        this.buttonrules = game.add.image(buttonPosRate1.x * gameWidth * 0.3 + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset,'buttonrules')
         this.buttonrules.setInteractive()
         this.buttonrules.on('pointerdown',function (){
             this.actionOnRuleShow()
@@ -497,17 +441,17 @@ MainState.prototype = {
 
 
 
-        this.button1 = game.add.image(buttonPosRate1.x * this.imageBK.width + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick1);
-        this.button2 = game.add.image(buttonPosRate2.x * this.imageBK.width + this.xOffset, buttonPosRate2.y * this.imageBK.height + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick2);
-        this.button3 = game.add.image(buttonPosRate3.x * this.imageBK.width + this.xOffset, buttonPosRate3.y * this.imageBK.height + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick3);
+        this.button1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick1);
+        this.button2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick2);
+        this.button3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick3);
 
         this.button1.setScale(this.scale, this.scale);
         this.button2.setScale(this.scale, this.scale);
         this.button3.setScale(this.scale, this.scale);
 
-        this.waitbutton1 = game.add.image(buttonPosRate1.x * this.imageBK.width + this.xOffset, buttonPosRate1.y * this.imageBK.height + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick1);
-        this.waitbutton2 = game.add.image(buttonPosRate2.x * this.imageBK.width + this.xOffset, buttonPosRate2.y * this.imageBK.height + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick2);
-        this.waitbutton3 = game.add.image(buttonPosRate3.x * this.imageBK.width + this.xOffset, buttonPosRate3.y * this.imageBK.height + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick3);
+        this.waitbutton1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick1);
+        this.waitbutton2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick2);
+        this.waitbutton3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick3);
 
         this.waitbutton1.setScale(this.scale, this.scale);
         this.waitbutton2.setScale(this.scale, this.scale);
@@ -523,49 +467,49 @@ MainState.prototype = {
         this._setWaitButtonsVisible(false)
 
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button1.width, align: "center" };
-        this.lbLookorGiveup = game.add.text(buttonPosRate1.x * this.imageBK.width + this.xOffset + 0.5 * this.button1.width, buttonPosRate1.y * this.imageBK.height + this.yOffset + 0.51 * this.button1.height, "弃牌", style);
+        this.lbLookorGiveup = game.add.text(buttonPosRate1.x * gameWidth + this.xOffset + 0.5 * this.button1.width, buttonPosRate1.y * gameHeight + this.yOffset + 0.51 * this.button1.height, "弃牌", style);
         this.lbLookorGiveup.setOrigin(0.5);
         this.lbLookorGiveup.setScale(this.scale, this.scale);
         this.buttonGroup1.add(this.button1);
         this.buttonGroup1.add(this.lbLookorGiveup);
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button2.width, align: "center" };
-        this.lbCall = game.add.text(buttonPosRate2.x * this.imageBK.width + this.xOffset + 0.32 * this.button2.width, buttonPosRate2.y * this.imageBK.height + this.yOffset + 0.51 * this.button2.height, "跟注", style);
+        this.lbCall = game.add.text(buttonPosRate2.x * gameWidth + this.xOffset + 0.32 * this.button2.width, buttonPosRate2.y * gameHeight + this.yOffset + 0.51 * this.button2.height, "跟注", style);
         this.lbCall.setOrigin(0, 0.5);
         this.lbCall.setScale(this.scale, this.scale);
         this.buttonGroup2.add(this.button2);
         this.buttonGroup2.add(this.lbCall);
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button3.width, align: "center" };
-        this.lbCallEvery = game.add.text(buttonPosRate3.x * this.imageBK.width + this.xOffset + 0.5 * this.waitbutton3.width, buttonPosRate3.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton3.height, "加注", style);
+        this.lbCallEvery = game.add.text(buttonPosRate3.x * gameWidth + this.xOffset + 0.5 * this.waitbutton3.width, buttonPosRate3.y * gameHeight + this.yOffset + 0.51 * this.waitbutton3.height, "加注", style);
         this.lbCallEvery.setOrigin(0.5);
         this.lbCallEvery.setScale(this.scale, this.scale);
         this.buttonGroup3.add(this.button3);
         this.buttonGroup3.add(this.lbCallEvery);
 
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton1.width, align: "left" };
-        this.lbLookorGiveupWait = game.add.text(buttonPosRate1.x * this.imageBK.width + this.xOffset + 0.35 * this.waitbutton1.width, buttonPosRate1.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton1.height, "看牌或弃牌", style);
+        this.lbLookorGiveupWait = game.add.text(buttonPosRate1.x * gameWidth + this.xOffset + 0.35 * this.waitbutton1.width, buttonPosRate1.y * gameHeight + this.yOffset + 0.51 * this.waitbutton1.height, "看牌或弃牌", style);
         this.lbLookorGiveupWait.setOrigin(0, 0.5);
         this.lbLookorGiveupWait.setScale(this.scale, this.scale);
-        this.imgLookorGiveupWait = game.add.image(buttonPosRate1.x * this.imageBK.width + this.xOffset + 0.2 * this.waitbutton1.width, buttonPosRate1.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton1.height, "checkOff");
+        this.imgLookorGiveupWait = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset + 0.2 * this.waitbutton1.width, buttonPosRate1.y * gameHeight + this.yOffset + 0.51 * this.waitbutton1.height, "checkOff");
         this.imgLookorGiveupWait.setOrigin(0.5);
         this.imgLookorGiveupWait.setScale(this.scale, this.scale);
         this.waitButtonGroup1.add(this.waitbutton1);
         this.waitButtonGroup1.add(this.lbLookorGiveupWait);
         this.waitButtonGroup1.add(this.imgLookorGiveupWait);
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton2.width, align: "left" };
-        this.lbCallWait = game.add.text(buttonPosRate2.x * this.imageBK.width + this.xOffset + 0.35 * this.waitbutton2.width, buttonPosRate2.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton2.height, "跟注", style);
+        this.lbCallWait = game.add.text(buttonPosRate2.x * gameWidth + this.xOffset + 0.35 * this.waitbutton2.width, buttonPosRate2.y * gameHeight + this.yOffset + 0.51 * this.waitbutton2.height, "跟注", style);
         this.lbCallWait.setOrigin(0, 0.5);
         this.lbCallWait.setScale(this.scale, this.scale);
-        this.imgCallWait = game.add.image(buttonPosRate2.x * this.imageBK.width + this.xOffset + 0.2 * this.waitbutton2.width, buttonPosRate2.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton2.height, "checkOff");
+        this.imgCallWait = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset + 0.2 * this.waitbutton2.width, buttonPosRate2.y * gameHeight + this.yOffset + 0.51 * this.waitbutton2.height, "checkOff");
         this.imgCallWait.setOrigin(0.5);
         this.imgCallWait.setScale(this.scale, this.scale);
         this.waitButtonGroup2.add(this.waitbutton2);
         this.waitButtonGroup2.add(this.lbCallWait);
         this.waitButtonGroup2.add(this.imgCallWait);
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton3.width, align: "left" };
-        this.lbCallEveryWait = game.add.text(buttonPosRate3.x * this.imageBK.width + this.xOffset + 0.35 * this.waitbutton3.width, buttonPosRate3.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton3.height, "跟任何注", style);
+        this.lbCallEveryWait = game.add.text(buttonPosRate3.x * gameWidth + this.xOffset + 0.35 * this.waitbutton3.width, buttonPosRate3.y * gameHeight + this.yOffset + 0.51 * this.waitbutton3.height, "跟任何注", style);
         this.lbCallEveryWait.setOrigin(0, 0.5);
         this.lbCallEveryWait.setScale(this.scale, this.scale);
-        this.imgCallEveryWait = game.add.image(buttonPosRate3.x * this.imageBK.width + this.xOffset + 0.2 * this.waitbutton3.width, buttonPosRate3.y * this.imageBK.height + this.yOffset + 0.51 * this.waitbutton3.height, "checkOff");
+        this.imgCallEveryWait = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset + 0.2 * this.waitbutton3.width, buttonPosRate3.y * gameHeight + this.yOffset + 0.51 * this.waitbutton3.height, "checkOff");
         this.imgCallEveryWait.setOrigin(0.5);
         this.imgCallEveryWait.setScale(this.scale, this.scale);
         this.waitButtonGroup3.add(this.waitbutton3);
@@ -624,7 +568,7 @@ MainState.prototype = {
         this.blinds.setOrigin(0.5);
         this.blinds.setScale(this.scale);
 
-        this.chipPoolBK = game.add.image(0.451 * this.imageBK.width + this.xOffset, 0.306 * this.imageBK.height + this.yOffset, "chipPool");
+        this.chipPoolBK = game.add.image(0.451 * gameWidth + this.xOffset, 0.306 * gameHeight + this.yOffset, "chipPool");
         this.chipPoolBK.setScale(this.scale, this.scale);
 
         style = { font: _fontString(16), fill: "#FFFFFF", wordWrap: true, wordWrapWidth: this.chipPoolBK.width, align: "center" };
@@ -632,7 +576,7 @@ MainState.prototype = {
         this.chipPool.setOrigin(0.5);
         this.chipPool.setScale(this.scale);
 
-        //this.btnExitRoom = game.add.button(0.92 * this.imageBK.width + this.xOffset, 0.02 * this.imageBK.height + this.yOffset, 'exitdoor', this.actionOnExit, this);
+        //this.btnExitRoom = game.add.button(0.92 * gameWidth + this.xOffset, 0.02 * gameHeight + this.yOffset, 'exitdoor', this.actionOnExit, this);
         //this.btnExitRoom.width = this.chipboxButton1.width;
         //this.btnExitRoom.height = this.chipboxButton1.height;
 
@@ -642,7 +586,7 @@ MainState.prototype = {
         var coinCount = 9;
         for (var i = 0; i < coinCount; i++)
         {
-            var star = this.starGroup.create((i + 0.5) * this.imageBK.width / coinCount + this.xOffset, 0, 'animeCoins');
+            var star = this.starGroup.create((i + 0.5) * gameWidth / coinCount + this.xOffset, 0, 'animeCoins');
             star.visible = false;
             // star.body.velocity.y = 0;
             star.setOrigin(0.5, 0.5);
@@ -665,7 +609,7 @@ MainState.prototype = {
         //         }
         //     });
         // }
-        
+
         this.card_typebg=game.add.sprite(0, 0, "card_typebg");
         this.card_typebg.setOrigin(0);
         this.card_typebg.setScale(this.scale, this.scale);
@@ -684,7 +628,7 @@ MainState.prototype = {
             to_x = -this.card_typebg.width
         }
 
-        var tweens = game.add.tween(this.card_typebg);
+        var tweens = game.tweens.add(this.card_typebg);
         tweens.to({x:to_x}, 200, Phaser.Easing.Quadratic.In, true);
     },
 
@@ -1114,8 +1058,8 @@ MainState.prototype = {
         var user = this.userList[userIndex];
         if(occupant.profile && occupant.profile != "")
         {
-            game.load.image("userImage" + userIndex, occupant.profile, true);
-            game.load.start();
+            this.game.load.image("userImage" + userIndex, occupant.profile, true);
+            this.game.load.start();
         }
 
         if (occupant.name == "") {
@@ -1126,13 +1070,13 @@ MainState.prototype = {
         user.param.seatNum = occupant.index;
         user.param.userID = occupant.id;
 
-        user.setVisable(true);
+        user.visible = true;
     },
 
     handlePot:function(data) {
         var arrayPool = data.class.split(",");
 
-        this.chipPoolCoins = this.animation.showCollectChip(this.userList, this.chipPoolBK.x + this.chipPoolBK.width * 0.14, this.chipPoolBK.y + this.chipPoolBK.height * 0.5, this.chipPoolCoins);
+        this.chipPoolCoins = this.animation.showCollectChip(this.game,this.userList, this.chipPoolBK.x + this.chipPoolBK.width * 0.14, this.chipPoolBK.y + this.chipPoolBK.height * 0.5, this.chipPoolCoins);
         this._resetGameRoundStatus()
 
         var poolall = 0;
@@ -1195,7 +1139,9 @@ MainState.prototype = {
 
         
         if(this.dealer == null) {
-            this.dealer = game.add.sprite(this.dealerPosRate[seatIndex].x * this.imageBK.width + this.xOffset, this.dealerPosRate[seatIndex].y * this.imageBK.height + this.yOffset, "dealer");
+            const gameWidth = this.game.width;
+            const gameHeight = this.game.height;
+            this.dealer = this.game.add.sprite(this.dealerPosRate[seatIndex].x * gameWidth + this.xOffset, this.dealerPosRate[seatIndex].y * gameHeight + this.yOffset, "dealer");
             this.dealer.setOrigin(0.5);
             this.dealer.setScale(this.scale, this.scale);
 
@@ -1205,11 +1151,14 @@ MainState.prototype = {
             
             var user = this._userBySeatNum(this.gameStateObj.bankerPos)
             if(user) {
-                this.tween = game.add.tween(this.dealer);
-                this.tween.to({ x:this.dealerPosRate[seatIndex].x * this.imageBK.width+ this.xOffset,
-                           y: this.dealerPosRate[seatIndex].y * this.imageBK.height + this.yOffset }, 
-                           800, 
-                           Phaser.Easing.Linear.None, true);
+                this.tween = this.game.tweens.add({
+                    targets: this.dealer,   // 目标对象
+                    x: this.dealerPosRate[seatIndex].x * this.game.width+ this.xOffset,
+                    y:this.dealerPosRate[seatIndex].y * this.game.height + this.yOffset,
+                    duration: 800,    // 持续时间（毫秒）
+                    ease: 'Linear',    // 缓动函数（支持字符串或函数）
+                    onComplete: () => { /* 动画完成回调 */ }
+                })
             }
         
         }
@@ -1605,8 +1554,8 @@ MainState.prototype = {
         for(var i = 0; i < this.selfCards.length; i++)
         {
             var card = this.selfCards[i];
-            card.visible = false;
-            card.loadTexture(arrayCards[i], card.frame);
+            card.setVisible(false);
+            card.setFrame(card.frame);
         }
     },
 
@@ -1669,7 +1618,9 @@ MainState.prototype = {
 
             var user = this._userBySeatNum(this.gameStateObj.playerSeatNum)
             var that = this; 
-            this.userProgressObj = user.createProgressObject(this.timeoutMaxCount,function(){
+            this.userProgressObj = user.createProgressObject(
+                this.game,
+                this.timeoutMaxCount,function(){
             var user = that._userBySeatNum(that.gameStateObj.playerSeatNum)
             if(user.param["userID"] == that.userID) {
                 that.animation.showShake(that.selfCards[0]);
@@ -1688,7 +1639,7 @@ MainState.prototype = {
 
             this.userProgressObj.draw()
 
-        this.animation.showLight(left + width / 2, top + height / 2);
+        this.animation.showLight(this.game,left + width / 2, top + height / 2);
     },
 
     /*
@@ -1851,12 +1802,12 @@ MainState.prototype = {
         for(var i = 0; i < this.publicCards.length; i++)
         {
             this.publicCards[i].visible = false;
-            this.publicCards[i].loadTexture("cardBK", this.publicCards[i].frame);
+            this.publicCards[i].setFrame( this.publicCards[i].frame);
         }
         for(var i = this.publicCards.length; i < this.publicCards.length; i++)
         {
             this.publicCards[i].visible = false;
-            this.publicCards[i].loadTexture("cardBK", this.publicCards[i].frame);
+            this.publicCards[i].setFrame( this.publicCards[i].frame);
         }
     },
 
@@ -1883,7 +1834,7 @@ MainState.prototype = {
     _betWaitButtonCheckOn:function(buttonCheckImage, blOn)
     {
         var imgid = blOn?"checkOn":"checkOff";
-        buttonCheckImage.loadTexture(imgid, buttonCheckImage.frame);
+        buttonCheckImage.setFrame(buttonCheckImage.frame);
     },
 
     _betWaitButtonChecked:function() 
@@ -1970,7 +1921,7 @@ MainState.prototype = {
             return;
         }
 
-        return {x:this.userPosRate[userindex].x * this.imageBK.width + this.xOffset, y:this.userPosRate[userindex].y * this.imageBK.height + this.yOffset}
+        return {x:this.userPosRate[userindex].x * gameWidth + this.xOffset, y:this.userPosRate[userindex].y * gameHeight + this.yOffset}
     },
     
     _sendCardAnimation:function() {
@@ -1983,7 +1934,7 @@ MainState.prototype = {
                 userList.push(this.userList[i]);
             }
         }
-
+        var game = this.game
         var currentIndex = 0;
         var that = this
         var sendCard = function(){
@@ -1995,30 +1946,41 @@ MainState.prototype = {
             }
             var dcard = game.add.sprite(sendPoint.x, sendPoint.y, "dcardBK");
             dcard.setScale(that.scale, that.scale);
-            var tweens = game.add.tween(dcard)
-            //tweens.to({x:usr.dcard.x, y:usr.dcard.y},500,Phaser.Easing.Linear.None, true);
-            if(that.userID == usr.param.userID) {
-                tweens.to({x:that.selfCards[0].x, y:that.selfCards[0].y},500,Phaser.Easing.Quadratic.In, true);
-            } else {
-                tweens.to({x:usr.dcard.x, y:usr.dcard.y},500,Phaser.Easing.Quadratic.In, true);
-            }
-            tweens.onComplete.add(function() {
-                                  if(that.userID == usr.param.userID) {
-                                      that.selfCards[0].visible = true;
-                                      that.selfCards[1].visible = true;
-                                  } else {
-                                      usr.dcard.visible = true;
-                                  }
-                                  //user.dcard.visible = true;
-                                  dcard.destroy();
-                                  if(currentIndex < userList.length ) {
-                                        sendCard();
-                                  }
 
-                                  if(usr.imagebody.visible == false) {
-                                    usr.dcard.visible = false;
-                                  }
-                                }, that);
+            var x ;
+            var y ;
+            if(that.userID == usr.param.userID) {
+                x = that.selfCards[0].x;
+                y = that.selfCards[0].y
+            }else{
+                x = usr.dcard.x;
+                y = usr.dcard.y;
+            }
+            var tweens = game.tweens.add({
+                targets: dcard,   // 目标对象
+                x: x,            // 目标属性值
+                y:y,
+                duration: 500,    // 持续时间（毫秒）
+                ease: 'Linear',    // 缓动函数（支持字符串或函数）
+                yoyo: true,        // 是否反向播放
+                onComplete: () => {
+                    if(that.userID == usr.param.userID) {
+                        that.selfCards[0].visible = true;
+                        that.selfCards[1].visible = true;
+                    } else {
+                        usr.dcard.visible = true;
+                    }
+                    //user.dcard.visible = true;
+                    dcard.destroy();
+                    if(currentIndex < userList.length ) {
+                        sendCard();
+                    }
+
+                    if(usr.imagebody.visible == false) {
+                        usr.dcard.visible = false;
+                    }
+                }
+            });
         }
         
         sendCard();
@@ -2054,7 +2016,7 @@ MainState.prototype = {
             
             var dcardSprite = game.add.sprite(sendPoint.x, sendPoint.y, "dcardBK");
             (function(usr,dcard) {
-             var tweens = game.add.tween(dcard)
+             var tweens = game.tweens.add(dcard)
              tweens.to({x:usr.dcard.x, y:usr.dcard.y},500,
                        Phaser.Easing.Linear.None, true);
              tweens.onComplete.add(function() {

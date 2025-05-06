@@ -12,13 +12,13 @@ function _fontString(size, fontname) {
 	return (size * gFontScale)+"px " + fontname
 }
 
-var User = function() {
-
+var User = function(game) {
+	this.game = game;
 	this.rect = {left:0, top:0, width:0, height:0};
 	this.coinRect = {left:0, top:0, width:0, height:0};
 	this.coinTextRect = {left:0, top:0};
 	this.param = {userName:"", userImage:"defaultUserImage", userCoin:"", isPlayer:"", userID:"", seatNum:-1};
-	this.scale = 1;
+	this.scale = 0.8;
 	this.giveUp = false;
 	this.animation;
 
@@ -60,14 +60,15 @@ User.prototype = {
 
 		this.containerplayer = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "playerBK");
 		this.containeruser = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "userBK");
+
 		this.containerblank = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "blankBK");
 		this.containerwin = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "winBK");
 		this.containerwinEffect = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "winBKFrame");
-		this.containerplayer.setOrigin(0.5);
-		this.containeruser.setOrigin(0.5);
-		this.containerblank.setOrigin(0.5);
-		this.containerwin.setOrigin(0.5);
-		this.containerwinEffect.setOrigin(0.5);
+		this.containerplayer.setOrigin(0.5,0.5);
+		this.containeruser.setOrigin(0.5,0.5);
+		this.containerblank.setOrigin(0.5,0.5);
+		this.containerwin.setOrigin(0.5,0.5);
+		this.containerwinEffect.setOrigin(0.5,0.5);
 		this.containerplayer.setScale(this.scale, this.scale);
 		this.containeruser.setScale(this.scale, this.scale);
 		this.containerblank.setScale(this.scale, this.scale);
@@ -79,6 +80,7 @@ User.prototype = {
 		this.winLightDot[1].setScale(this.scale, this.scale);
 		this.winLightDot[0].setOrigin(0.5);
 		this.winLightDot[1].setOrigin(0.5);
+
 		this.winCards[0] = game.add.image(this.rect.left + this.rect.width * 0.05, this.rect.top + this.rect.height * 0.26, "cardBK");
 		this.winCards[0].setScale(this.scale * 0.75, this.scale * 0.75);
 		this.winCards[1] = game.add.image(this.rect.left + this.rect.width * 0.4, this.rect.top + this.rect.height * 0.26, "cardBK");
@@ -93,24 +95,24 @@ User.prototype = {
 		this.winGroup.add(this.winCards[1]);
 		this.containerwinEffect.alpha = 1;
 
-		this.containerplayer.visible = false;
-		this.containeruser.visible = false;
-		this.containerblank.visible = true;
-		this.winGroup.visible = false;
+		this.containerplayer.setVisible(false);
+		this.containeruser.setVisible(false);
+		this.containerblank.setVisible(true);
+		this.winGroup.setVisible(false);
 		if(this.param["userName"] && this.param["userName"] != "")
 		{
-			this.containerplayer.visible = false;
-			this.containeruser.visible = true;
-			this.containerblank.visible = false;
-			this.winGroup.visible = false;
+			this.containerplayer.setVisible(false);
+			this.containeruser.setVisible(true);
+			this.containerblank.setVisible(false);
+			this.winGroup.setVisible(false);
 		}
 		var style = { font: _fontString(20), fill: "#ffffff", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" };
 		if(isPlayer)
 		{
-			this.containerplayer.visible = true;
-			this.containeruser.visible = false;
-			this.containerblank.visible = false;
-			this.winGroup.visible = false;
+			this.containerplayer.setVisible(true);
+			this.containeruser.setVisible(false);
+			this.containerblank.setVisible(false);
+			this.winGroup.setVisible(false);
 			style = { font: _fontString(20), fill: "#000000", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" };
 		}
 		this.lbname = game.add.text(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height * 0.1, this.param["userName"], style);
@@ -141,12 +143,12 @@ User.prototype = {
 		{
 			this.textCoin.x = this.coinRect.left - this.textCoin.width - this.coinRect.width * 0.9;
 		}
-		this.textCoin.visible = false;
+		this.textCoin.setVisible(true);
 
 		this.waitingLine = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "waitingRound");
 		this.waitingLine.setOrigin(0.5);
 		this.waitingLine.setScale(this.scale, this.scale);
-		this.waitingLine.visible = false;
+		this.waitingLine.setVisible(false);
 		this.mask = game.add.graphics(0, 0);
 
 		this.groupUser = game.add.group();
@@ -217,24 +219,24 @@ User.prototype = {
 		this.setChips(userCoin);
 
 
-		this.containerplayer.visible = false;
-		this.containeruser.visible = false;
-		this.containerblank.visible = true;
-		this.winGroup.visible = false;
+		this.containerplayer.setVisible(false);
+		this.containeruser.setVisible(false);
+		this.containerblank.setVisible(true);
+		this.winGroup.setVisible(false);
 
 		if(this.param["userName"] && this.param["userName"] != "")
 		{
-			this.containerplayer.visible = false;
-			this.containeruser.visible = true;
-			this.containerblank.visible = false;
-			this.winGroup.visible = false;
+			this.containerplayer.setVisible(false);
+			this.containeruser.setVisible(true);
+			this.containerblank.setVisible(false);
+			this.winGroup.setVisible(false);
 		}
 		if(this.param["isPlayer"])
 		{
-			this.containerplayer.visible = true;
-			this.containeruser.visible = false;
-			this.containerblank.visible = false;
-			this.winGroup.visible = false;
+			this.containerplayer.setVisible(true);
+			this.containeruser.setVisible(false);
+			this.containerblank.setVisible(false);
+			this.winGroup.setVisible(false);
 
 		}
 	},
@@ -259,14 +261,14 @@ User.prototype = {
 		if(usedCoin != "")
 		{
 			this.textCoin.visible = true;
-			var coin = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "chip01");
+			var coin = this.game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "chip01");
 			coin.setOrigin(0.5);
 			coin.setScale(this.scale, this.scale)
 			coin.width = this.coinRect.width;
 			coin.height = this.coinRect.height;
 			this.imageCoin.push(coin);
 			this.group.add(coin);
-			this.animation.showChipMove(coin, this.coinRect.left, this.coinRect.top - this.imageCoin.length * coin.height * 0.1111);
+			this.animation.showChipMove(this.game,coin, this.coinRect.left, this.coinRect.top - this.imageCoin.length * coin.height * 0.1111);
 		}
 		else
 		{
@@ -289,7 +291,7 @@ User.prototype = {
 		coin.height = this.coinRect.height;
 
 		var animationTime = 200;
-		var tween = game.add.tween(coin);
+		var tween = game.tweens.add(coin);
 		tween.to({ x:this.rect.left + this.rect.width / 2, y: this.rect.top + this.rect.height / 2 }, animationTime, Phaser.Easing.Linear.None, true);
 		tween.onComplete.add(function() {
 			coin.destroy();
@@ -355,7 +357,8 @@ User.prototype = {
 		}
 		this.param["userImage"] = imageid;
 	    this.imagebody.setScale(1, 1);
-		this.imagebody.loadTexture(imageid, this.imagebody.frame);
+		// this.imagebody.loadTexture(imageid, this.imagebody.frame);
+		this.imagebody.add.sprite(0,0,this.imagebody.frame)
 		this.imagebody.setScale(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
 	},
 
@@ -392,32 +395,58 @@ User.prototype = {
 		var animationTime = 500;
 		this.winGroup.visible = true;
 		this.imagebody.visible = false;
-		this.winCards[0].loadTexture(key1, this.winCards[0].frame);
-		this.winCards[1].loadTexture(key2, this.winCards[1].frame);
+		this.winCards[0].setFrame(this.winCards[0].frame);
+		this.winCards[1].setFrame(this.winCards[1].frame);
 		this.winLightDot[0].y = this.containerwin.y + this.containerwin.height * 0.3;
 		this.winLightDot[1].y = this.containerwin.y - this.containerwin.height * 0.3;
 		this.containerwinEffect.setScale(this.scale, this.scale);
-		this.winLightDot[0].visible = true;
-		this.winLightDot[1].visible = true;
+		this.winLightDot[0].setVisible(true);
+		this.winLightDot[1].setVisible(true);
 		this.containerwinEffect.alpha = 1;
-		var tween1 = game.add.tween(this.winLightDot[0]);
-		tween1.to({ y:this.containerwin.y - this.containerwin.height * 0.3 }, animationTime, Phaser.Easing.Linear.None, true);
-		tween1.onComplete.add(function() {
-			that.winLightDot[0].visible = false;
-		}, this);
-		var tween2 = game.add.tween(this.winLightDot[1]);
-		tween2.to({ y:this.containerwin.y + this.containerwin.height * 0.3 }, animationTime, Phaser.Easing.Linear.None, true);
-		tween2.onComplete.add(function() {
-			that.winLightDot[1].visible = false;
-		}, this);
-		var tween3 = game.add.tween(this.containerwinEffect.scale);
-		tween3.to({ x: this.scale * 1.3, y: this.scale * 1.3 }, animationTime, Phaser.Easing.Linear.None, true);
-		var tween4 = game.add.tween(this.containerwinEffect);
-		tween4.to({ alpha: 0 }, animationTime, Phaser.Easing.Linear.None, true);
 
-		var style = { font: _fontString(20), fill: "#ffffff", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" };
-		this.lbname.setStyle(style);
-		this.lbcoin.setStyle(style);
+		var tween1 = this.game.tweens.add({
+			targets: this.winLightDot[0],   // 目标对象
+			y:this.containerwin.y - this.containerwin.height * 0.3,
+			duration: animationTime,    // 持续时间（毫秒）
+			ease: 'Linear',    // 缓动函数（支持字符串或函数）
+			yoyo: true,        // 是否反向播放
+			onComplete: () => {
+				that.winLightDot[0].visible = false;
+			}
+		});
+
+		var tween2 = this.game.tweens.add({
+			targets: this.winLightDot[1],   // 目标对象
+			y:this.containerwin.y - this.containerwin.height * 0.3,
+			duration: animationTime,    // 持续时间（毫秒）
+			ease: 'Linear',    // 缓动函数（支持字符串或函数）
+			yoyo: true,        // 是否反向播放
+			onComplete: () => {
+				that.winLightDot[1].setVisible(false);
+			}
+		});
+
+		var tween3 = this.game.tweens.add({
+			targets: this.containerwinEffect.scale,   // 目标对象
+			x: this.scale * 1.3,            // 目标属性值
+			y: this.scale*1.3,//
+			duration: animationTime,    // 持续时间（毫秒）
+			ease: 'Linear',    // 缓动函数（支持字符串或函数）
+			yoyo: true,        // 是否反向播放
+			// repeat: -1,        // 重复次数（-1 为无限循环）
+			onComplete: () => { /* 动画完成回调 */ }
+		});
+
+		var tween4 = this.game.tweens.add({
+			targets: this.containerwinEffect,   // 目标对象
+			alpha: 0,
+			duration: animationTime,    // 持续时间（毫秒）
+			onComplete: () => { /* 动画完成回调 */ }
+		});
+
+		// var style = { font: _fontString(20), fill: "#ffffff", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" };
+		// this.lbname.setStyle(style);
+		// this.lbcoin.setStyle(style);
 
 	},
 
@@ -464,7 +493,7 @@ User.prototype = {
 	//{
 		//this.userList[i].drawWaitingImage(15);
 	//}
-	drawWaitingImage:function(timeout, willCompleteCallBack, didCompleteCallBack)
+	drawWaitingImage:function(game,timeout, willCompleteCallBack, didCompleteCallBack)
 	{
 		this.groupUser.visible = true;
 		this.waitingLine.visible = true;
@@ -479,34 +508,62 @@ User.prototype = {
 
 		var that = this;
 
-		this.start = game.time.totalElapsedSeconds();
+		this.start = game.time.startTime;
 
 		var totalTime = timeout * 1000;
 
-        this.timerEventProgress = game.time.events.loop(50, function() {
+		this.timerEventProgress = game.time.addEvent({
+			delay: 50,         // 间隔 1 秒
+			callback: () =>  {
+				var elapsed = game.time.now - that.start;
 
-        	var elapsed = game.time.totalElapsedSeconds() - that.start;
+				var angel =   (elapsed * 1000) * 360 / totalTime
 
-        	var angel =   (elapsed * 1000) * 360 / totalTime
 
-       
-			if(angel >= 180 && willCompleteCallBack && that.startTrigerWillCompleteEvent == false)
-			{
-				willCompleteCallBack();
-				this.startTrigerWillCompleteEvent = true
-			}
+				if(angel >= 180 && willCompleteCallBack && that.startTrigerWillCompleteEvent == false)
+				{
+					willCompleteCallBack();
+					this.startTrigerWillCompleteEvent = true
+				}
 
-			that.mask.clear();
-			that.mask.moveTo(maskWidth, maskWidth);
-			that.mask.lineTo(maskWidth - Math.tan(offsetAngel * Math.PI / 180) * maskWidth, 0);
-			that.mask.arc(maskWidth, maskWidth, maskWidth, - Math.PI / 2 - offsetAngel * Math.PI / 180, (angel * Math.PI) / 180 - Math.PI / 2 - offsetAngel * Math.PI / 180,true);
-			that.mask.lineTo(maskWidth, maskWidth);
-                                                        
-            if(angel >= 360) {
-                didCompleteCallBack(true);
-                game.time.events.remove(that.timerEventProgress)
-            }
-		}, this);
+				that.mask.clear();
+				that.mask.moveTo(maskWidth, maskWidth);
+				that.mask.lineTo(maskWidth - Math.tan(offsetAngel * Math.PI / 180) * maskWidth, 0);
+				that.mask.arc(maskWidth, maskWidth, maskWidth, - Math.PI / 2 - offsetAngel * Math.PI / 180, (angel * Math.PI) / 180 - Math.PI / 2 - offsetAngel * Math.PI / 180,true);
+				that.mask.lineTo(maskWidth, maskWidth);
+
+				if(angel >= 360) {
+					didCompleteCallBack(true);
+					game.time.events.remove(that.timerEventProgress)
+				}
+			},
+			loop: true           // 无限循环
+		});
+
+        // this.timerEventProgress = game.time.events.loop(50, function() {
+		//
+        // 	var elapsed = game.time.now - that.start;
+		//
+        // 	var angel =   (elapsed * 1000) * 360 / totalTime
+		//
+		//
+		// 	if(angel >= 180 && willCompleteCallBack && that.startTrigerWillCompleteEvent == false)
+		// 	{
+		// 		willCompleteCallBack();
+		// 		this.startTrigerWillCompleteEvent = true
+		// 	}
+		//
+		// 	that.mask.clear();
+		// 	that.mask.moveTo(maskWidth, maskWidth);
+		// 	that.mask.lineTo(maskWidth - Math.tan(offsetAngel * Math.PI / 180) * maskWidth, 0);
+		// 	that.mask.arc(maskWidth, maskWidth, maskWidth, - Math.PI / 2 - offsetAngel * Math.PI / 180, (angel * Math.PI) / 180 - Math.PI / 2 - offsetAngel * Math.PI / 180,true);
+		// 	that.mask.lineTo(maskWidth, maskWidth);
+        //
+        //     if(angel >= 360) {
+        //         didCompleteCallBack(true);
+        //         game.time.events.remove(that.timerEventProgress)
+        //     }
+		// }, this);
         
 		
 	},
@@ -515,16 +572,16 @@ User.prototype = {
 	{
 		if(this.timerEventProgress != null && this.timerEventProgress != undefined)
 		{
-			game.time.events.remove(this.timerEventProgress)
+			this.game.time.removeEvent(this.timerEventProgress)
 		}
 	},
 
-	createProgressObject:function(timeout, willCompleteCallBack, didCompleteCallBack) {
+	createProgressObject:function(game,timeout, willCompleteCallBack, didCompleteCallBack) {
 		var that = this;
 		this.startTrigerWillCompleteEvent = false;
 		return {
 			draw:function() {
-				that.drawWaitingImage(timeout, willCompleteCallBack, didCompleteCallBack);
+				that.drawWaitingImage(game,timeout, willCompleteCallBack, didCompleteCallBack);
 			},
 			stop:function() {
 				didCompleteCallBack(false);

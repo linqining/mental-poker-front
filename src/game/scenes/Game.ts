@@ -39,7 +39,7 @@ export class Game extends Scene
             }
         }
 
-        this.load.image("cardBK", gImageDir+'cards/card_back.png')
+        this.load.image("cardBK", 'src/assets/cards/CardBack.png')
         this.load.image("chipPool", gImageDir+'chip-pool.png')
         this.load.image("chip01", gImageDir+'texas_chip01.png')
         this.load.image("chip05", gImageDir+'texas_chip05.png')
@@ -60,7 +60,7 @@ export class Game extends Scene
         this.load.image("dealer", gImageDir+'dealer.png')
         this.load.image("waitingRound", gImageDir+'win-frameWaiting.png')
         this.load.image("card_typebg", gImageDir+'card_typebg.png')
-        this.load.image("defaultProfile", gImageDir+'defaultProfile.png')
+        this.load.image("defaultProfile", 'src/assets/Common/avatar.png')
         this.load.image("buttonrules", gImageDir+'btn-rules.png')
 
         const soundDir = "src/Poker/assets/sound/"
@@ -85,16 +85,9 @@ export class Game extends Scene
 
         this.camera = this.cameras.main;
 
-        this.background = this.add.image(512, 384, 'table_background');
-        this.background.displayWidth = 1024;
-        this.background.displayHeight = 768;
-
-        this.table = this.add.image(650, 430, 'table');
-        this.table.setScale(0.7);
-
         const betApi = this.game.registry.get("betApi");
 
-        this.gameState = new MainState();
+        this.gameState = new MainState(this);
         this.gameState.create(this,betApi)
 
 
@@ -117,6 +110,7 @@ export class Game extends Scene
 
         EventBus.emit('current-scene-ready', this);
     }
+
 
     changeScene ()
     {

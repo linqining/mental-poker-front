@@ -39,11 +39,11 @@ Animations.prototype = {
 			if(showBK)
 			{
 				that.publicCards[index].loadTexture("cardBK", that.publicCards[index].frame);
-				var tween = game.add.tween(that.publicCards[index]);
+				var tween = game.tweens.add(that.publicCards[index]);
 				tween.to({ width:0 }, animationTime, Phaser.Easing.Linear.None, true);
 				tween.onComplete.add(function() {
 					that.publicCards[index].loadTexture(key, that.publicCards[index].frame);
-					var tween2 = game.add.tween(that.publicCards[index]);
+					var tween2 = game.tweens.add(that.publicCards[index]);
 					tween2.to({ width:cardWidth }, animationTime, Phaser.Easing.Linear.None, true);
 					nIndex++;
 					if(nIndex < lstIndex.length)
@@ -58,7 +58,7 @@ Animations.prototype = {
 			{
 				that.publicCards[index].width = 0;
 				that.publicCards[index].loadTexture(key, that.publicCards[index].frame);
-				var tween = game.add.tween(that.publicCards[index]);
+				var tween = game.tweens.add(that.publicCards[index]);
 				tween.to({ width:cardWidth }, animationTime, Phaser.Easing.Linear.None, true);
 				nIndex++;
 				if(nIndex < lstIndex.length)
@@ -113,7 +113,7 @@ Animations.prototype = {
 
 		var nCount = 0;
 		var showAnimation = function () {
-			var tween = game.add.tween(target);
+			var tween = game.tweens.add(target);
 			var nextPt = pt[Math.floor(Math.random() * pt.length)];
 			tween.to({ x:nextPt.x, y: nextPt.y }, shakeFrequency, Phaser.Easing.Linear.None, true);
 			nCount++;
@@ -140,7 +140,7 @@ Animations.prototype = {
 		this.light = light;
 	},
 
-	showLight:function(targetX, targetY)
+	showLight:function(game,targetX, targetY)
 	{
 		var animationTime = 500;
 		var xOffset = this.offsetX;
@@ -164,25 +164,41 @@ Animations.prototype = {
 		}
 		else
 		{
-			var tween = game.add.tween(this.light);
-			tween.to({ width:length, angle: angleFinal }, animationTime, Phaser.Easing.Linear.None, true);
+			// tween.to({ width:length, angle: angleFinal }, animationTime, Phaser.Easing.Linear.None, true);
+			var tween = game.tweens.add({
+				targets: this.light,   // 目标对象
+				// x: targetX,            // 目标属性值
+				// y:targetY,
+				angle: angleFinal,
+				duration: animationTime,    // 持续时间（毫秒）
+				ease: 'Linear',    // 缓动函数（支持字符串或函数）
+				yoyo: true,        // 是否反向播放
+				onComplete: () => { /* 动画完成回调 */ }
+			});
 		}
 	},
 
-	showChipMove:function(target, targetX, targetY, time)
+	showChipMove:function(game,target, targetX, targetY, time)
 	{
 		var animationTime = 100;
 		if(time != undefined && time != null) {
 			animationTime = time
 		}
 		
-		var tween = game.add.tween(target);
-		tween.to({ x:targetX, y: targetY }, animationTime, Phaser.Easing.Linear.None, true);
+		var tween = game.tweens.add({
+			targets: target,   // 目标对象
+			x: targetX,            // 目标属性值
+			y:targetY,
+			duration: animationTime,    // 持续时间（毫秒）
+			ease: 'Linear',    // 缓动函数（支持字符串或函数）
+			yoyo: true,        // 是否反向播放
+			onComplete: () => { /* 动画完成回调 */ }
+		});
 	},
 
 	//this.chipPoolCoins = this.animation.showCollectChip(this.userList, this.chipPoolBK.x + this.chipPoolBK.width * 0.14, this.chipPoolBK.y + this.chipPoolBK.height * 0.5, this.chipPoolCoins);
 
-	showCollectChip:function(userList, targetX, targetY, existCoin)
+	showCollectChip:function(game,userList, targetX, targetY, existCoin)
 	{
 		var animationTime = 50;
 		var coinSpace = 0.1111;
@@ -205,17 +221,20 @@ Animations.prototype = {
 				return
 			};
 
-			totalCoins[index].bringToTop();
-
-			var tween = game.add.tween(totalCoins[index]);
-			tween.to({ x:targetX, y: targetY - (index + existCoin.length) * totalCoins[index].height * coinSpace }, animationTime, Phaser.Easing.Linear.None, true);
+			totalCoins[index].setDepth(10);
 			nIndex++;
-			if(nIndex < totalCoins.length)
-			{
-				tween.onComplete.add(function() {
-					showAnimation(nIndex);
-				}, this);
-			}
+			var tween = game.tweens.add({
+				targets: totalCoins[index],   // 目标对象
+				x: targetX,            // 目标属性值
+				y:targetY - (index + existCoin.length) * totalCoins[index].height * coinSpace,
+				duration: animationTime,    // 持续时间（毫秒）
+				ease: 'Linear',    // 缓动函数（支持字符串或函数）
+				onComplete: () => {
+					if(nIndex < totalCoins.length) {
+						showAnimation(nIndex);
+					}
+				}
+			});
 		};
 
 		showAnimation(nIndex);
