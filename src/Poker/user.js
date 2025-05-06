@@ -175,7 +175,9 @@ User.prototype = {
         this.lbname.style = this.userTitleStyle
 	    
 		this.lbname.setScale(this.scale, this.scale);
-		this.lbname.setText(title);
+		console.log(title)
+		// this.lbname.add.text(title)
+		// this.lbname.setText(title);
 
 	},
 

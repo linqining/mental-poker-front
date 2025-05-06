@@ -82,20 +82,6 @@ export class Game extends Scene
         if (!userAccount ) {
             this.scene.start('MainMenu');
         }
-        console.log("userAccount",userAccount)
-       const betApi = this.game.registry.get("betApi");
-
-        betApi.connectWithCallback(userAccount.address,function (openCBData){
-                betApi.loginCertification(userAccount.address, function (authData){
-                    // 登录成功
-                    betApi.enterRoom(function(data){
-                        console.log("enterRoom", JSON.stringify(data))
-                    },roomID)
-                })
-            }, this.callbackClose.bind(this),
-           this.callbackMessage.bind(this), this.callbackError.bind(this))
-
-
 
         this.camera = this.cameras.main;
 
@@ -106,18 +92,28 @@ export class Game extends Scene
         this.table = this.add.image(650, 430, 'table');
         this.table.setScale(0.7);
 
+        const betApi = this.game.registry.get("betApi");
+
+        this.gameState = new MainState();
+        this.gameState.create(this,betApi)
+
+
+        betApi.connectWithCallback(userAccount.address,function (openCBData){
+                betApi.loginCertification(userAccount.address, function (authData){
+                    // 登录成功
+                    betApi.enterRoom(function(data){
+                        console.log("enterRoom", JSON.stringify(data))
+                    },roomID)
+                })
+            },  this.gameState.callbackClose.bind(this.gameState),
+            this.gameState.callbackMessage.bind(this.gameState),  this.gameState.callbackError.bind(this.gameState))
+
         const exitGame = this.add.image(84, 42, 'exit_game');
         exitGame.setScale(0.7);
         exitGame.setInteractive().on('pointerdown', () => {
             betApi.disconnect();
             this.scene.start("Hall");
         })
-        this.gameState = new MainState();
-        this.gameState.create(this)
-
-
-
-
 
         EventBus.emit('current-scene-ready', this);
     }

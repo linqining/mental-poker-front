@@ -182,6 +182,9 @@ var MainState = function() {
     this.gameStateObj.chipboxValue1 = 10;
     this.gameStateObj.chipboxValue2 = 20;
     this.gameStateObj.chipboxValue3 = 40;
+
+    this.game;
+    this.betApi;
 }
 
 var gImageDir = "src/assets/2x"
@@ -256,7 +259,9 @@ MainState.prototype = {
     //
     // },
 
-    create: function(game) {
+    create: function(game,betApi) {
+        this.game = game;
+        this.betApi = betApi;
 
         this.soundSendCard = game.sound.add("sendcard");
         this.soundReorderCard = game.sound.add("reordercard");
@@ -970,7 +975,7 @@ MainState.prototype = {
 
     callbackMessage:function(data)
     {
-        console.log("callbackMessage " + data);
+        console.log("callbackMessage " + JSON.stringify(data));
         if(data.version && data.version == this.strVersion) // checkVersion result
         {
             var authToken = gParam.user_name;
@@ -990,25 +995,25 @@ MainState.prototype = {
             {
                 this.userID = data.id;
                 this.userName = data.name;
-                game.betApi.setUserID(this.userID);
+                this.betApi.setUserID(this.userID);
                 this.loginCertification = true;
 
                 this._currentPlayButtonUpdate(false)
-                console.log("gParam:", JSON.stringify(gParam))
+                // console.log("gParam:", JSON.stringify(gParam))
 
-                if(gParam.joinroom != undefined && gParam.joinroom != null) {
-                    this.roomID = gParam.joinroom
-                    console.log("enter room:", this.rootID);
-                    game.betApi.enterRoom(function(isOK){
-                        console.log("enterRoom is " +  isOK);
-                    }, this.roomID);
-
-                } else {
+                // if(gParam.joinroom != undefined && gParam.joinroom != null) {
+                //     this.roomID = gParam.joinroom
+                //     console.log("enter room:", this.rootID);
+                //     this.betApi.enterRoom(function(isOK){
+                //         console.log("enterRoom is " +  isOK);
+                //     }, this.roomID);
+                //
+                // } else {
                     console.log("enter random room:");
-                    game.betApi.enterRoom(function(isOK){
+                    this.betApi.enterRoom(function(isOK){
                                 console.log("enterRoom is " +  isOK);
-                    }, null);
-                }
+                    }, "1");
+                // }
             }
         }
         else if(data.type == "iq")
@@ -1481,18 +1486,21 @@ MainState.prototype = {
         {
             publicCards = [];
         }
+        console.log("public cards",publicCards)
         //初始化公共牌
         var lstCardID = [];
         var lstCardImage = [];
         for(var i = 0; i < publicCards.length; i++)
         {
             this.publicCards[i].visible = true;
-            this.publicCards[i].loadTexture(publicCards[i], this.publicCards[i].frame);
+            this.publicCards[i].load.image(publicCards[i], this.publicCards[i].frame);
         }
         for(var i = publicCards.length; i < this.publicCards.length; i++)
         {
-            this.publicCards[i].visible = false;
-            this.publicCards[i].loadTexture("cardBK", this.publicCards[i].frame);
+            if (this.publicCards[i].visible) {
+                this.publicCards[i].visible = false;
+                this.publicCards[i].load.image("cardBK", this.publicCards[i].frame);
+            }
         }
 
         //初始化筹码池
@@ -1555,8 +1563,8 @@ MainState.prototype = {
             var user = this.userList[index];
             if(userInfo.profile && userInfo.profile != "")
             {
-                game.load.image("userImage" + index, userInfo.profile, true);
-                game.load.start();
+                this.game.load.image("userImage" + index, userInfo.profile, true);
+                this.game.load.start();
             }
             user.setParam(userInfo.name, null, userInfo.chips, (userInfo.id == this.userID));
             user.param.seatNum = userInfo.index;
