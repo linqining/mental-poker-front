@@ -442,9 +442,9 @@ MainState.prototype = {
 
 
 
-        this.button1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick1.bind(this));
-        this.button2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick2.bind(this));
-        this.button3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick3.bind(this));
+        this.button1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'fold_btn').setInteractive().on('pointerdown', this.actionOnClick1.bind(this));
+        this.button2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.actionOnClick2.bind(this));
+        this.button3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.actionOnClick3.bind(this));
 
         this.button1.setScale(this.scale, this.scale);
         this.button2.setScale(this.scale, this.scale);
@@ -1972,7 +1972,6 @@ MainState.prototype = {
                 y:y,
                 duration: 500,    // 持续时间（毫秒）
                 ease: 'Linear',    // 缓动函数（支持字符串或函数）
-                yoyo: true,        // 是否反向播放
                 onComplete: () => {
                     if(that.userID == usr.param.userID) {
                         that.selfCards[0].visible = true;
@@ -1987,7 +1986,7 @@ MainState.prototype = {
                     }
 
                     if(usr.imagebody.visible == false) {
-                        usr.dcard.visible = false;
+                        usr.dcard.setVisible(true);
                     }
                 }
             });

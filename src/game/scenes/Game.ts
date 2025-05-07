@@ -26,16 +26,22 @@ export class Game extends Scene
         this.load.image('buttonblue', gImageDir+'btn-big-green.png')
         this.load.image('buttongrey', gImageDir+'btn-big-green.png')
         this.load.image('buttonyellow', gImageDir+'btn-big-blue.png')
+        this.load.image('fold_btn','src/assets/operate/fold.png')
+        this.load.image('call_btn','src/assets/operate/call.png')
+        this.load.image('raise_btn','src/assets/operate/raise.png')
         this.load.image('animeCoins', gImageDir+'coin.png')
         this.load.image('light', gImageDir+'roomLight.png')
-        var cardImageName = ["spades", "hearts", "clubs", "diamonds"];
-        var cardName = ["S", "H", "C", "D"];
-        var cardNumber = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
+
+        var cardDir = "src/assets/cards/"
+
+        var cardImageName = [ "clubs", "diamonds","hearts","spades"];
+        var cardName = [  "C", "D","H","S"]; // 黑桃，红心，梅花，方块
+        var cardNumber = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K","A"];
         for(var i = 0; i < cardImageName.length; i++)
         {
             for(var j = 0; j < cardNumber.length; j++)
             {
-                this.load.image(cardName[i] + cardNumber[j], gImageDir+'cards/card_' + cardImageName[i] + "_" + (j + 1) + ".png")
+                this.load.image(cardName[i] + cardNumber[j], cardDir+i +  "_" + (j + 2) + ".png")
             }
         }
 
@@ -47,7 +53,9 @@ export class Game extends Scene
         this.load.image("chip5k", gImageDir+'texas_chip5k.png')
         this.load.image("chip10w", gImageDir+'texas_chip10w.png')
         this.load.image("chip50w", gImageDir+'texas_chip50w.png')
-        this.load.image("dcardBK", gImageDir+'card_backs_rotate.png')
+
+        this.load.image("dcardBK", 'src/assets/cards/CardBack.png')
+
         this.load.image("checkOn", gImageDir+'check-on.png')
         this.load.image("checkOff", gImageDir+'check-off.png')
         this.load.image("chipbox", gImageDir+'add-chips-box.png')

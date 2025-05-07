@@ -358,7 +358,7 @@ User.prototype = {
 		this.param["userImage"] = imageid;
 	    this.imagebody.setScale(1, 1);
 		// this.imagebody.loadTexture(imageid, this.imagebody.frame);
-		this.imagebody.add.sprite(0,0,this.imagebody.frame)
+		this.imagebody.setFrame(this.imagebody.frame)
 		this.imagebody.setScale(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
 	},
 
