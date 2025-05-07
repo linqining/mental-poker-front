@@ -25,7 +25,7 @@ Animations.prototype = {
 		this.publicCards = lstPublicCard;
 	},
 
-	showPublicCard:function(lstIndex, lstKey, showBK, callback) {
+	showPublicCard:function(game,lstIndex, lstKey, showBK, callback) {
 		if(lstIndex.length > this.publicCards.length)
 		{
 			return;
@@ -36,9 +36,10 @@ Animations.prototype = {
 		var that = this;
 		var showAnimation = function (index, key, showBK) {
 			var cardWidth = that.publicCards[index].width;
-			if(showBK)
-			{
-				that.publicCards[index].loadTexture("cardBK", that.publicCards[index].frame);
+			if(showBK) {
+
+				let cardBK = game.textures.get("cardBK");
+				that.publicCards[index].setTexture(cardBK)
 				var tween = game.tweens.add({
 					targets: that.publicCards[index],   // 目标对象
 					width:0,
@@ -46,7 +47,8 @@ Animations.prototype = {
 					ease: 'Linear',    // 缓动函数（支持字符串或函数）
 					// yoyo: true,        // 是否反向播放
 					onComplete: () => { {
-						that.publicCards[index].loadTexture(key, that.publicCards[index].frame);
+						let cardBK = game.textures.get(key);
+						that.publicCards[index].setTexture(cardBK)
 						var tween2 = game.tweens.add({
 							targets:that.publicCards[index],
 							width:cardWidth,
@@ -64,7 +66,8 @@ Animations.prototype = {
 			else
 			{
 				that.publicCards[index].width = 0;
-				that.publicCards[index].loadTexture(key, that.publicCards[index].frame);
+				let cardBK = game.textures.get(key);
+				that.publicCards[index].setTexture(cardBK)
 				var tween = game.tweens.add({
 					targets: that.publicCards[index],   // 目标对象
 					width:cardWidth,

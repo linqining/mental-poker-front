@@ -122,7 +122,7 @@ User.prototype = {
         if(userProfile == undefined || userProfile == "" || userProfile == null) {
             userProfile = "defaultProfile"
         }
-        this.imagebody = game.add.sprite(this.rect.left + this.rect.width * 0.05, this.rect.top + this.rect.height * 0.2, userProfile);
+        this.imagebody = game.add.sprite(this.rect.left + this.rect.width * 0.5, this.rect.top + this.rect.height * 0.5, userProfile);
         this.imagebody.inputEnabled = true;
         var that = this
         // this.imagebody.events.onInputDown.add(function(){
@@ -248,8 +248,10 @@ User.prototype = {
 		}
 
 		this.param["userCoin"] = chip;
-		this.lbcoin.setText(chip);
-		this.lbcoin.setStyle(this.userTitleStyle);
+		if(this.lbcoin){
+			this.lbcoin.setText(chip);
+			this.lbcoin.setStyle(this.userTitleStyle);
+		}
 	},
 
 	setUseCoin:function(usedCoin)
@@ -257,14 +259,13 @@ User.prototype = {
 		this.textCoin.setText(usedCoin);
 		if(this.coinTextRect.left < this.coinRect.left)
 		{
-			this.textCoin.x = this.coinRect.left - this.textCoin.width - this.coinRect.width * 0.9;
+			// this.textCoin.x = this.coinRect.left - this.textCoin.width - this.coinRect.width * 0.9;
 		}
-		if(usedCoin != "")
-		{
+		if(usedCoin != "") {
 			this.textCoin.visible = true;
-			var coin = this.game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "chip01");
-			coin.setOrigin(0.5);
-			coin.setScale(this.scale, this.scale)
+			var coin = this.game.add.image(this.rect.width / 2,  this.rect.height / 2, "chip01");
+			// coin.setOrigin(0.5);
+			coin.setScale(0.3, 0.3)
 			coin.width = this.coinRect.width;
 			coin.height = this.coinRect.height;
 			this.imageCoin.push(coin);
@@ -358,9 +359,10 @@ User.prototype = {
 		}
 		this.param["userImage"] = imageid;
 	    this.imagebody.setScale(1, 1);
-		// this.imagebody.loadTexture(imageid, this.imagebody.frame);
-		this.imagebody.setFrame(this.imagebody.frame)
-		this.imagebody.setScale(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
+		let userImage = this.game.textures.get(imageid);
+		this.imagebody.setTexture(userImage)
+
+		// this.imagebody.setScale(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
 	},
 
 	setGiveUp:function(bGiveUp)
@@ -400,6 +402,7 @@ User.prototype = {
 		this.winCards[1].setFrame(this.winCards[1].frame);
 		this.winLightDot[0].y = this.containerwin.y + this.containerwin.height * 0.3;
 		this.winLightDot[1].y = this.containerwin.y - this.containerwin.height * 0.3;
+
 		this.containerwinEffect.setScale(this.scale, this.scale);
 		this.winLightDot[0].setVisible(true);
 		this.winLightDot[1].setVisible(true);

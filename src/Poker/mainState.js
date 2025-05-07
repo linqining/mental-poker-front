@@ -302,12 +302,11 @@ MainState.prototype = {
 
         this.cardPosRate = [{x:0.344, y:0.456}, {x:0.422, y:0.456}, {x:0.5, y:0.456}, {x:0.578, y:0.456}, {x:0.656, y:0.456}];
         this.cardSizeRate = {width:0.064, height:0.156};
-        for (var i = 0; i < this.cardPosRate.length; i++)
-        {
+        for (var i = 0; i < this.cardPosRate.length; i++) {
             var dict = this.cardPosRate[i];
             var imageCard = game.add.image(dict.x * gameWidth + this.xOffset, dict.y * gameHeight + this.yOffset, "cardBK");
             imageCard.setOrigin(0.5);
-            imageCard.setScale(this.scale, this.scale);
+            imageCard.setScale(0.3, 0.3);
             imageCard.visible = false;
             this.publicCards.push(imageCard);
         }
@@ -1391,11 +1390,11 @@ MainState.prototype = {
                         winUser.setWinCard(winOccupantItem.cards[0], winOccupantItem.cards[1]);
 
 
-                        if(winOccupantItem.id != this.userID) {
-                            this._playSound(this.soundLost);
-                        } else {
-                            this._playSound(this.soundWin);
-                        }
+                        // if(winOccupantItem.id != this.userID) {
+                        //     this._playSound(this.soundLost);
+                        // } else {
+                        //     this._playSound(this.soundWin);
+                        // }
 
                         var hand = winOccupantItem.hand;
                         if(hand != undefined && hand != null) {
@@ -1487,8 +1486,7 @@ MainState.prototype = {
         //计算座位偏移量，以自己为5号桌计算
         var isSendCard = true;
         var playerOffset = 0;
-        for(var i = 0; i < occupants.length; i++)
-        {
+        for(var i = 0; i < occupants.length; i++) {
             var userInfo = occupants[i];
             if(userInfo && userInfo.id == this.userID)
             {
@@ -1561,11 +1559,11 @@ MainState.prototype = {
 
 
     _loadSelfCard:function(arrayCards) {
-        for(var i = 0; i < this.selfCards.length; i++)
-        {
+        for(var i = 0; i < this.selfCards.length; i++) {
             var card = this.selfCards[i];
-            card.setVisible(false);
-            card.setFrame(card.frame);
+            card.visible = false;
+            let frame = this.game.textures.get(arrayCards[i]);
+            card.setTexture(frame);
         }
     },
 
@@ -1782,7 +1780,7 @@ MainState.prototype = {
             lstCardImage.push(publicCards[i]);
         }
         var that = this;
-        this.animation.showPublicCard(deskCardIDs, lstCardImage, true, function(){
+        this.animation.showPublicCard(this.game,deskCardIDs, lstCardImage, true, function(){
             that._playSound(that.soundSendCard);
         });
     },
@@ -1793,7 +1791,7 @@ MainState.prototype = {
         var deskCardIDs = [3]
         var lstCardImage = [card]
         this.animation.publicCards[deskCardIDs].visible = true;
-        this.animation.showPublicCard(deskCardIDs, lstCardImage, false);
+        this.animation.showPublicCard(this.game,deskCardIDs, lstCardImage, false);
         this._playSound(this.soundSendCard);
     },
 
@@ -1803,7 +1801,7 @@ MainState.prototype = {
         var deskCardIDs = [4]
         var lstCardImage = [card]
         this.animation.publicCards[deskCardIDs].visible = true;
-        this.animation.showPublicCard(deskCardIDs, lstCardImage, false);
+        this.animation.showPublicCard(this.game,deskCardIDs, lstCardImage, false);
         this._playSound(this.soundSendCard);
     },
 
@@ -1973,9 +1971,10 @@ MainState.prototype = {
                 duration: 500,    // 持续时间（毫秒）
                 ease: 'Linear',    // 缓动函数（支持字符串或函数）
                 onComplete: () => {
-                    if(that.userID == usr.param.userID) {
-                        that.selfCards[0].visible = true;
-                        that.selfCards[1].visible = true;
+                    console.log("that userid",that.userID,"paramid",usr.param.userID);
+                    if(that.userID === usr.param.userID) {
+                        that.selfCards[0].setVisible(true);
+                        that.selfCards[1].setVisible(true);
                     } else {
                         usr.dcard.visible = true;
                     }

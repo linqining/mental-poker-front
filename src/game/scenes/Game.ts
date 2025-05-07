@@ -18,7 +18,7 @@ export class Game extends Scene
     preload(){
         const gImageDir = 'src/Poker/assets/2x/';
         this.load.image('gamecenterbackground', gImageDir+'background.png')
-        this.load.image('playerBK', gImageDir+'player-me.png')
+        this.load.image('playerBK', 'src/assets/Desktop/player_frame.png')
         this.load.image('userBK', gImageDir+'player-guest.png')
         this.load.image('blankBK', gImageDir+'player-blank.png')
         this.load.image('winBK', gImageDir+'win-frame-bg.png')
@@ -47,7 +47,7 @@ export class Game extends Scene
 
         this.load.image("cardBK", 'src/assets/cards/CardBack.png')
         this.load.image("chipPool", gImageDir+'chip-pool.png')
-        this.load.image("chip01", gImageDir+'texas_chip01.png')
+        this.load.image("chip01", 'src/assets/Desktop/chips.png')
         this.load.image("chip05", gImageDir+'texas_chip05.png')
         this.load.image("chip1k", gImageDir+'texas_chip1k.png')
         this.load.image("chip5k", gImageDir+'texas_chip5k.png')
@@ -72,7 +72,7 @@ export class Game extends Scene
         this.load.image("buttonrules", gImageDir+'btn-rules.png')
 
         const soundDir = "src/Poker/assets/sound/"
-        this.load.audio('sendcard', soundDir+'sendcard.mp3')
+        this.load.audio('sendcard', 'src/assets/audio/desk_new_card.wav')
         this.load.audio('click', soundDir+'click.mp3')
         this.load.audio('chipsmoving',soundDir+ 'chipsmoving.mp3')
         this.load.audio('reordercard', soundDir+'reordercard.mp3')
@@ -97,9 +97,6 @@ export class Game extends Scene
 
         this.gameState = new MainState(this);
         this.gameState.create(this,betApi)
-
-
-
 
         const exitGame = this.add.image(84, 42, 'exit_game');
         exitGame.setScale(0.7);
@@ -133,123 +130,6 @@ export class Game extends Scene
         // game.betApi.checkVersion(this.strVersion, function(isOK){
         //     console.log("checkVersion " + isOK);
         // });
-    }
-    callbackClose (data) {
-        console.log("callbackClose " + JSON.stringify(data));
-        // this.loginCertification = false;
-        //
-        // this._disconnectReset();
-    }
-    callbackMessage(data) {
-        console.log("callbackMessage " + JSON.stringify(data));
-        // if(data.version && data.version == this.strVersion) // checkVersion result
-        // {
-        //     var authToken = gParam.user_name;
-        //
-        //     if (this.appToken != undefined ) {
-        //         authToken = this.appToken
-        //     };
-        //
-        //     game.betApi.loginCertification(authToken, function(isOK){
-        //         console.log("loginCertification is " +  isOK);
-        //         //alert("loginCertification is" +  isOK);
-        //     });
-        // }
-        // else if(!this.loginCertification) // loginCertification result
-        // {
-        //     if(data.id)
-        //     {
-        //         this.userID = data.id;
-        //         this.userName = data.name;
-        //         game.betApi.setUserID(this.userID);
-        //         this.loginCertification = true;
-        //
-        //         this._currentPlayButtonUpdate(false)
-        //         console.log("gParam:", JSON.stringify(gParam))
-        //
-        //         if(gParam.joinroom != undefined && gParam.joinroom != null) {
-        //             this.roomID = gParam.joinroom
-        //             console.log("enter room:", this.rootID);
-        //             game.betApi.enterRoom(function(isOK){
-        //                 console.log("enterRoom is " +  isOK);
-        //             }, this.roomID);
-        //
-        //         } else {
-        //             console.log("enter random room:");
-        //             game.betApi.enterRoom(function(isOK){
-        //                 console.log("enterRoom is " +  isOK);
-        //             }, null);
-        //         }
-        //     }
-        // }
-        // else if(data.type == "iq")
-        // {
-        //     if(data.class == "room")       //查询游戏房间列表
-        //     {
-        //         this.handleCreateRoom(data);
-        //     }
-        // }
-        // else if(data.type == "message")
-        // {
-        // }
-        // else if(data.type == "presence")
-        // {
-        //     if(data.action == "active")         //服务器广播进入房间的玩家
-        //     {
-        //     }
-        //     else if(data.action == "gone")      //服务器广播离开房间的玩家
-        //     {
-        //         this.handleGone(data)
-        //     }
-        //     else if(data.action == "join")      //服务器通报加入游戏的玩家
-        //     {
-        //         this.handleJoin(data);
-        //     }
-        //     else if(data.action == "button")    //服务器通报本局庄家
-        //     {
-        //         this.handleButton(data);
-        //     }
-        //     else if(data.action == "preflop")   //服务器通报发牌
-        //     {
-        //         this.handlePreflop(data);
-        //     }
-        //     else if(data.action == "flop")   //发牌
-        //     {
-        //         this.handleFlop(data);
-        //     }
-        //     else if(data.action == "turn")   //发牌
-        //     {
-        //         this.handleTurn(data);
-        //     }
-        //     else if(data.action == "river")   //发牌
-        //     {
-        //         this.handleRiver(data);
-        //     }
-        //     else if(data.action == "pot")       //服务器通报奖池
-        //     {
-        //         this.handlePot(data)
-        //     }
-        //     else if(data.action == "action")    //服务器通报当前下注玩家
-        //     {
-        //         this.handleAction(data);
-        //
-        //     }
-        //     else if(data.action == "bet")       //服务器通报玩家下注结果
-        //     {
-        //         this.handleBet(data);
-        //     }
-        //     else if(data.action == "showdown")  //服务器通报摊牌和比牌
-        //     {
-        //         this.handleShowDown(data);
-        //     }
-        //     else if(data.action == "state")  //服务器通报房间信息
-        //     {
-        //         this.handleState(data);
-        //     }
-        // }
-    }
-    callbackError(data) {
-        console.log("callbackError" + JSON.stringify(data));
     }
 }
 
