@@ -425,9 +425,9 @@ MainState.prototype = {
         this.chipboxGroup.add(this.chipboxTextSlider);
         this.chipboxGroup.visible = false;
 
-        var buttonPosRate1 = {x:0.167, y:0.881};
-        var buttonPosRate2 = {x:0.394, y:0.881};
-        var buttonPosRate3 = {x:0.62, y:0.881};
+        var buttonPosRate1 = {x:0.468, y:0.881};
+        var buttonPosRate2 = {x:0.594, y:0.881};
+        var buttonPosRate3 = {x:0.72, y:0.881};
         var buttonSizeRate = {width:0.213, height:0.119};
 
 
@@ -446,17 +446,17 @@ MainState.prototype = {
         this.button2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.actionOnClick2.bind(this));
         this.button3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.actionOnClick3.bind(this));
 
-        this.button1.setScale(this.scale, this.scale);
-        this.button2.setScale(this.scale, this.scale);
-        this.button3.setScale(this.scale, this.scale);
+        // this.button1.setScale(this.scale, this.scale);
+        // this.button2.setScale(this.scale, this.scale);
+        // this.button3.setScale(this.scale, this.scale);
 
-        this.waitbutton1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick1.bind(this));
-        this.waitbutton2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick2.bind(this));
-        this.waitbutton3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick3.bind(this));
+        this.waitbutton1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'fold_btn').setInteractive().on('pointerdown', this.waitOnClick1.bind(this));
+        this.waitbutton2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.waitOnClick2.bind(this));
+        this.waitbutton3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.waitOnClick3.bind(this));
 
-        this.waitbutton1.setScale(this.scale, this.scale);
-        this.waitbutton2.setScale(this.scale, this.scale);
-        this.waitbutton3.setScale(this.scale, this.scale);
+        // this.waitbutton1.setScale(this.scale, this.scale);
+        // this.waitbutton2.setScale(this.scale, this.scale);
+        // this.waitbutton3.setScale(this.scale, this.scale);
 
         this.buttonGroup1 = game.add.group();
         this.buttonGroup2 = game.add.group();
@@ -468,49 +468,49 @@ MainState.prototype = {
         this._setWaitButtonsVisible(false)
 
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button1.width, align: "center" };
-        this.lbLookorGiveup = game.add.text(buttonPosRate1.x * gameWidth + this.xOffset + 0.5 * this.button1.width, buttonPosRate1.y * gameHeight + this.yOffset + 0.51 * this.button1.height, "弃牌", style);
+        this.lbLookorGiveup = game.add.text(buttonPosRate1.x * gameWidth + this.xOffset , buttonPosRate1.y * gameHeight + this.yOffset , "弃牌", style);
         this.lbLookorGiveup.setOrigin(0.5);
         this.lbLookorGiveup.setScale(this.scale, this.scale);
         this.buttonGroup1.add(this.button1);
         this.buttonGroup1.add(this.lbLookorGiveup);
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button2.width, align: "center" };
-        this.lbCall = game.add.text(buttonPosRate2.x * gameWidth + this.xOffset + 0.32 * this.button2.width, buttonPosRate2.y * gameHeight + this.yOffset + 0.51 * this.button2.height, "跟注", style);
-        this.lbCall.setOrigin(0, 0.5);
+        this.lbCall = game.add.text(buttonPosRate2.x * gameWidth + this.xOffset , buttonPosRate2.y * gameHeight + this.yOffset , "跟注", style);
+        this.lbCall.setOrigin(0.5);
         this.lbCall.setScale(this.scale, this.scale);
         this.buttonGroup2.add(this.button2);
         this.buttonGroup2.add(this.lbCall);
         style = { font: _fontString(28), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: this.button3.width, align: "center" };
-        this.lbCallEvery = game.add.text(buttonPosRate3.x * gameWidth + this.xOffset + 0.5 * this.waitbutton3.width, buttonPosRate3.y * gameHeight + this.yOffset + 0.51 * this.waitbutton3.height, "加注", style);
+        this.lbCallEvery = game.add.text(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset , "加注", style);
         this.lbCallEvery.setOrigin(0.5);
         this.lbCallEvery.setScale(this.scale, this.scale);
         this.buttonGroup3.add(this.button3);
         this.buttonGroup3.add(this.lbCallEvery);
 
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton1.width, align: "left" };
-        this.lbLookorGiveupWait = game.add.text(buttonPosRate1.x * gameWidth + this.xOffset + 0.35 * this.waitbutton1.width, buttonPosRate1.y * gameHeight + this.yOffset + 0.51 * this.waitbutton1.height, "看牌或弃牌", style);
+        this.lbLookorGiveupWait = game.add.text(buttonPosRate1.x * gameWidth + this.xOffset , buttonPosRate1.y * gameHeight + this.yOffset , "看牌或弃牌", style);
         this.lbLookorGiveupWait.setOrigin(0, 0.5);
         this.lbLookorGiveupWait.setScale(this.scale, this.scale);
-        this.imgLookorGiveupWait = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset + 0.2 * this.waitbutton1.width, buttonPosRate1.y * gameHeight + this.yOffset + 0.51 * this.waitbutton1.height, "checkOff");
+        this.imgLookorGiveupWait = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, "checkOff");
         this.imgLookorGiveupWait.setOrigin(0.5);
         this.imgLookorGiveupWait.setScale(this.scale, this.scale);
         this.waitButtonGroup1.add(this.waitbutton1);
         this.waitButtonGroup1.add(this.lbLookorGiveupWait);
         this.waitButtonGroup1.add(this.imgLookorGiveupWait);
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton2.width, align: "left" };
-        this.lbCallWait = game.add.text(buttonPosRate2.x * gameWidth + this.xOffset + 0.35 * this.waitbutton2.width, buttonPosRate2.y * gameHeight + this.yOffset + 0.51 * this.waitbutton2.height, "跟注", style);
+        this.lbCallWait = game.add.text(buttonPosRate2.x * gameWidth + this.xOffset  , buttonPosRate2.y * gameHeight + this.yOffset , "跟注", style);
         this.lbCallWait.setOrigin(0, 0.5);
         this.lbCallWait.setScale(this.scale, this.scale);
-        this.imgCallWait = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset + 0.2 * this.waitbutton2.width, buttonPosRate2.y * gameHeight + this.yOffset + 0.51 * this.waitbutton2.height, "checkOff");
+        this.imgCallWait = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset , buttonPosRate2.y * gameHeight + this.yOffset , "checkOff");
         this.imgCallWait.setOrigin(0.5);
         this.imgCallWait.setScale(this.scale, this.scale);
         this.waitButtonGroup2.add(this.waitbutton2);
         this.waitButtonGroup2.add(this.lbCallWait);
         this.waitButtonGroup2.add(this.imgCallWait);
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton3.width, align: "left" };
-        this.lbCallEveryWait = game.add.text(buttonPosRate3.x * gameWidth + this.xOffset + 0.35 * this.waitbutton3.width, buttonPosRate3.y * gameHeight + this.yOffset + 0.51 * this.waitbutton3.height, "跟任何注", style);
-        this.lbCallEveryWait.setOrigin(0, 0.5);
+        this.lbCallEveryWait = game.add.text(buttonPosRate3.x * gameWidth + this.xOffset , buttonPosRate3.y * gameHeight + this.yOffset , "跟任何注", style);
+        this.lbCallEveryWait.setOrigin(0.5);
         this.lbCallEveryWait.setScale(this.scale, this.scale);
-        this.imgCallEveryWait = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset + 0.2 * this.waitbutton3.width, buttonPosRate3.y * gameHeight + this.yOffset + 0.51 * this.waitbutton3.height, "checkOff");
+        this.imgCallEveryWait = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset , buttonPosRate3.y * gameHeight + this.yOffset, "checkOff");
         this.imgCallEveryWait.setOrigin(0.5);
         this.imgCallEveryWait.setScale(this.scale, this.scale);
         this.waitButtonGroup3.add(this.waitbutton3);
@@ -1979,14 +1979,14 @@ MainState.prototype = {
                     } else {
                         usr.dcard.visible = true;
                     }
-                    //user.dcard.visible = true;
+                    // usr.dcard.visible = true;
                     dcard.destroy();
                     if(currentIndex < userList.length ) {
                         sendCard();
                     }
 
                     if(usr.imagebody.visible == false) {
-                        usr.dcard.setVisible(true);
+                        usr.dcard.visible =true;
                     }
                 }
             });

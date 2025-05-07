@@ -149,7 +149,7 @@ User.prototype = {
 		this.waitingLine.setOrigin(0.5);
 		this.waitingLine.setScale(this.scale, this.scale);
 		this.waitingLine.setVisible(false);
-		// this.mask = game.add.graphics(0, 0);
+		this.mask = game.add.graphics(0, 0);
 
 		this.groupUser = game.add.group();
 		this.groupUser.add(this.containerplayer);
@@ -165,6 +165,7 @@ User.prototype = {
 			this.groupUser.add(this.imageCoin[i]);
 		}
 		this.groupUser.add(this.textCoin);
+		this.groupUser.setVisible(false)
 	},
 
 
