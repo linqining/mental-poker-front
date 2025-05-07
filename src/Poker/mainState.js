@@ -185,6 +185,8 @@ var MainState = function(game) {
 
     this.game;
     this.betApi;
+    this.createDone = false;
+    this.initRoomDone = false
 }
 
 var gImageDir = "src/assets/2x"
@@ -232,12 +234,12 @@ MainState.prototype = {
         this.scale = xScale < yScale ? xScale : yScale;
         this.scale = 0.6;
         this.xOffset = (gameWidth - this.imageBK.width * this.scale) / 2;
-        console.log("xoffset",this.xOffset,gameWidth,gameWidth)
+        // console.log("xoffset",this.xOffset,gameWidth,gameWidth)
         this.xOffset = 0
 
 
         this.yOffset = (gameHeight - this.imageBK.height * this.scale) / 2;
-        console.log("yoffset",this.yOffset,gameHeight,this.imageBK.height)
+        // console.log("yoffset",this.yOffset,gameHeight,this.imageBK.height)
         this.yOffset = 0
 
 
@@ -306,19 +308,19 @@ MainState.prototype = {
             var dict = this.cardPosRate[i];
             var imageCard = game.add.image(dict.x * gameWidth + this.xOffset, dict.y * gameHeight + this.yOffset, "cardBK");
             imageCard.setOrigin(0.5);
-            imageCard.setScale(0.3, 0.3);
-            imageCard.visible = false;
+            imageCard.setScale(0.9, 0.9);
+            imageCard.setVisible(false);
             this.publicCards.push(imageCard);
         }
         this.animation.setPublicCard(this.publicCards);
 
         var preflopBKRate = [{x:0.722, y:0.203}, {x:0.889, y:0.241}, {x:0.945, y:0.594}, {x:0.787, y:0.788}, {x:0.167, y:0.788}, {x:0.011, y:0.594}, {x:0.071, y:0.241}, {x:0.236, y:0.203}];
-        for (var i = 0; i < preflopBKRate.length; i++)
-        {
+        for (var i = 0; i < preflopBKRate.length; i++) {
             var dict = preflopBKRate[i];
             var imageCard = game.add.image(dict.x * gameWidth + this.xOffset, dict.y * gameHeight + this.yOffset, "dcardBK");
-            imageCard.setScale(this.scale, this.scale);
-            imageCard.visible = false;
+            imageCard.setOrigin(0.5);
+            imageCard.setScale(0.4, 0.4);
+            imageCard.setVisible(false);
             this.praviteCards.push(imageCard);
 
             if (i < 4) {
@@ -330,16 +332,14 @@ MainState.prototype = {
 
         var selfCardRate = {x:0.57, y:0.79};
         var imageCard1 = game.add.image(selfCardRate.x * gameWidth + this.xOffset, selfCardRate.y * gameHeight + this.yOffset, "cardBK");
-        imageCard1.setScale(this.scale * 0.75, this.scale * 0.75);
-        // imageCard1.anchor = new PIXI.Point(0.5, 0.5);
+        imageCard1.setScale(0.7,0.7);
 
-        imageCard1.angle = -20;
+        imageCard1.angle = -10;
         imageCard1.visible = false;
         this.selfCards.push(imageCard1);
         var imageCard2 = game.add.image(selfCardRate.x * gameWidth + imageCard1.width / 2 + this.xOffset, selfCardRate.y * gameHeight + this.yOffset, "cardBK");
-        imageCard2.setScale(this.scale * 0.75, this.scale * 0.75);
-        // imageCard2.anchor = new PIXI.Point(0.5, 0.5);
-        imageCard2.angle = 20;
+        imageCard2.setScale(0.7, 0.7);
+        imageCard2.angle = 10;
         imageCard2.visible = false;
         this.selfCards.push(imageCard2);
 
@@ -355,60 +355,51 @@ MainState.prototype = {
 
         this.chipboxButton1 = game.add.image(0,0, "buttonblue");
         this.chipboxButton1.setInteractive();
-        this.chipboxButton1.on('pointerdown', () => {
-            this.chipOnClick1();
-        });
+        this.chipboxButton1.on('pointerdown', this.chipOnClick1.bind(this));
 
         this.chipboxButton2 = game.add.image(0,0, "buttonyellow");
         this.chipboxButton2.setInteractive();
-        this.chipboxButton2.on('pointerdown', () => {
-            this.chipOnClick2();
-        });
+        this.chipboxButton2.on('pointerdown', this.chipOnClick2.bind(this));
 
         this.chipboxButton3 = game.add.image(0,0, "buttonyellow");
         this.chipboxButton3.setInteractive();
-        this.chipboxButton3.on('pointerdown', () => {
-            this.chipOnClick3();
-        });
+        this.chipboxButton3.on('pointerdown', this.chipOnClick3.bind(this));
 
         this.chipboxButton4 = game.add.image(0,0, "buttonyellow");
         this.chipboxButton4.setInteractive();
-        this.chipboxButton4.on('pointerdown', () => {
-            this.chipOnClick4();
-        });
+        this.chipboxButton4.on('pointerdown', this.chipOnClick4.bind(this));
 
 
-        this.chipboxButton1.setScale(this.scale, this.scale);
-        this.chipboxButton2.setScale(this.scale, this.scale);
-        this.chipboxButton3.setScale(this.scale, this.scale);
-        this.chipboxButton4.setScale(this.scale, this.scale);
+        this.chipboxButton1.setScale(0.5);
+        this.chipboxButton2.setScale(0.5);
+        this.chipboxButton3.setScale(0.5);
+        this.chipboxButton4.setScale(0.5);
 
-        var style = { font: _fontString(28), fill: "#FFFFFF"};
+        var style = { font: _fontString(35), fill: "#FFFFFF"};
         this.chipboxText1 = game.add.text(0, 0, "全部", style);
         style = { font: _fontString(28), fill: "#FFFFFF"};
         this.chipboxText2 = game.add.text(0, 0, "120", style);
         this.chipboxText3 = game.add.text(0, 0, "80", style);
         this.chipboxText4 = game.add.text(0, 0, "50", style);
-        this.chipboxText1.setOrigin(0.5);
-        this.chipboxText2.setOrigin(0.5);
-        this.chipboxText3.setOrigin(0.5);
-        this.chipboxText4.setOrigin(0.5);
-        this.chipboxText1.setScale(this.scale, this.scale);
-        this.chipboxText2.setScale(this.scale, this.scale);
-        this.chipboxText3.setScale(this.scale, this.scale);
-        this.chipboxText4.setScale(this.scale, this.scale);
-        //this.chipboxSliderGroove = game.add.sprite(0, 0, "groove");
-        //this.chipboxSliderHandle = game.add.sprite(0, 0, "buttonblu;
+        this.chipboxText1.setOrigin(0);
+        this.chipboxText2.setOrigin(0);
+        this.chipboxText3.setOrigin(0);
+        this.chipboxText4.setOrigin(0);
+        this.chipboxText1.setScale(1);
+        this.chipboxText2.setScale(1);
+        this.chipboxText3.setScale(1);
+        this.chipboxText4.setScale(1);
+
         this.chipboxSliderGroove = game.add.sprite(0, 0, "slidebar");
         this.chipboxSliderHandle = game.add.sprite(0, 0, "btnslider");
-        this.chipboxSliderGroove.setScale(this.scale, this.scale);
-        this.chipboxSliderHandle.setScale(this.scale, this.scale);
+        this.chipboxSliderGroove.setScale(1, 1);
+        this.chipboxSliderHandle.setScale(1, 1);
         this.chipboxSliderGroove.setOrigin(0.5);
         this.chipboxSliderHandle.setOrigin(0.5);
         style = { font: _fontString(32), fill: "#CE8D00"};
         this.chipboxTextSlider = game.add.text(0, 0, "0", style);
         this.chipboxTextSlider.setOrigin(0.5);
-        this.chipboxTextSlider.setScale(this.scale, this.scale);
+        this.chipboxTextSlider.setScale(1);
         this.chipboxGroup = game.add.group();
         this.chipboxGroup.add(this.chipbox);
         this.chipboxGroup.add(this.chipboxButton1);
@@ -445,17 +436,13 @@ MainState.prototype = {
         this.button2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.actionOnClick2.bind(this));
         this.button3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.actionOnClick3.bind(this));
 
-        // this.button1.setScale(this.scale, this.scale);
-        // this.button2.setScale(this.scale, this.scale);
-        // this.button3.setScale(this.scale, this.scale);
+
 
         this.waitbutton1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'fold_btn').setInteractive().on('pointerdown', this.waitOnClick1.bind(this));
         this.waitbutton2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.waitOnClick2.bind(this));
         this.waitbutton3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'call_btn').setInteractive().on('pointerdown', this.waitOnClick3.bind(this));
 
-        // this.waitbutton1.setScale(this.scale, this.scale);
-        // this.waitbutton2.setScale(this.scale, this.scale);
-        // this.waitbutton3.setScale(this.scale, this.scale);
+
 
         this.buttonGroup1 = game.add.group();
         this.buttonGroup2 = game.add.group();
@@ -512,6 +499,7 @@ MainState.prototype = {
         this.imgCallEveryWait = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset , buttonPosRate3.y * gameHeight + this.yOffset, "checkOff");
         this.imgCallEveryWait.setOrigin(0.5);
         this.imgCallEveryWait.setScale(this.scale, this.scale);
+
         this.waitButtonGroup3.add(this.waitbutton3);
         this.waitButtonGroup3.add(this.lbCallEveryWait);
         this.waitButtonGroup3.add(this.imgCallEveryWait);
@@ -584,8 +572,7 @@ MainState.prototype = {
         this.starGroup.enableBody = true;
 
         var coinCount = 9;
-        for (var i = 0; i < coinCount; i++)
-        {
+        for (var i = 0; i < coinCount; i++) {
             var star = this.starGroup.create((i + 0.5) * gameWidth / coinCount + this.xOffset, 0, 'animeCoins');
             star.visible = false;
             // star.body.velocity.y = 0;
@@ -620,6 +607,7 @@ MainState.prototype = {
             console.log("card_typebg clicked");
             that.actionCardTypeToggle();
         })
+        this.createDone = true
     },
 
     actionCardTypeToggle:function() {
@@ -794,8 +782,6 @@ MainState.prototype = {
         
         console.log("game quit ============");
 
-
-        
     },
 
     // 跟注
@@ -840,8 +826,7 @@ MainState.prototype = {
     actionOnClick3:function()
     {
 
-        if(this.chipboxGroup.visible)
-        {
+        if(this.chipboxGroup.visible) {
             var text = this.chipboxTextSlider.text
             var betValue = parseInt(text)
             this._raseAction(betValue)
@@ -926,11 +911,15 @@ MainState.prototype = {
         this._disconnectReset();
     },
 
-    callbackMessage:function(data)
-    {
-        console.log("callbackMessage " + JSON.stringify(data));
-        if(data.version && data.version == this.strVersion) // checkVersion result
-        {
+    callbackMessage:function(data) {
+        if (!this.createDone){
+            return
+        }
+        if (this.loginCertification && !this.initRoomDone && !(data.action == "state" && data.type=="presence")){
+            return
+        }
+        // console.log("callbackMessage " + JSON.stringify(data));
+        if(data.version && data.version == this.strVersion) {
             var authToken = gParam.user_name;
 
             if (this.appToken != undefined ) {
@@ -944,8 +933,7 @@ MainState.prototype = {
         }
         else if(!this.loginCertification) // loginCertification result
         {
-            if(data.id)
-            {
+            if(data.id) {
                 this.userID = data.id;
                 this.userName = data.name;
                 this.betApi.setUserID(this.userID);
@@ -1030,9 +1018,9 @@ MainState.prototype = {
             {
                 this.handleShowDown(data);
             }
-            else if(data.action == "state")  //服务器通报房间信息
-            {
+            else if(data.action == "state")  {//服务器通报房间信息
                 this.handleState(data);
+                this.initRoomDone = true;
             }
         }
     },
@@ -1329,7 +1317,7 @@ MainState.prototype = {
 
     handleShowDown:function(data)
     {
-        console.log("showdown:",data);
+        // console.log("showdown:",data);
 
         if(this.userProgressObj != undefined) {
             this.userProgressObj.stop();
@@ -1377,6 +1365,7 @@ MainState.prototype = {
 
         var winOccupantItem = playerList[maxHandIndex]
 
+
         if (winOccupantItem != undefined && winOccupantItem != null) {
                  var winUser = this._userByUserID(winOccupantItem.id)
                  if(winOccupantItem.chips > 0 && winOccupantItem.id == this.userID) {
@@ -1384,11 +1373,13 @@ MainState.prototype = {
                  }
 
                  winUser.setChips(this.chips);
+                 // console.log("winner is ",winUser)
 
                 if (winOccupantItem.action != "fold") {
                     if(winOccupantItem.cards != null && winOccupantItem.cards != undefined) {
                         winUser.setWinCard(winOccupantItem.cards[0], winOccupantItem.cards[1]);
 
+                        // console.log("winner card  is ",winOccupantItem.cards)
 
                         // if(winOccupantItem.id != this.userID) {
                         //     this._playSound(this.soundLost);
@@ -1397,12 +1388,15 @@ MainState.prototype = {
                         // }
 
                         var hand = winOccupantItem.hand;
+                        // console.log("winner card  is ",winOccupantItem.cards,"hand",hand);
+
                         if(hand != undefined && hand != null) {
                             var type = (hand >>> 16)
                             if(type > 10) {
                                 type = 0
                             }
-                            if(winOccupantItem.id != this.userID) {
+                            if(winOccupantItem.id !== this.userID) {
+                                // console.log("win card type is ",type)
                                 winUser.setUserTitle(this.CONST.CardTypeNames[type])
                             }
                         }
@@ -1417,19 +1411,14 @@ MainState.prototype = {
                 this._playSound(this.chipsmoving)
                 this.animation.showChipMove(this.game,this.chipPoolCoins[i], point.x, point.y, 500)
             }
-            
-
-            
         }
-
-
         for (var i = this.userList.length - 1; i >= 0; i--) {
             this.userList[i].setUseCoin("");
         };
     },
 
-    handleState:function(data)
-    {
+    handleState:function(data) {
+        console.log("handle state",JSON.stringify(data));
         var roomInfo = data.room;
         var playerList = roomInfo.occupants;
 
@@ -1453,8 +1442,7 @@ MainState.prototype = {
             this.publicCards[i].visible = true;
             this.publicCards[i].load.image(publicCards[i], this.publicCards[i].frame);
         }
-        for(var i = publicCards.length; i < this.publicCards.length; i++)
-        {
+        for(var i = publicCards.length; i < this.publicCards.length; i++) {
             if (this.publicCards[i].visible) {
                 this.publicCards[i].visible = false;
                 this.publicCards[i].load.image("cardBK", this.publicCards[i].frame);
@@ -1480,7 +1468,6 @@ MainState.prototype = {
         for (var i = 0; i < this.userList.length; i++)
         {
             var user = this.userList[i];
-            //user.setParam(null, "defaultUserImage", "");
             user.setParam(null, null, "");
         }
         //计算座位偏移量，以自己为5号桌计算
@@ -1534,28 +1521,6 @@ MainState.prototype = {
 
         }
     },
-
-
-    // ulitiy function
-/*
-    _betTypeByBet:function(bet) {
-        var betType = 0
-        if(bet < 0) {
-            betType = this.CONST.BetType_Fold
-        } else if(bet == 0) {
-            betType = this.CONST.BetType_Check
-        } else if(bet == this.gameStateObj.bet) {
-            betType = this.CONST.BetType_Call
-        } else if(bet > this.gameStateObj.bet) {
-            betType = this.CONST.BetType_Raise
-        } else if(bet == this.gameStateObj.chips) {
-            betType = this.CONST.BetType_ALL
-        } else {
-            console.log("error bet value :", bet);
-        }
-        return betType
-    },
-    */
 
 
     _loadSelfCard:function(arrayCards) {
@@ -1612,7 +1577,7 @@ MainState.prototype = {
 
 
     _currentPlayButtonUpdate:function(isCurrentPlayer) {
-        this._setWaitButtonsVisible(!isCurrentPlayer)
+        // this._setWaitButtonsVisible(!isCurrentPlayer)
         this._setBetButtonsVisible(isCurrentPlayer);
     },
 
@@ -1953,7 +1918,7 @@ MainState.prototype = {
                 return
             }
             var dcard = game.add.sprite(sendPoint.x, sendPoint.y, "dcardBK");
-            dcard.setScale(that.scale, that.scale);
+            dcard.setScale(0.5, 0.5);
 
             var x ;
             var y ;
@@ -1971,7 +1936,6 @@ MainState.prototype = {
                 duration: 500,    // 持续时间（毫秒）
                 ease: 'Linear',    // 缓动函数（支持字符串或函数）
                 onComplete: () => {
-                    console.log("that userid",that.userID,"paramid",usr.param.userID);
                     if(that.userID === usr.param.userID) {
                         that.selfCards[0].setVisible(true);
                         that.selfCards[1].setVisible(true);

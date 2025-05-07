@@ -107,10 +107,10 @@ export class Game extends Scene
 
         betApi.connectWithCallback(userAccount.address,function (openCBData){
                 betApi.loginCertification(userAccount.address, function (authData){
-                    // 登录成功
-                    betApi.enterRoom(function(data){
-                        console.log("enterRoom", JSON.stringify(data))
-                    },roomID)
+                    // // 登录成功
+                    // betApi.enterRoom(function(data){
+                    //     console.log("enterRoom", JSON.stringify(data))
+                    // },roomID)
                 })
             },  this.gameState.callbackClose.bind(this.gameState),
             this.gameState.callbackMessage.bind(this.gameState),  this.gameState.callbackError.bind(this.gameState))

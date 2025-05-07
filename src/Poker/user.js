@@ -62,7 +62,9 @@ User.prototype = {
 		this.containeruser = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "userBK");
 
 		this.containerblank = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "blankBK");
+
 		this.containerwin = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "winBK");
+
 		this.containerwinEffect = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "winBKFrame");
 		this.containerplayer.setOrigin(0.5,0.5);
 		this.containeruser.setOrigin(0.5,0.5);
@@ -248,15 +250,23 @@ User.prototype = {
 		}
 
 		this.param["userCoin"] = chip;
-		if(this.lbcoin){
-			this.lbcoin.setText(chip);
-			this.lbcoin.setStyle(this.userTitleStyle);
-		}
+		// if(this.lbcoin){
+		// 	this.lbcoin.setText(chip);
+		// 	this.lbcoin.setStyle(this.userTitleStyle);
+		// }
+		this.lbcoin.text = chip
+		this.lbcoin.fill = this.userTitleStyle.fill;
+		this.lbcoin.font = this.userTitleStyle.font;
+		this.lbcoin.wordWrap = this.userTitleStyle.wordWrap;
+		this.lbcoin.wordWrapWidth = this.userTitleStyle.wordWrapWidth;
+		this.lbcoin.align = this.userTitleStyle.align;
+
 	},
 
 	setUseCoin:function(usedCoin)
 	{
-		this.textCoin.setText(usedCoin);
+		this.textCoin.text = usedCoin
+		// this.textCoin.setText(usedCoin);
 		if(this.coinTextRect.left < this.coinRect.left)
 		{
 			// this.textCoin.x = this.coinRect.left - this.textCoin.width - this.coinRect.width * 0.9;
@@ -333,7 +343,6 @@ User.prototype = {
 	setDcard:function(dcard) {
 		this.dcard = dcard;
         dcard.visible = false
-		//dcard.visible = this.groupUser.visible
 	},
 
 	setIsPlayer:function(isPlayer) {
@@ -396,10 +405,12 @@ User.prototype = {
 	{
 		var that = this;
 		var animationTime = 500;
-		this.winGroup.visible = true;
+		this.winGroup.setVisible(true);
 		this.imagebody.visible = false;
-		this.winCards[0].setFrame(this.winCards[0].frame);
-		this.winCards[1].setFrame(this.winCards[1].frame);
+		this.winCards[0].setTexture(this.game.textures.get(key1));
+		// this.winCards[0].setVisible(true);
+		this.winCards[1].setTexture(this.game.textures.get(key2));
+		// this.winCards[1].setVisible(true);
 		this.winLightDot[0].y = this.containerwin.y + this.containerwin.height * 0.3;
 		this.winLightDot[1].y = this.containerwin.y - this.containerwin.height * 0.3;
 
@@ -413,7 +424,6 @@ User.prototype = {
 			y:this.containerwin.y - this.containerwin.height * 0.3,
 			duration: animationTime,    // 持续时间（毫秒）
 			ease: 'Linear',    // 缓动函数（支持字符串或函数）
-			// yoyo: true,        // 是否反向播放
 			onComplete: () => {
 				that.winLightDot[0].visible = false;
 			}
@@ -424,33 +434,25 @@ User.prototype = {
 			y:this.containerwin.y - this.containerwin.height * 0.3,
 			duration: animationTime,    // 持续时间（毫秒）
 			ease: 'Linear',    // 缓动函数（支持字符串或函数）
-			// yoyo: true,        // 是否反向播放
 			onComplete: () => {
 				that.winLightDot[1].setVisible(false);
+				this.winGroup.setVisible(false);
 			}
 		});
 
-		// var tween3 = this.game.tweens.add({
-		// 	targets: this.containerwinEffect.scale,   // 目标对象
-		// 	x: this.scale * 1.3,            // 目标属性值
-		// 	y: this.scale*1.3,//
-		// 	duration: animationTime,    // 持续时间（毫秒）
-		// 	ease: 'Linear',    // 缓动函数（支持字符串或函数）
-		// 	yoyo: true,        // 是否反向播放
-		// 	onComplete: () => { /* 动画完成回调 */ }
-		// });
-		//
-		// var tween4 = this.game.tweens.add({
-		// 	targets: this.containerwinEffect,   // 目标对象
-		// 	alpha: 0,
-		// 	duration: animationTime,    // 持续时间（毫秒）
-		// 	onComplete: () => { /* 动画完成回调 */ }
-		// });
 
-		// var style = { font: _fontString(20), fill: "#ffffff", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" };
-		// this.lbname.setStyle(style);
-		// this.lbcoin.setStyle(style);
+		this.lbname.fill = "#ffffff";
+		this.lbname.font = _fontString(20);
+		this.lbname.wordWrap = false
+		this.lbname.wordWrapWidth = this.rect.width;
+		this.lbname.align = "center";
 
+
+		this.lbcoin.fill = "#ffffff";
+		this.lbcoin.font = _fontString(20);
+		this.lbcoin.wordWrap = false
+		this.lbcoin.wordWrapWidth = this.rect.width;
+		this.lbcoin.align = "center";
 	},
 
 	reset:function()
