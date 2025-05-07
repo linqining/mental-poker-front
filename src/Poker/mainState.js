@@ -125,7 +125,7 @@ var MainState = function(game) {
     this.imgCallEveryWait;              //选择(全下,等待)
     this.blinds;                        //盲注控件
     this.publicCards;                   //公共牌（五张）
-    this.praviteCards;                  //底牌(别人的八张)
+    this.privateCards;                  //底牌(别人的八张)
     this.selfCards;                     //底牌(自己的两张)
     this.chipPoolBK;                    //筹码池背景
     this.chipPool;                      //筹码池
@@ -249,11 +249,11 @@ MainState.prototype = {
         this.sliderMaxNum = 100;
         this.userList = [];
        // this.userName = "cmdTest";
-        this.currentRoomID = "0";
+        this.currentRoomID = "1";
         this.bb = 0;
         this.sb = 0;
         this.publicCards = [];
-        this.praviteCards = [];
+        this.privateCards = [];
         this.selfCards = [];
         this.chipPoolCoins = [];
         this.waitSelected1 = false;
@@ -265,12 +265,12 @@ MainState.prototype = {
         this.userPosRate = [{x:0.692, y:0.252}, {x:0.856, y:0.307}, {x:0.914, y:0.54}, {x:0.754, y:0.734}, {x: 0.5, y:0.734}, {x:0.246, y:0.734}, {x:0.086, y:0.54}, {x:0.144, y:0.307}, {x:0.308, y:0.252}];
 
         this.userSizeRate = {width:0.076, height:0.152};
-        var userCoinRate = [{x:0.656, y:0.292}, {x:0.82, y:0.329}, {x:0.831, y:0.484}, {x:0.673, y:0.613}, {x:0.464, y:0.557}, {x:0.305, y:0.613}, {x:0.139, y:0.484}, {x:0.108, y:0.329}, {x:0.27, y:0.292}];
+        var userCoinRate = [{x:0.656, y:0.292}, {x:0.82, y:0.329}, {x:0.831, y:0.484}, {x:0.673, y:0.557}, {x:0.464, y:0.557}, {x:0.305, y:0.557}, {x:0.139, y:0.484}, {x:0.108, y:0.329}, {x:0.27, y:0.292}];
        
         var coinsize = 27
 
         var userCoinWidth = coinsize * 1;
-        var userTextRate = [{x:0.69, y:0.292}, {x:0.856, y:0.329}, {x:0.768, y:0.484}, {x:0.61, y:0.613}, {x:0.5, y:0.557}, {x:0.339, y:0.613}, {x:0.173, y:0.484}, {x:0.142, y:0.329}, {x:0.306, y:0.292}];
+        var userTextRate = [{x:0.69, y:0.292}, {x:0.856, y:0.329}, {x:0.768, y:0.484}, {x:0.61, y:0.557}, {x:0.5, y:0.557}, {x:0.339, y:0.557}, {x:0.173, y:0.484}, {x:0.142, y:0.329}, {x:0.306, y:0.292}];
 
         game.load.on('filecomplete',this._fileComplete,this);
 
@@ -297,10 +297,10 @@ MainState.prototype = {
                 user.create(game,"", null, "", false);
             }
             user.addUserToGroup(this.groupUser)
-            user.visible = false;
+            user.setVisible(false);
             this.userList.push(user);
         }
-        console.log("userlist",this.userList)
+        // console.log("userlist",this.userList)
 
         this.cardPosRate = [{x:0.344, y:0.456}, {x:0.422, y:0.456}, {x:0.5, y:0.456}, {x:0.578, y:0.456}, {x:0.656, y:0.456}];
         this.cardSizeRate = {width:0.064, height:0.156};
@@ -321,7 +321,8 @@ MainState.prototype = {
             imageCard.setOrigin(0.5);
             imageCard.setScale(0.4, 0.4);
             imageCard.setVisible(false);
-            this.praviteCards.push(imageCard);
+            imageCard.visible = false;
+            this.privateCards.push(imageCard);
 
             if (i < 4) {
                 this.userList[i].setDcard(imageCard)
@@ -421,14 +422,14 @@ MainState.prototype = {
         var buttonSizeRate = {width:0.213, height:0.119};
 
 
-        this.buttonrules = game.add.image(buttonPosRate1.x * gameWidth * 0.3 + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset,'buttonrules')
-        this.buttonrules.setInteractive()
-        var that = this;
-        this.buttonrules.on('pointerdown',function (){
-            that.actionOnRuleShow()
-        })
-
-        this.buttonrules.setScale(this.scale, this.scale);
+        // this.buttonrules = game.add.image(buttonPosRate1.x * gameWidth * 0.3 + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset,'buttonrules')
+        // this.buttonrules.setInteractive()
+        // var that = this;
+        // this.buttonrules.on('pointerdown',function (){
+        //     that.actionOnRuleShow()
+        // })
+        //
+        // this.buttonrules.setScale(this.scale, this.scale);
 
 
 
@@ -448,6 +449,7 @@ MainState.prototype = {
         this.buttonGroup2 = game.add.group();
         this.buttonGroup3 = game.add.group();
         this._setBetButtonsVisible(false)
+
         this.waitButtonGroup1 = game.add.group();
         this.waitButtonGroup2 = game.add.group();
         this.waitButtonGroup3 = game.add.group();
@@ -504,6 +506,8 @@ MainState.prototype = {
         this.waitButtonGroup3.add(this.lbCallEveryWait);
         this.waitButtonGroup3.add(this.imgCallEveryWait);
 
+        this._setWaitButtonsVisible(false);
+
         this.chipbox.x = this.button3.x + this.button3.width * 0.01;
         this.chipbox.y = this.button3.y - this.chipbox.height * 0.99;
 
@@ -551,18 +555,19 @@ MainState.prototype = {
         //this.chipboxSliderHandle.events.onDragStart.add(sliderDragStart, this);
         //this.chipboxSliderHandle.events.onDragStop.add(sliderDragStop, this);
 
-        style = { font: _fontString(16), fill: "#76FF68", wordWrap: true, wordWrapWidth: this.background.width, align: "center" };
-        this.blinds = game.add.text(this.background.width / 2 + this.xOffset, 0.28 * this.background.height + this.yOffset, "$" + this.sb + " / $" + this.bb, style);
-        this.blinds.setOrigin(0.5);
-        this.blinds.setScale(this.scale);
+        style = { font: _fontString(22), fill: "#ffffff", wordWrap: true, wordWrapWidth: this.background.width, align: "center" };
+        this.blinds = game.add.text(gameWidth *0.453 , 0.40 * gameHeight + this.yOffset, "$" + this.sb + " / $" + this.bb, style);
+        // this.blinds.setOrigin(0.5);
+        // this.blinds.setScale(this.scale);
 
-        this.chipPoolBK = game.add.image(0.451 * gameWidth + this.xOffset, 0.306 * gameHeight + this.yOffset, "chipPool");
-        this.chipPoolBK.setScale(this.scale, this.scale);
+        this.chipPoolBK = game.add.image(0.5 * gameWidth , 0.453 * gameHeight , "chipPool");
+        // this.chipPoolBK.setScale(this.scale, this.scale);
 
-        style = { font: _fontString(16), fill: "#FFFFFF", wordWrap: true, wordWrapWidth: this.chipPoolBK.width, align: "center" };
-        this.chipPool = game.add.text(this.chipPoolBK.x + this.chipPoolBK.width / 2, this.chipPoolBK.y + this.chipPoolBK.height / 2, "0", style);
-        this.chipPool.setOrigin(0.5);
-        this.chipPool.setScale(this.scale);
+        style = { font: _fontString(22), fill: "#FFFFFF", wordWrap: true, wordWrapWidth: 0, align: "center" };
+        this.chipPool = game.add.text(this.chipPoolBK.x , this.chipPoolBK.y-10 , "0", style);
+
+        // this.chipPool.setOrigin(0.5);
+        // this.chipPool.setScale(this.scale);
 
         //this.btnExitRoom = game.add.button(0.92 * gameWidth + this.xOffset, 0.02 * gameHeight + this.yOffset, 'exitdoor', this.actionOnExit, this);
         //this.btnExitRoom.width = this.chipboxButton1.width;
@@ -597,16 +602,17 @@ MainState.prototype = {
         //     });
         // }
 
-        this.card_typebg=game.add.sprite(0, 0, "card_typebg");
-        this.card_typebg.setOrigin(0);
-        this.card_typebg.setScale(this.scale, this.scale);
-        this.card_typebg.x = - this.card_typebg.width
-        this.card_typebg.inputEnabled = true;
-        var that = this
-        this.card_typebg.setInteractive().on('pointerdown',function () {
-            console.log("card_typebg clicked");
-            that.actionCardTypeToggle();
-        })
+        // this.card_typebg=game.add.sprite( "card_typebg");
+        // this.card_typebg.setOrigin(0);
+        // this.card_typebg.setScale(this.scale, this.scale);
+        // this.card_typebg.x = - this.card_typebg.width
+        // this.card_typebg.inputEnabled = true;
+        // var that = this
+        // this.card_typebg.setInteractive().on('pointerdown',function () {
+        //     console.log("card_typebg clicked");
+        //     that.actionCardTypeToggle();
+        // })
+
         this.createDone = true
     },
 
@@ -1116,7 +1122,7 @@ MainState.prototype = {
         }
         
         user.clean();
-        user.setVisable(false)
+        user.setVisible(false)
 
         var seatNum = user.param["seatNum"]
         if(this.gameStateObj.bankerPos == seatNum) {
@@ -1513,7 +1519,7 @@ MainState.prototype = {
             user.setParam(userInfo.name, null, userInfo.chips, (userInfo.id == this.userID));
             user.param.seatNum = userInfo.index;
             user.param.userID = userInfo.id;
-            user.setVisable(true);
+            user.setVisible(true);
 
             if(user.dcard != undefined  && user.dcard != null) {
                  user.dcard.visible = true;
@@ -1637,7 +1643,10 @@ MainState.prototype = {
                     user.param.userName == null) {
                     console.log("initNewRound null username");
                 }
-            };
+            }else{
+                continue
+            }
+            // console.log(user.param);
 
             this.selfCards[0].visible = false;
             this.selfCards[1].visible = false;
@@ -1893,8 +1902,9 @@ MainState.prototype = {
             console.log("user not find");
             return;
         }
+        console.log("user index:", userindex);
 
-        return {x:this.userPosRate[userindex].x * this.game.width + this.xOffset, y:this.userPosRate[userindex].y * this.game.height + this.yOffset}
+        return {x:this.userPosRate[userindex].x * this.game.width , y:this.userPosRate[userindex].y * this.game.height }
     },
     
     _sendCardAnimation:function() {
@@ -1912,22 +1922,23 @@ MainState.prototype = {
         var that = this
         var sendCard = function(){
             that._playSound(that.soundSendCard)
-            var usr = userList[currentIndex++]
-            if (usr == undefined || usr == null) {
+            var user = userList[currentIndex++]
+            if (user == undefined || user == null) {
                 console.log("user not find!!index:", currentIndex);
                 return
             }
             var dcard = game.add.sprite(sendPoint.x, sendPoint.y, "dcardBK");
             dcard.setScale(0.5, 0.5);
-
+            dcard.setVisible(false);
+            dcard.visible = false
             var x ;
             var y ;
-            if(that.userID == usr.param.userID) {
+            if(that.userID == user.param.userID) {
                 x = that.selfCards[0].x;
                 y = that.selfCards[0].y
             }else{
-                x = usr.dcard.x;
-                y = usr.dcard.y;
+                x = user.dcard.x;
+                y = user.dcard.y;
             }
             var tweens = game.tweens.add({
                 targets: dcard,   // 目标对象
@@ -1936,20 +1947,22 @@ MainState.prototype = {
                 duration: 500,    // 持续时间（毫秒）
                 ease: 'Linear',    // 缓动函数（支持字符串或函数）
                 onComplete: () => {
-                    if(that.userID === usr.param.userID) {
+                    if(that.userID === user.param.userID) {
                         that.selfCards[0].setVisible(true);
                         that.selfCards[1].setVisible(true);
                     } else {
-                        usr.dcard.visible = true;
+                        user.dcard.visible = true;
                     }
-                    // usr.dcard.visible = true;
+                    // user.dcard.visible = true;
                     dcard.destroy();
                     if(currentIndex < userList.length ) {
                         sendCard();
                     }
 
-                    if(usr.imagebody.visible == false) {
-                        usr.dcard.visible =true;
+                    if(user.imagebody.visible == false) {
+                        if(user.dcard != undefined  && user.dcard != null) {
+                            user.dcard.visible = true;
+                        }
                     }
                 }
             });
@@ -1987,9 +2000,9 @@ MainState.prototype = {
             }
             
             var dcardSprite = game.add.sprite(sendPoint.x, sendPoint.y, "dcardBK");
-            (function(usr,dcard) {
+            (function(user,dcard) {
              var tweens = game.tweens.add(dcard)
-             tweens.to({x:usr.dcard.x, y:usr.dcard.y},500,
+             tweens.to({x:user.dcard.x, y:user.dcard.y},500,
                        Phaser.Easing.Linear.None, true);
              tweens.onComplete.add(function() {
                                    //user.dcard.visible = true;

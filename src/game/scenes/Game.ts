@@ -55,6 +55,8 @@ export class Game extends Scene
         this.load.image("chip50w", gImageDir+'texas_chip50w.png')
 
         this.load.image("dcardBK", 'src/assets/cards/CardBack.png')
+        // this.load.image("dcardBK", gImageDir+'card_backs_rotate.png');
+
 
         this.load.image("checkOn", gImageDir+'check-on.png')
         this.load.image("checkOff", gImageDir+'check-off.png')

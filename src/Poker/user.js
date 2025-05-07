@@ -66,11 +66,11 @@ User.prototype = {
 		this.containerwin = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "winBK");
 
 		this.containerwinEffect = game.add.image(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height / 2, "winBKFrame");
-		this.containerplayer.setOrigin(0.5,0.5);
-		this.containeruser.setOrigin(0.5,0.5);
-		this.containerblank.setOrigin(0.5,0.5);
-		this.containerwin.setOrigin(0.5,0.5);
-		this.containerwinEffect.setOrigin(0.5,0.5);
+		// this.containerplayer.setOrigin(0.5,0.5);
+		// this.containeruser.setOrigin(0.5,0.5);
+		// this.containerblank.setOrigin(0.5,0.5);
+		// this.containerwin.setOrigin(0.5,0.5);
+		// this.containerwinEffect.setOrigin(0.5,0.5);
 		this.containerplayer.setScale(this.scale, this.scale);
 		this.containeruser.setScale(this.scale, this.scale);
 		this.containerblank.setScale(this.scale, this.scale);
@@ -136,13 +136,13 @@ User.prototype = {
 		this.imagebody.setScale(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
 		this.lbcoin = game.add.text(this.rect.left + this.rect.width / 2, this.rect.top + this.rect.height * 0.9, this.param["userCoin"], style);
 		this.lbcoin.setOrigin(0.5);
-		this.lbcoin.setScale(this.scale, this.scale);
+		// this.lbcoin.setScale(this.scale, this.scale);
 
 		style = { font: _fontString(20), fill: "#FFFF00"};
 		this.textCoin = game.add.text(this.coinTextRect.left, this.coinTextRect.top, "", style);
-		this.textCoin.setScale(this.scale, this.scale);
-		if(this.coinTextRect.left < this.coinRect.left)
-		{
+
+		// this.textCoin.setScale(this.scale, this.scale);
+		if(this.coinTextRect.left < this.coinRect.left) {
 			this.textCoin.x = this.coinRect.left - this.textCoin.width - this.coinRect.width * 0.9;
 		}
 		this.textCoin.setVisible(true);
@@ -151,7 +151,7 @@ User.prototype = {
 		this.waitingLine.setOrigin(0.5);
 		this.waitingLine.setScale(this.scale, this.scale);
 		this.waitingLine.setVisible(false);
-		this.mask = game.add.graphics(0, 0);
+		// this.mask = game.add.graphics(0, 0);
 
 		this.groupUser = game.add.group();
 		this.groupUser.add(this.containerplayer);
@@ -162,12 +162,12 @@ User.prototype = {
 		this.groupUser.add(this.imagebody);
 		this.groupUser.add(this.lbcoin);
 		this.groupUser.add(this.waitingLine);
-		for(var i = 0; i < this.imageCoin.length; i++)
-		{
+		for(var i = 0; i < this.imageCoin.length; i++) {
 			this.groupUser.add(this.imageCoin[i]);
 		}
 		this.groupUser.add(this.textCoin);
 		this.groupUser.setVisible(false)
+		this.groupUser.visible = false
 	},
 
 
@@ -274,7 +274,7 @@ User.prototype = {
 		if(usedCoin != "") {
 			this.textCoin.visible = true;
 			var coin = this.game.add.image(this.rect.width / 2,  this.rect.height / 2, "chip01");
-			// coin.setOrigin(0.5);
+			coin.setOrigin(0.5);
 			coin.setScale(0.3, 0.3)
 			coin.width = this.coinRect.width;
 			coin.height = this.coinRect.height;
@@ -320,10 +320,11 @@ User.prototype = {
 		this.animation = animation;
 	},
 
-	setVisable:function(blVisable) {
+	setVisible:function(blVisable) {
 		this.groupUser.visible = blVisable
 		if (this.dcard != null && this.dcard != undefined) {
             if(blVisable == false) {
+				console.log("set dcard visible",blVisable)
                 this.dcard.visible = blVisable
             }
 		};
@@ -342,7 +343,9 @@ User.prototype = {
 
 	setDcard:function(dcard) {
 		this.dcard = dcard;
-        dcard.visible = false
+		console.log("set dcard visible",false)
+
+		dcard.visible = false
 	},
 
 	setIsPlayer:function(isPlayer) {
@@ -459,11 +462,13 @@ User.prototype = {
 	{
 	    this.winGroup.visible = false;
 	    this.setGiveUp(false);
+		console.log("imagebody visible")
 	    this.imagebody.visible = true;
 	    this.setUseCoin("");
 
 	    if(this.dcard != undefined && this.dcard != null) {
-		    this.dcard.visible = false;
+			console.log("set dcard visible",false)
+			this.dcard.visible = false;
 	    }
 
 	    if (this.param["userName"] == "") {
@@ -504,7 +509,7 @@ User.prototype = {
 		this.waitingLine.visible = true;
 		this.waitingAngel = 0;
 		// this.waitingLine.mask = this.mask;
-
+		//
 		// var maskWidth = Math.sqrt(this.waitingLine.width * this.waitingLine.width + this.waitingLine.height * this.waitingLine.height);
 		// this.mask.x = this.waitingLine.x - maskWidth;
 		// this.mask.y = this.waitingLine.y - maskWidth;
