@@ -89,7 +89,7 @@ Server.prototype = {
 		}
 	},
 	onMessage:function(evt) {
-		console.log('Retrieved data from server: ' + evt.data);
+		// console.log('Retrieved data from server: ' + evt.data);
 		var data = {}
 		if (evt.data)
 		{

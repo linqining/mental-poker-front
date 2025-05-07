@@ -71,7 +71,7 @@ User.prototype = {
 		// this.containerblank.setOrigin(0.5,0.5);
 		// this.containerwin.setOrigin(0.5,0.5);
 		// this.containerwinEffect.setOrigin(0.5,0.5);
-		this.containerplayer.setScale(this.scale, this.scale);
+		this.containerplayer.setScale(1);
 		this.containeruser.setScale(this.scale, this.scale);
 		this.containerblank.setScale(this.scale, this.scale);
 		this.containerwin.setScale(this.scale, this.scale);
@@ -99,18 +99,16 @@ User.prototype = {
 
 		this.containerplayer.setVisible(false);
 		this.containeruser.setVisible(false);
-		this.containerblank.setVisible(true);
+		this.containerblank.setVisible(false);
 		this.winGroup.setVisible(false);
-		if(this.param["userName"] && this.param["userName"] != "")
-		{
+		if(this.param["userName"] && this.param["userName"] != "") {
 			this.containerplayer.setVisible(false);
-			this.containeruser.setVisible(true);
+			this.containeruser.setVisible(false);
 			this.containerblank.setVisible(false);
 			this.winGroup.setVisible(false);
 		}
 		var style = { font: _fontString(20), fill: "#ffffff", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" };
-		if(isPlayer)
-		{
+		if(isPlayer) {
 			this.containerplayer.setVisible(true);
 			this.containeruser.setVisible(false);
 			this.containerblank.setVisible(false);
@@ -224,23 +222,20 @@ User.prototype = {
 
 		this.containerplayer.setVisible(false);
 		this.containeruser.setVisible(false);
-		this.containerblank.setVisible(true);
+		this.containerblank.setVisible(false);
 		this.winGroup.setVisible(false);
 
-		if(this.param["userName"] && this.param["userName"] != "")
-		{
+		if(this.param["userName"] && this.param["userName"] != "") {
 			this.containerplayer.setVisible(false);
 			this.containeruser.setVisible(true);
 			this.containerblank.setVisible(false);
 			this.winGroup.setVisible(false);
 		}
-		if(this.param["isPlayer"])
-		{
+		if(this.param["isPlayer"]) {
 			this.containerplayer.setVisible(true);
 			this.containeruser.setVisible(false);
 			this.containerblank.setVisible(false);
 			this.winGroup.setVisible(false);
-
 		}
 	},
 
@@ -343,7 +338,7 @@ User.prototype = {
 
 	setDcard:function(dcard) {
 		this.dcard = dcard;
-		console.log("set dcard visible",false)
+		// console.log("set dcard visible",false)
 
 		dcard.visible = false
 	},

@@ -1424,7 +1424,7 @@ MainState.prototype = {
     },
 
     handleState:function(data) {
-        console.log("handle state",JSON.stringify(data));
+        // console.log("handle state",JSON.stringify(data));
         var roomInfo = data.room;
         var playerList = roomInfo.occupants;
 
