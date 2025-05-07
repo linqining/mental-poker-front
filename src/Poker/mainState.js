@@ -433,8 +433,9 @@ MainState.prototype = {
 
         this.buttonrules = game.add.image(buttonPosRate1.x * gameWidth * 0.3 + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset,'buttonrules')
         this.buttonrules.setInteractive()
+        var that = this;
         this.buttonrules.on('pointerdown',function (){
-            this.actionOnRuleShow()
+            that.actionOnRuleShow()
         })
 
         this.buttonrules.setScale(this.scale, this.scale);
