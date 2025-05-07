@@ -441,17 +441,17 @@ MainState.prototype = {
 
 
 
-        this.button1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick1);
-        this.button2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick2);
-        this.button3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick3);
+        this.button1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick1.bind(this));
+        this.button2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick2.bind(this));
+        this.button3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'buttonyellow').setInteractive().on('pointerdown', this.actionOnClick3.bind(this));
 
         this.button1.setScale(this.scale, this.scale);
         this.button2.setScale(this.scale, this.scale);
         this.button3.setScale(this.scale, this.scale);
 
-        this.waitbutton1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick1);
-        this.waitbutton2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick2);
-        this.waitbutton3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick3);
+        this.waitbutton1 = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick1.bind(this));
+        this.waitbutton2 = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset, buttonPosRate2.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick2.bind(this));
+        this.waitbutton3 = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset, buttonPosRate3.y * gameHeight + this.yOffset, 'buttonblue').setInteractive().on('pointerdown', this.waitOnClick3.bind(this));
 
         this.waitbutton1.setScale(this.scale, this.scale);
         this.waitbutton2.setScale(this.scale, this.scale);
@@ -705,26 +705,28 @@ MainState.prototype = {
 
     actionOnExit:function()
     {
-        game.betApi.leaveRoom();
-        game.state.start("LoginState");
+        this.betApi.leaveRoom();
+        this.game.scene.start("Hall");
     },
 
     // 看或弃牌
     waitOnClick1:function()
     {
+        console.log("waitOnClick1 click")
+
         if(this.waitSelected1)
         {
             this.waitSelected1 = false;
-            this.imgLookorGiveupWait.loadTexture("checkOff", this.imgLookorGiveupWait.frame);
+            this.imgLookorGiveupWait.setFrame( this.imgLookorGiveupWait.frame);
         }
         else
         {
             this.waitSelected1 = true;
             this.waitSelected2 = false;
             this.waitSelected3 = false;
-            this.imgLookorGiveupWait.loadTexture("checkOn", this.imgLookorGiveupWait.frame);
-            this.imgCallWait.loadTexture("checkOff", this.imgCallWait.frame);
-            this.imgCallEveryWait.loadTexture("checkOff", this.imgCallEveryWait.frame);
+            this.imgLookorGiveupWait.setFrame( this.imgLookorGiveupWait.frame);
+            this.imgCallWait.setFrame( this.imgCallWait.frame);
+            this.imgCallEveryWait.setFrame( this.imgCallEveryWait.frame);
         }
 
     },
@@ -732,10 +734,12 @@ MainState.prototype = {
     // 自动看牌／自动跟注
     waitOnClick2:function()
     {
+        console.log("waitOnClick2 click")
+
         if(this.waitSelected2)
         {
             this.waitSelected2 = false;
-            this.imgCallWait.loadTexture("checkOff", this.imgCallWait.frame);
+            this.imgCallWait.setFrame( this.imgCallWait.frame);
             this.lbCallWait.setText("看牌或跟注");
         }
         else
@@ -743,9 +747,9 @@ MainState.prototype = {
             this.waitSelected1 = false;
             this.waitSelected2 = true;
             this.waitSelected3 = false;
-            this.imgLookorGiveupWait.loadTexture("checkOff", this.imgLookorGiveupWait.frame);
-            this.imgCallWait.loadTexture("checkOn", this.imgCallWait.frame);
-            this.imgCallEveryWait.loadTexture("checkOff", this.imgCallEveryWait.frame);
+            this.imgLookorGiveupWait.setFrame(this.imgLookorGiveupWait.frame);
+            this.imgCallWait.setFrame( this.imgCallWait.frame);
+            this.imgCallEveryWait.setFrame( this.imgCallEveryWait.frame);
 
             var bet = this.currentBet - this.gameStateObj.mybetOnDesk;
             if (bet > 0 && bet < this.chips) {
@@ -759,27 +763,30 @@ MainState.prototype = {
     // 跟任何注
     waitOnClick3:function()
     {
+        console.log("waitOnClick3 click")
+
         if(this.waitSelected3)
         {
             this.waitSelected3 = false;
-            this.imgCallEveryWait.loadTexture("checkOff", this.imgCallEveryWait.frame);
+            this.imgCallEveryWait.setFrame(this.imgCallEveryWait.frame);
         }
         else
         {
             this.waitSelected1 = false;
             this.waitSelected2 = false;
             this.waitSelected3 = true;
-            this.imgLookorGiveupWait.loadTexture("checkOff", this.imgLookorGiveupWait.frame);
-            this.imgCallWait.loadTexture("checkOff", this.imgCallWait.frame);
-            this.imgCallEveryWait.loadTexture("checkOn", this.imgCallEveryWait.frame);
+            this.imgLookorGiveupWait.setFrame( this.imgLookorGiveupWait.frame);
+            this.imgCallWait.setFrame( this.imgCallWait.frame);
+            this.imgCallEveryWait.setFrame( this.imgCallEveryWait.frame);
         }
     },
 
     // 弃牌
     actionOnClick1:function()
     {
+        console.log("actionOnClick1 click")
         var that = this
-        game.betApi.betFold(function(isok) {
+        this.betApi.betFold(function(isok) {
             // send OK or NOK
             that._setBetButtonsVisible(false)
             that._playSound(that.soundClick);
@@ -794,6 +801,8 @@ MainState.prototype = {
     // 跟注
     actionOnClick2:function()
     {
+        console.log("actionOnClick2 click")
+
         var that = this
         var betdiff = this.gameStateObj.mybet-this.gameStateObj.mybetOnDesk
 
@@ -802,7 +811,7 @@ MainState.prototype = {
         }
 
         //if (betdiff >= 0 ) {
-            game.betApi.bet(betdiff,function(isok) {
+            this.betApi.bet(betdiff,function(isok) {
                 // send OK or NOK
                 that._playSound(that.soundClick);
                 that._setBetButtonsVisible(false)
@@ -818,7 +827,7 @@ MainState.prototype = {
 
     _raseAction:function(value) {
         var that = this
-        game.betApi.bet(value,function(isok) {
+        this.betApi.bet(value,function(isok) {
                 // send OK or NOK
                 that._playSound(that.soundClick);
                 that._setBetButtonsVisible(false)
@@ -904,7 +913,7 @@ MainState.prototype = {
     {
         console.log("callbackOpen " + data);
 
-        game.betApi.checkVersion(this.strVersion, function(isOK){
+        this.betApi.checkVersion(this.strVersion, function(isOK){
             console.log("checkVersion " + isOK);
         });
     },
@@ -928,7 +937,7 @@ MainState.prototype = {
                 authToken = this.appToken
             };
 
-            game.betApi.loginCertification(authToken, function(isOK){
+            this.betApi.loginCertification(authToken, function(isOK){
                 console.log("loginCertification is " +  isOK);
                 //alert("loginCertification is" +  isOK);
             });
@@ -1036,7 +1045,7 @@ MainState.prototype = {
     handleCreateRoom:function(data) 
     {
         this.roomID = data.room.id;
-        game.betApi.setRoomID(this.roomID);
+        this.betApi.setRoomID(this.roomID);
         //game.Native.roomCreated(this.rootID);
     },
 
@@ -1059,7 +1068,7 @@ MainState.prototype = {
         if(occupant.profile && occupant.profile != "")
         {
             this.game.load.image("userImage" + userIndex, occupant.profile, true);
-            this.game.load.start();
+            // this.game.load.start();
         }
 
         if (occupant.name == "") {
@@ -1265,7 +1274,7 @@ MainState.prototype = {
         var chips = parseInt(arrayInfo[2]) // 手上剩余筹码数
 
         var user = this._userByUserID(data.from)
-        user.setParam(null, null, chips, null)
+        // user.setParam(null, null, chips, null)
         var betType = this._betTypeByBetTypeNames(betTypeName)
 
         if (user.param.userID != this.userID) {
@@ -1406,7 +1415,7 @@ MainState.prototype = {
 
             for(i = 0; i < this.chipPoolCoins.length; i++) {
                 this._playSound(this.chipsmoving)
-                this.animation.showChipMove(this.chipPoolCoins[i], point.x, point.y, 500)
+                this.animation.showChipMove(this.game,this.chipPoolCoins[i], point.x, point.y, 500)
             }
             
 
@@ -1513,7 +1522,7 @@ MainState.prototype = {
             if(userInfo.profile && userInfo.profile != "")
             {
                 this.game.load.image("userImage" + index, userInfo.profile, true);
-                this.game.load.start();
+                // this.game.load.start();
             }
             user.setParam(userInfo.name, null, userInfo.chips, (userInfo.id == this.userID));
             user.param.seatNum = userInfo.index;
@@ -1623,8 +1632,8 @@ MainState.prototype = {
                 this.timeoutMaxCount,function(){
             var user = that._userBySeatNum(that.gameStateObj.playerSeatNum)
             if(user.param["userID"] == that.userID) {
-                that.animation.showShake(that.selfCards[0]);
-                that.animation.showShake(that.selfCards[1]);
+                that.animation.showShake(that.game,that.selfCards[0]);
+                that.animation.showShake(that.game,that.selfCards[1]);
             }
 
             }, 
@@ -1699,20 +1708,20 @@ MainState.prototype = {
     }, 
 
     _setBetButtonsVisible: function(blVisible) {
-        this.buttonGroup1.visible = blVisible;
-        this.buttonGroup2.visible = blVisible;
-        this.buttonGroup3.visible = blVisible;
+        this.buttonGroup1.setVisible(blVisible);
+        this.buttonGroup2.setVisible(blVisible);
+        this.buttonGroup3.setVisible(blVisible);
 
         if(blVisible == false) {
-            this.chipboxGroup.visible = false;
+            this.chipboxGroup.setVisible(false);
         }
 
     },
 
     _setWaitButtonsVisible:function(blVisible) {
-        this.waitButtonGroup1.visible = blVisible;
-        this.waitButtonGroup2.visible = blVisible;
-        this.waitButtonGroup3.visible = blVisible;
+        this.waitButtonGroup1.setVisible(blVisible);
+        this.waitButtonGroup2.setVisible(blVisible);
+        this.waitButtonGroup3.setVisible(blVisible);
     },
 
     _disconnectReset:function() {
@@ -1921,7 +1930,7 @@ MainState.prototype = {
             return;
         }
 
-        return {x:this.userPosRate[userindex].x * gameWidth + this.xOffset, y:this.userPosRate[userindex].y * gameHeight + this.yOffset}
+        return {x:this.userPosRate[userindex].x * this.game.width + this.xOffset, y:this.userPosRate[userindex].y * this.game.height + this.yOffset}
     },
     
     _sendCardAnimation:function() {

@@ -91,6 +91,15 @@ export class Game extends Scene
         this.gameState.create(this,betApi)
 
 
+
+
+        const exitGame = this.add.image(84, 42, 'exit_game');
+        exitGame.setScale(0.7);
+        exitGame.setInteractive().on('pointerdown', () => {
+            betApi.disconnect();
+            this.scene.start("Hall");
+        })
+
         betApi.connectWithCallback(userAccount.address,function (openCBData){
                 betApi.loginCertification(userAccount.address, function (authData){
                     // 登录成功
@@ -100,13 +109,6 @@ export class Game extends Scene
                 })
             },  this.gameState.callbackClose.bind(this.gameState),
             this.gameState.callbackMessage.bind(this.gameState),  this.gameState.callbackError.bind(this.gameState))
-
-        const exitGame = this.add.image(84, 42, 'exit_game');
-        exitGame.setScale(0.7);
-        exitGame.setInteractive().on('pointerdown', () => {
-            betApi.disconnect();
-            this.scene.start("Hall");
-        })
 
         EventBus.emit('current-scene-ready', this);
     }

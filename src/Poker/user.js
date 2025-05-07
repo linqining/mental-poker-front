@@ -41,7 +41,7 @@ var User = function(game) {
 	this.waitingLine;
 	this.waitingAngel = 0;
 	this.tweenDrawWaiting;
-	this.mask;
+	// this.mask;
 	this.startTrigerWillCompleteEvent;
 
 	this.userTitleStyle = { font: _fontString(20), fill: "#ffffff", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" }
@@ -149,7 +149,7 @@ User.prototype = {
 		this.waitingLine.setOrigin(0.5);
 		this.waitingLine.setScale(this.scale, this.scale);
 		this.waitingLine.setVisible(false);
-		this.mask = game.add.graphics(0, 0);
+		// this.mask = game.add.graphics(0, 0);
 
 		this.groupUser = game.add.group();
 		this.groupUser.add(this.containerplayer);
@@ -409,7 +409,7 @@ User.prototype = {
 			y:this.containerwin.y - this.containerwin.height * 0.3,
 			duration: animationTime,    // 持续时间（毫秒）
 			ease: 'Linear',    // 缓动函数（支持字符串或函数）
-			yoyo: true,        // 是否反向播放
+			// yoyo: true,        // 是否反向播放
 			onComplete: () => {
 				that.winLightDot[0].visible = false;
 			}
@@ -420,29 +420,28 @@ User.prototype = {
 			y:this.containerwin.y - this.containerwin.height * 0.3,
 			duration: animationTime,    // 持续时间（毫秒）
 			ease: 'Linear',    // 缓动函数（支持字符串或函数）
-			yoyo: true,        // 是否反向播放
+			// yoyo: true,        // 是否反向播放
 			onComplete: () => {
 				that.winLightDot[1].setVisible(false);
 			}
 		});
 
-		var tween3 = this.game.tweens.add({
-			targets: this.containerwinEffect.scale,   // 目标对象
-			x: this.scale * 1.3,            // 目标属性值
-			y: this.scale*1.3,//
-			duration: animationTime,    // 持续时间（毫秒）
-			ease: 'Linear',    // 缓动函数（支持字符串或函数）
-			yoyo: true,        // 是否反向播放
-			// repeat: -1,        // 重复次数（-1 为无限循环）
-			onComplete: () => { /* 动画完成回调 */ }
-		});
-
-		var tween4 = this.game.tweens.add({
-			targets: this.containerwinEffect,   // 目标对象
-			alpha: 0,
-			duration: animationTime,    // 持续时间（毫秒）
-			onComplete: () => { /* 动画完成回调 */ }
-		});
+		// var tween3 = this.game.tweens.add({
+		// 	targets: this.containerwinEffect.scale,   // 目标对象
+		// 	x: this.scale * 1.3,            // 目标属性值
+		// 	y: this.scale*1.3,//
+		// 	duration: animationTime,    // 持续时间（毫秒）
+		// 	ease: 'Linear',    // 缓动函数（支持字符串或函数）
+		// 	yoyo: true,        // 是否反向播放
+		// 	onComplete: () => { /* 动画完成回调 */ }
+		// });
+		//
+		// var tween4 = this.game.tweens.add({
+		// 	targets: this.containerwinEffect,   // 目标对象
+		// 	alpha: 0,
+		// 	duration: animationTime,    // 持续时间（毫秒）
+		// 	onComplete: () => { /* 动画完成回调 */ }
+		// });
 
 		// var style = { font: _fontString(20), fill: "#ffffff", wordWrap: false, wordWrapWidth: this.rect.width, align: "center" };
 		// this.lbname.setStyle(style);
@@ -498,11 +497,11 @@ User.prototype = {
 		this.groupUser.visible = true;
 		this.waitingLine.visible = true;
 		this.waitingAngel = 0;
-		this.waitingLine.mask = this.mask;
+		// this.waitingLine.mask = this.mask;
 
-		var maskWidth = Math.sqrt(this.waitingLine.width * this.waitingLine.width + this.waitingLine.height * this.waitingLine.height);
-		this.mask.x = this.waitingLine.x - maskWidth;
-		this.mask.y = this.waitingLine.y - maskWidth;
+		// var maskWidth = Math.sqrt(this.waitingLine.width * this.waitingLine.width + this.waitingLine.height * this.waitingLine.height);
+		// this.mask.x = this.waitingLine.x - maskWidth;
+		// this.mask.y = this.waitingLine.y - maskWidth;
 
 		var offsetAngel = 30;
 
@@ -526,15 +525,15 @@ User.prototype = {
 					this.startTrigerWillCompleteEvent = true
 				}
 
-				that.mask.clear();
-				that.mask.moveTo(maskWidth, maskWidth);
-				that.mask.lineTo(maskWidth - Math.tan(offsetAngel * Math.PI / 180) * maskWidth, 0);
-				that.mask.arc(maskWidth, maskWidth, maskWidth, - Math.PI / 2 - offsetAngel * Math.PI / 180, (angel * Math.PI) / 180 - Math.PI / 2 - offsetAngel * Math.PI / 180,true);
-				that.mask.lineTo(maskWidth, maskWidth);
+				// that.mask.clear();
+				// that.mask.moveTo(maskWidth, maskWidth);
+				// that.mask.lineTo(maskWidth - Math.tan(offsetAngel * Math.PI / 180) * maskWidth, 0);
+				// that.mask.arc(maskWidth, maskWidth, maskWidth, - Math.PI / 2 - offsetAngel * Math.PI / 180, (angel * Math.PI) / 180 - Math.PI / 2 - offsetAngel * Math.PI / 180,true);
+				// that.mask.lineTo(maskWidth, maskWidth);
 
 				if(angel >= 360) {
 					didCompleteCallBack(true);
-					game.time.events.remove(that.timerEventProgress)
+					game.time.removeEvent(this.timerEventProgress)
 				}
 			},
 			loop: true           // 无限循环

@@ -39,34 +39,43 @@ Animations.prototype = {
 			if(showBK)
 			{
 				that.publicCards[index].loadTexture("cardBK", that.publicCards[index].frame);
-				var tween = game.tweens.add(that.publicCards[index]);
-				tween.to({ width:0 }, animationTime, Phaser.Easing.Linear.None, true);
-				tween.onComplete.add(function() {
-					that.publicCards[index].loadTexture(key, that.publicCards[index].frame);
-					var tween2 = game.tweens.add(that.publicCards[index]);
-					tween2.to({ width:cardWidth }, animationTime, Phaser.Easing.Linear.None, true);
-					nIndex++;
-					if(nIndex < lstIndex.length)
-					{
-						tween2.onComplete.add(function() {
-							showAnimation(lstIndex[nIndex], lstKey[nIndex], showBK);
-						}, that);
-					}
-				}, that);
+				var tween = game.tweens.add({
+					targets: that.publicCards[index],   // 目标对象
+					width:0,
+					duration: animationTime,    // 持续时间（毫秒）
+					ease: 'Linear',    // 缓动函数（支持字符串或函数）
+					// yoyo: true,        // 是否反向播放
+					onComplete: () => { {
+						that.publicCards[index].loadTexture(key, that.publicCards[index].frame);
+						var tween2 = game.tweens.add({
+							targets:that.publicCards[index],
+							width:cardWidth,
+							duration:animationTime,
+							onComplete:()=>{
+								nIndex++;
+								if(nIndex < lstIndex.length) {
+									showAnimation(lstIndex[nIndex], lstKey[nIndex], showBK);
+								}
+							}
+						});
+					} }
+				});
 			}
 			else
 			{
 				that.publicCards[index].width = 0;
 				that.publicCards[index].loadTexture(key, that.publicCards[index].frame);
-				var tween = game.tweens.add(that.publicCards[index]);
-				tween.to({ width:cardWidth }, animationTime, Phaser.Easing.Linear.None, true);
-				nIndex++;
-				if(nIndex < lstIndex.length)
-				{
-					tween.onComplete.add(function() {
-						showAnimation(lstIndex[nIndex], lstKey[nIndex], showBK);
-					}, that);
-				}
+				var tween = game.tweens.add({
+					targets: that.publicCards[index],   // 目标对象
+					width:cardWidth,
+					duration:animationTime,
+					onComplete:()=>{
+						nIndex++;
+						if(nIndex < lstIndex.length) {
+							showAnimation(lstIndex[nIndex], lstKey[nIndex], showBK);
+						}
+					}
+				});
 			}
 		};
 
@@ -81,7 +90,7 @@ Animations.prototype = {
 	//this.animation.showShake(this.selfCards[1]);
 	//this.animation.stopShake = true;
 
-	showShake:function(target, time, frequency, offset) {
+	showShake:function(game,target, time, frequency, offset) {
 		var shakeTime = 20000;
 		if(time)
 		{
@@ -113,24 +122,25 @@ Animations.prototype = {
 
 		var nCount = 0;
 		var showAnimation = function () {
-			var tween = game.tweens.add(target);
 			var nextPt = pt[Math.floor(Math.random() * pt.length)];
-			tween.to({ x:nextPt.x, y: nextPt.y }, shakeFrequency, Phaser.Easing.Linear.None, true);
-			nCount++;
-			tween.onComplete.add(function() {
-
-
-
-				if(nCount * shakeFrequency <= shakeTime && !that.stopShake)
-				{
-					showAnimation();
+			var tween = game.tweens.add({
+				targets: target,   // 目标对象
+				x: nextPt.x,            // 目标属性值
+				y:nextPt.y,
+				duration: shakeFrequency,    // 持续时间（毫秒）
+				ease: 'Linear',    // 缓动函数（支持字符串或函数）
+				onComplete: () => {
+					nCount++
+					if(nCount * shakeFrequency <= shakeTime && !that.stopShake) {
+						showAnimation();
+					}
+					else
+					{
+						target.x = targetX;
+						target.y = targetY;
+					}
 				}
-				else
-				{
-					target.x = targetX;
-					target.y = targetY;
-				}
-			}, this);
+			});
 		};
 
 		showAnimation(nCount);
@@ -172,7 +182,7 @@ Animations.prototype = {
 				angle: angleFinal,
 				duration: animationTime,    // 持续时间（毫秒）
 				ease: 'Linear',    // 缓动函数（支持字符串或函数）
-				yoyo: true,        // 是否反向播放
+				// yoyo: true,        // 是否反向播放
 				onComplete: () => { /* 动画完成回调 */ }
 			});
 		}
@@ -191,7 +201,7 @@ Animations.prototype = {
 			y:targetY,
 			duration: animationTime,    // 持续时间（毫秒）
 			ease: 'Linear',    // 缓动函数（支持字符串或函数）
-			yoyo: true,        // 是否反向播放
+			// yoyo: true,        // 是否反向播放
 			onComplete: () => { /* 动画完成回调 */ }
 		});
 	},
