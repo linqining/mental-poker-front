@@ -319,7 +319,6 @@ User.prototype = {
 		this.groupUser.visible = blVisable
 		if (this.dcard != null && this.dcard != undefined) {
             if(blVisable == false) {
-				console.log("set dcard visible",blVisable)
                 this.dcard.visible = blVisable
             }
 		};
@@ -338,8 +337,6 @@ User.prototype = {
 
 	setDcard:function(dcard) {
 		this.dcard = dcard;
-		// console.log("set dcard visible",false)
-
 		dcard.visible = false
 	},
 
