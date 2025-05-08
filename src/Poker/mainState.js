@@ -376,7 +376,7 @@ MainState.prototype = {
         this.chipboxButton3.setScale(0.5);
         this.chipboxButton4.setScale(0.5);
 
-        var style = { font: _fontString(35), fill: "#FFFFFF"};
+        var style = { font: _fontString(30), fill: "#FFFFFF"};
         this.chipboxText1 = game.add.text(0, 0, "AllIn", style);
         style = { font: _fontString(28), fill: "#FFFFFF"};
         this.chipboxText2 = game.add.text(0, 0, "120", style);
@@ -392,15 +392,18 @@ MainState.prototype = {
         this.chipboxText4.setScale(1);
 
         this.chipboxSliderGroove = game.add.sprite(0, 0, "slidebar");
+        this.chipboxSliderGroove.visible = true
         this.chipboxSliderHandle = game.add.sprite(0, 0, "btnslider");
-        this.chipboxSliderGroove.setScale(1, 1);
-        this.chipboxSliderHandle.setScale(1, 1);
-        this.chipboxSliderGroove.setOrigin(0.5);
-        this.chipboxSliderHandle.setOrigin(0.5);
+        this.chipboxSliderHandle.visible = true
+        // this.chipboxSliderGroove.setScale(1);
+        // this.chipboxSliderHandle.setScale(1);
+        // this.chipboxSliderGroove.setOrigin(0.5);
+        // this.chipboxSliderHandle.setOrigin(0.5);
         style = { font: _fontString(32), fill: "#CE8D00"};
         this.chipboxTextSlider = game.add.text(0, 0, "0", style);
-        this.chipboxTextSlider.setOrigin(0.5);
-        this.chipboxTextSlider.setScale(1);
+        this.chipboxTextSlider.visible = true;
+        // this.chipboxTextSlider.setOrigin(0.5);
+        // this.chipboxTextSlider.setScale(1);
         this.chipboxGroup = game.add.group();
         this.chipboxGroup.add(this.chipbox);
         this.chipboxGroup.add(this.chipboxButton1);
@@ -414,7 +417,7 @@ MainState.prototype = {
         this.chipboxGroup.add(this.chipboxSliderGroove);
         this.chipboxGroup.add(this.chipboxSliderHandle);
         this.chipboxGroup.add(this.chipboxTextSlider);
-        this.chipboxGroup.visible = true;
+        this.chipboxGroup.visible = false;
         this.chipboxGroup.setDepth(10);
 
         var buttonPosRate1 = {x:0.468, y:0.881};
@@ -539,16 +542,21 @@ MainState.prototype = {
         this.chipboxText3.y = this.chipboxButton3.y ;
         this.chipboxText4.x = this.chipboxButton4.x ;
         this.chipboxText4.y = this.chipboxButton4.y ;
-        this.chipboxTextSlider.x = this.chipbox.x + this.chipbox.width / 2;
+        this.chipboxTextSlider.x = this.chipbox.x ;
         this.chipboxTextSlider.y = this.chipboxButton1.y - this.chipboxButton1.height * 1.3//+ this.chipboxButton1.height ;
         //this.chipboxSliderGroove.width = this.chipbox.width * 0.1;
         //this.chipboxSliderGroove.height = this.chipbox.height * 0.7;
-        this.chipboxSliderGroove.x = this.chipbox.x + this.chipbox.width * 0.7;
+        console.log("chipbox",this.chipbox.x)
+        console.log("chipboxy",this.chipbox.y)
+        this.chipboxSliderGroove.x = this.chipbox.x ;
         this.chipboxSliderGroove.y = this.chipboxButton4.y + this.chipboxButton4.height - this.chipboxSliderGroove.height * 0.5;
+        console.log("groovy",this.chipboxSliderGroove.y)
         //this.chipboxSliderHandle.width = this.chipbox.width * 0.2;
         //this.chipboxSliderHandle.height = this.chipboxSliderHandle.width * 0.5;
-        this.chipboxSliderHandle.x = this.chipbox.x + this.chipbox.width * 0.7;
+        this.chipboxSliderHandle.x = this.chipbox.x ;
         this.chipboxSliderHandle.y = this.chipboxSliderGroove.y + this.chipboxSliderGroove.height * 0.5 - this.chipboxSliderHandle.height * 0.5;
+        console.log("handley",this.chipboxSliderHandle.y)
+
         this.chipboxSliderHandle.inputEnabled = true;
         // this.chipboxSliderHandle.input.enableDrag();
         // this.chipboxSliderHandle.input.setDragLock(false);
@@ -824,7 +832,7 @@ MainState.prototype = {
                 that._setBetButtonsVisible(false)
             })
 
-        that.chipboxGroup.visible = false;
+        that.chipboxGroup.setVisible(false);
     },
 
     // 加注
@@ -849,7 +857,7 @@ MainState.prototype = {
 
             this._updatePoolChipValue(bet*2?bet*2:10*2);
             this._setSliderRange(bet, this.chips);
-            this.chipboxGroup.visible = true;
+            this.chipboxGroup.setVisible(true);
             this.chipboxOpened = true;
 
             this.lbCallEvery.setText("Raise "+bet);
@@ -1618,7 +1626,7 @@ MainState.prototype = {
                 that.animation.stopShake = true;
                 if(blComplete == true) {
                     that._playSound(that.soundDing)
-                    that.chipboxGroup.visible = false;
+                    that.chipboxGroup.setVisible(false);
                     that.lbCallEvery.setText("Raise")
                 } 
             })
