@@ -306,7 +306,7 @@ MainState.prototype = {
         this.cardSizeRate = {width:0.064, height:0.156};
         for (var i = 0; i < this.cardPosRate.length; i++) {
             var dict = this.cardPosRate[i];
-            var imageCard = game.add.image(dict.x * gameWidth + this.xOffset, dict.y * gameHeight + this.yOffset, "cardBK");
+            var imageCard = game.add.image(dict.x * gameWidth + this.xOffset, (dict.y+0.05 )* gameHeight + this.yOffset, "cardBK");
             imageCard.setOrigin(0.5);
             imageCard.setScale(0.9, 0.9);
             imageCard.setVisible(false);
@@ -420,6 +420,7 @@ MainState.prototype = {
         this.chipboxGroup.add(this.chipboxSliderHandle);
         this.chipboxGroup.add(this.chipboxTextSlider);
         this.chipboxGroup.visible=false;
+        this.chipboxGroup.setVisible(false);
 
         var buttonPosRate1 = {x:0.468, y:0.881};
         var buttonPosRate2 = {x:0.594, y:0.881};
@@ -576,11 +577,11 @@ MainState.prototype = {
         //this.chipboxSliderHandle.events.onDragStop.add(sliderDragStop, this);
 
         style = { font: _fontString(22), fill: "#ffffff", wordWrap: true, wordWrapWidth: this.background.width, align: "center" };
-        this.blinds = game.add.text(gameWidth *0.453 , 0.40 * gameHeight + this.yOffset, "$" + this.sb + " / $" + this.bb, style);
+        this.blinds = game.add.text(gameWidth *0.458 , 0.35 * gameHeight + this.yOffset, "$" + this.sb + " / $" + this.bb, style);
         // this.blinds.setOrigin(0.5);
         // this.blinds.setScale(this.scale);
 
-        this.chipPoolBK = game.add.image(0.5 * gameWidth , 0.453 * gameHeight , "chipPool");
+        this.chipPoolBK = game.add.image(0.5 * gameWidth , 0.403 * gameHeight , "chipPool");
         // this.chipPoolBK.setScale(this.scale, this.scale);
 
         style = { font: _fontString(22), fill: "#FFFFFF", wordWrap: true, wordWrapWidth: 0, align: "center" };
@@ -644,6 +645,15 @@ MainState.prototype = {
 
         var tweens = game.tweens.add(this.card_typebg);
         tweens.to({x:to_x}, 200, Phaser.Easing.Quadratic.In, true);
+
+        // this.tween = this.game.tweens.add({
+        //     targets: this.dealer,   // 目标对象
+        //     x: this.dealerPosRate[seatIndex].x * this.game.width+ this.xOffset,
+        //     y:this.dealerPosRate[seatIndex].y * this.game.height + this.yOffset,
+        //     duration: 800,    // 持续时间（毫秒）
+        //     ease: 'Linear',    // 缓动函数（支持字符串或函数）
+        //     onComplete: () => { /* 动画完成回调 */ }
+        // })
     },
 
 
@@ -854,6 +864,7 @@ MainState.prototype = {
             })
 
         that.chipboxGroup.visible = false ;
+        that.chipboxGroup.setVisible(false);
     },
 
     // 加注
@@ -878,6 +889,7 @@ MainState.prototype = {
             this._updatePoolChipValue(bet*2?bet*2:10*2);
             this._setSliderRange(bet, this.chips);
             this.chipboxGroup.visible = true;
+            this.chipboxGroup.setVisible(true);
             this.chipboxOpened = true;
 
             this.lbCallEvery.setText("Raise "+bet);
@@ -1111,7 +1123,7 @@ MainState.prototype = {
     handlePot:function(data) {
         var arrayPool = data.class.split(",");
 
-        this.chipPoolCoins = this.animation.showCollectChip(this.game,this.userList, this.chipPoolBK.x + this.chipPoolBK.width * 0.14, this.chipPoolBK.y + this.chipPoolBK.height * 0.5, this.chipPoolCoins);
+        this.chipPoolCoins = this.animation.showCollectChip(this.game,this.userList, this.chipPoolBK.x - this.chipPoolBK.width*0.3 , this.chipPoolBK.y, this.chipPoolCoins);
         this._resetGameRoundStatus()
 
         var poolall = 0;
@@ -1475,8 +1487,7 @@ MainState.prototype = {
         //初始化公共牌
         var lstCardID = [];
         var lstCardImage = [];
-        for(var i = 0; i < publicCards.length; i++)
-        {
+        for(var i = 0; i < publicCards.length; i++) {
             this.publicCards[i].visible = true;
             this.publicCards[i].load.image(publicCards[i], this.publicCards[i].frame);
         }
@@ -1645,6 +1656,7 @@ MainState.prototype = {
                 if(blComplete == true) {
                     that._playSound(that.soundDing)
                     that.chipboxGroup.visible=false;
+                    that.chipboxGroup.setVisible(false);
                     that.lbCallEvery.setText("Raise")
                 } 
             })
@@ -1719,6 +1731,7 @@ MainState.prototype = {
         this.buttonGroup3.setVisible(blVisible);
 
         if(blVisible == false) {
+            this.chipboxGroup.visible=false;
             this.chipboxGroup.setVisible(false);
         }
 
