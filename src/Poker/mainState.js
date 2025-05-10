@@ -373,10 +373,10 @@ MainState.prototype = {
         this.chipboxButton4.on('pointerdown', this.chipOnClick4.bind(this));
 
 
-        this.chipboxButton1.setScale(this.scale);
-        this.chipboxButton2.setScale(this.scale);
-        this.chipboxButton3.setScale(this.scale);
-        this.chipboxButton4.setScale(this.scale);
+        this.chipboxButton1.setScale(this.scale*0.9,this.scale*1.2);
+        this.chipboxButton2.setScale(this.scale*0.9,this.scale*1.2);
+        this.chipboxButton3.setScale(this.scale*0.9,this.scale*1.2);
+        this.chipboxButton4.setScale(this.scale*0.9,this.scale*1.2);
 
         var style = { font: _fontString(30), fill: "#FFFFFF"};
         this.chipboxText1 = game.add.text(0, 0, "AllIn", style);
@@ -397,10 +397,10 @@ MainState.prototype = {
         this.chipboxSliderGroove.visible = true
         this.chipboxSliderHandle = game.add.sprite(0, 0, "btnslider");
         this.chipboxSliderHandle.visible = true
-        // this.chipboxSliderGroove.setScale(1);
-        // this.chipboxSliderHandle.setScale(1);
-        // this.chipboxSliderGroove.setOrigin(0.5);
-        // this.chipboxSliderHandle.setOrigin(0.5);
+        this.chipboxSliderGroove.setScale(this.scale);
+        this.chipboxSliderHandle.setScale(this.scale,this.scale*1.3);
+        this.chipboxSliderGroove.setOrigin(0.5);
+        this.chipboxSliderHandle.setOrigin(0.5);
         style = { font: _fontString(32), fill: "#CE8D00"};
         this.chipboxTextSlider = game.add.text(0, 0, "0", style);
         this.chipboxTextSlider.visible = true;
@@ -419,7 +419,7 @@ MainState.prototype = {
         this.chipboxGroup.add(this.chipboxSliderGroove);
         this.chipboxGroup.add(this.chipboxSliderHandle);
         this.chipboxGroup.add(this.chipboxTextSlider);
-        this.chipboxGroup.setVisible(false);
+        this.chipboxGroup.visible=false;
 
         var buttonPosRate1 = {x:0.468, y:0.881};
         var buttonPosRate2 = {x:0.594, y:0.881};
@@ -480,32 +480,32 @@ MainState.prototype = {
         this.buttonGroup3.add(this.lbCallEvery);
 
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton1.width, align: "left" };
-        this.lbLookorGiveupWait = game.add.text(buttonPosRate1.x * gameWidth + this.xOffset , buttonPosRate1.y * gameHeight + this.yOffset , "Check/Fold", style);
-        this.lbLookorGiveupWait.setOrigin(0, 0.5);
+        this.lbLookorGiveupWait = game.add.text(buttonPosRate1.x * gameWidth + this.xOffset , buttonPosRate1.y * gameHeight + this.yOffset , "Fold", style);
+        this.lbLookorGiveupWait.setOrigin(0.3, 0.5);
         this.lbLookorGiveupWait.setScale(this.scale, this.scale);
         this.imgLookorGiveupWait = game.add.image(buttonPosRate1.x * gameWidth + this.xOffset, buttonPosRate1.y * gameHeight + this.yOffset, "checkOff");
-        this.imgLookorGiveupWait.setOrigin(0.5);
-        this.imgLookorGiveupWait.setScale(this.scale, this.scale);
+        this.imgLookorGiveupWait.setOrigin(2,0.5);
+        this.imgLookorGiveupWait.setScale(this.scale*0.7);
         this.waitButtonGroup1.add(this.waitbutton1);
         this.waitButtonGroup1.add(this.lbLookorGiveupWait);
         this.waitButtonGroup1.add(this.imgLookorGiveupWait);
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton2.width, align: "left" };
         this.lbCallWait = game.add.text(buttonPosRate2.x * gameWidth + this.xOffset  , buttonPosRate2.y * gameHeight + this.yOffset , "Call", style);
-        this.lbCallWait.setOrigin(0, 0.5);
+        this.lbCallWait.setOrigin(0.3, 0.5);
         this.lbCallWait.setScale(this.scale, this.scale);
         this.imgCallWait = game.add.image(buttonPosRate2.x * gameWidth + this.xOffset , buttonPosRate2.y * gameHeight + this.yOffset , "checkOff");
-        this.imgCallWait.setOrigin(0.5);
-        this.imgCallWait.setScale(this.scale, this.scale);
+        this.imgCallWait.setOrigin(2,0.5);
+        this.imgCallWait.setScale(this.scale*0.7);
         this.waitButtonGroup2.add(this.waitbutton2);
         this.waitButtonGroup2.add(this.lbCallWait);
         this.waitButtonGroup2.add(this.imgCallWait);
         style = { font: _fontString(24), fill: "#FFFFFF", wordWrap: false, wordWrapWidth: 0.6 * this.waitbutton3.width, align: "left" };
         this.lbCallEveryWait = game.add.text(buttonPosRate3.x * gameWidth + this.xOffset , buttonPosRate3.y * gameHeight + this.yOffset , "Call Any", style);
-        this.lbCallEveryWait.setOrigin(0.5);
-        this.lbCallEveryWait.setScale(this.scale, this.scale);
+        this.lbCallEveryWait.setOrigin(0.3,0.5);
+        this.lbCallEveryWait.setScale(this.scale);
         this.imgCallEveryWait = game.add.image(buttonPosRate3.x * gameWidth + this.xOffset , buttonPosRate3.y * gameHeight + this.yOffset, "checkOff");
-        this.imgCallEveryWait.setOrigin(0.5);
-        this.imgCallEveryWait.setScale(this.scale, this.scale);
+        this.imgCallEveryWait.setOrigin(2,0.5);
+        this.imgCallEveryWait.setScale(this.scale*0.7);
 
         this.waitButtonGroup3.add(this.waitbutton3);
         this.waitButtonGroup3.add(this.lbCallEveryWait);
@@ -525,8 +525,10 @@ MainState.prototype = {
         //this.chipbox.width = this.button3.width * 0.92;
         this.chipboxButton1.x = this.chipbox.x +this.chipbox.width*0.5*this.scale;
         this.chipboxButton1.y = this.chipbox.y + this.chipboxButton1.height*0.5;
-        // this.chipboxButton1.width = this.chipbox.width * 0.3;
-        //this.chipboxButton1.height = this.chipbox.height * 0.18;
+
+        // this.chipboxButton1.width = this.chipbox.width * 0.1 *this.scale;
+        // this.chipboxButton1.height = this.chipbox.height * 0.18 *this.scale;
+
         this.chipboxButton2.x = this.chipbox.x +this.chipbox.width*0.5*this.scale;
         this.chipboxButton2.y = this.chipbox.y +this.chipboxButton2.height *0.5+ this.chipbox.height * ( chipboxButtonGap);
         this.chipboxButton2.width = this.chipbox.width * 0.3;
@@ -720,23 +722,26 @@ MainState.prototype = {
     },
 
     // 看或弃牌
-    waitOnClick1:function()
-    {
+    waitOnClick1:function() {
         console.log("waitOnClick1 click")
 
         if(this.waitSelected1)
         {
             this.waitSelected1 = false;
-            this.imgLookorGiveupWait.setFrame( this.imgLookorGiveupWait.frame);
+            let frame = this.game.textures.get("checkOff");
+            this.imgLookorGiveupWait.setTexture(frame);
         }
         else
         {
             this.waitSelected1 = true;
             this.waitSelected2 = false;
             this.waitSelected3 = false;
-            this.imgLookorGiveupWait.setFrame( this.imgLookorGiveupWait.frame);
-            this.imgCallWait.setFrame( this.imgCallWait.frame);
-            this.imgCallEveryWait.setFrame( this.imgCallEveryWait.frame);
+            let onFrame = this.game.textures.get("checkOn");
+            let offFrame = this.game.textures.get("checkOff");
+
+            this.imgLookorGiveupWait.setTexture( onFrame);
+            this.imgCallWait.setTexture(offFrame);
+            this.imgCallEveryWait.setTexture(offFrame);
         }
 
     },
@@ -746,10 +751,10 @@ MainState.prototype = {
     {
         console.log("waitOnClick2 click")
 
-        if(this.waitSelected2)
-        {
+        if(this.waitSelected2) {
             this.waitSelected2 = false;
-            this.imgCallWait.setFrame( this.imgCallWait.frame);
+            let offFrame = this.game.textures.get("checkOff");
+            this.imgCallWait.setTexture(offFrame);
             this.lbCallWait.setText("Check/Fold");
         }
         else
@@ -757,9 +762,12 @@ MainState.prototype = {
             this.waitSelected1 = false;
             this.waitSelected2 = true;
             this.waitSelected3 = false;
-            this.imgLookorGiveupWait.setFrame(this.imgLookorGiveupWait.frame);
-            this.imgCallWait.setFrame( this.imgCallWait.frame);
-            this.imgCallEveryWait.setFrame( this.imgCallEveryWait.frame);
+            let onFrame = this.game.textures.get("checkOn");
+            let offFrame = this.game.textures.get("checkOff");
+
+            this.imgLookorGiveupWait.setTexture(offFrame);
+            this.imgCallWait.setTexture(onFrame);
+            this.imgCallEveryWait.setTexture(offFrame);
 
             var bet = this.currentBet - this.gameStateObj.mybetOnDesk;
             if (bet > 0 && bet < this.chips) {
@@ -778,16 +786,19 @@ MainState.prototype = {
         if(this.waitSelected3)
         {
             this.waitSelected3 = false;
-            this.imgCallEveryWait.setFrame(this.imgCallEveryWait.frame);
+            let offFrame = this.game.textures.get("checkOff");
+            this.imgCallEveryWait.setTexture(offFrame);
         }
         else
         {
             this.waitSelected1 = false;
             this.waitSelected2 = false;
             this.waitSelected3 = true;
-            this.imgLookorGiveupWait.setFrame( this.imgLookorGiveupWait.frame);
-            this.imgCallWait.setFrame( this.imgCallWait.frame);
-            this.imgCallEveryWait.setFrame( this.imgCallEveryWait.frame);
+            let onFrame = this.game.textures.get("checkOn");
+            let offFrame = this.game.textures.get("checkOff");
+            this.imgLookorGiveupWait.setTexture(offFrame);
+            this.imgCallWait.setTexture(offFrame);
+            this.imgCallEveryWait.setTexture(onFrame);
         }
     },
 
@@ -834,6 +845,7 @@ MainState.prototype = {
 
 
     _raseAction:function(value) {
+        console.log("raise value",value)
         var that = this
         this.betApi.bet(value,function(isok) {
                 // send OK or NOK
@@ -841,13 +853,12 @@ MainState.prototype = {
                 that._setBetButtonsVisible(false)
             })
 
-        that.chipboxGroup.setVisible(false);
+        that.chipboxGroup.visible = false ;
     },
 
     // 加注
-    actionOnClick3:function()
-    {
-
+    actionOnClick3:function() {
+        console.log("actionOnClick3 clicked visible",this.chipboxGroup.visible)
         if(this.chipboxGroup.visible) {
             var text = this.chipboxTextSlider.text
             var betValue = parseInt(text)
@@ -866,7 +877,7 @@ MainState.prototype = {
 
             this._updatePoolChipValue(bet*2?bet*2:10*2);
             this._setSliderRange(bet, this.chips);
-            this.chipboxGroup.setVisible(true);
+            this.chipboxGroup.visible = true;
             this.chipboxOpened = true;
 
             this.lbCallEvery.setText("Raise "+bet);
@@ -1064,8 +1075,8 @@ MainState.prototype = {
         //game.Native.roomCreated(this.rootID);
     },
 
-    handleJoin:function(data)
-    {
+    handleJoin:function(data) {
+        console.log("JoinRoom data",JSON.stringify(data))
         var occupant = data.occupant;
         //通过和自己的座位号码推算应该在第几个座位
         var self = this.userList[ (this.userList.length - 1) / 2];
@@ -1124,16 +1135,14 @@ MainState.prototype = {
         
         if(user.param.userID == this.userID) {
             //gameQuit();
-            
             console.log("Handle Gone ........");
             this.selfCards[0].visible = false;
             this.selfCards[1].visible = false;
             console.log("chips", this.chips)
             
             if(this.chips <= 0) {
-                
-                if(game.Native != undefined) {
-                    game.Native.confrimPopupWindow("你的钱输光了！！","你的积分为0， 即将被踢出游戏", "确认", function(data){
+                if(this.game.Native != undefined) {
+                    this.game.Native.confrimPopupWindow("你的钱输光了！！","你的积分为0， 即将被踢出游戏", "确认", function(data){
                                                    game.Native.quitToApp();
                                                });
                     return;
@@ -1607,7 +1616,7 @@ MainState.prototype = {
 
 
     _currentPlayButtonUpdate:function(isCurrentPlayer) {
-        // this._setWaitButtonsVisible(!isCurrentPlayer)
+        this._setWaitButtonsVisible(!isCurrentPlayer)
         this._setBetButtonsVisible(isCurrentPlayer);
     },
 
@@ -1635,7 +1644,7 @@ MainState.prototype = {
                 that.animation.stopShake = true;
                 if(blComplete == true) {
                     that._playSound(that.soundDing)
-                    that.chipboxGroup.setVisible(false);
+                    that.chipboxGroup.visible=false;
                     that.lbCallEvery.setText("Raise")
                 } 
             })
@@ -1735,7 +1744,7 @@ MainState.prototype = {
 
     _autoAction:function() {
         // 看或弃牌
-        var user = this._userByUserID(userID)
+        var user = this._userByUserID(this.userID)
 
         if (this.waitSelected1) {
             this.actionOnClick1()
@@ -1837,10 +1846,10 @@ MainState.prototype = {
         this.chipboxSliderHandle.y = this.chipboxSliderGroove.y + this.chipboxSliderGroove.height * 0.5 - this.chipboxSliderHandle.height * 0.5;
     },
 
-    _betWaitButtonCheckOn:function(buttonCheckImage, blOn)
-    {
+    _betWaitButtonCheckOn:function(buttonCheckImage, blOn) {
         var imgid = blOn?"checkOn":"checkOff";
-        buttonCheckImage.setFrame(buttonCheckImage.frame);
+        let frame = this.game.textures.get(imgid);
+        buttonCheckImage.setTexture(frame);
     },
 
     _betWaitButtonChecked:function() 

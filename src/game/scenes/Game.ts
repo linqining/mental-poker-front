@@ -113,6 +113,7 @@ export class Game extends Scene
                     // betApi.enterRoom(function(data){
                     //     console.log("enterRoom", JSON.stringify(data))
                     // },roomID)
+                    console.log("loginCertification",JSON.stringify(authData));
                 })
             },  this.gameState.callbackClose.bind(this.gameState),
             this.gameState.callbackMessage.bind(this.gameState),  this.gameState.callbackError.bind(this.gameState))
