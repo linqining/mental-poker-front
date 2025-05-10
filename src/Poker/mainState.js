@@ -351,7 +351,9 @@ MainState.prototype = {
         this.animation.setLight(this.light);
 
         this.chipbox = game.add.sprite(0, 0, "fillbox");
-        this.chipbox.setScale(this.scale, this.scale);
+        this.chipbox.setOrigin(0, 0);
+
+        this.chipbox.setScale(this.scale);
 
 
         this.chipboxButton1 = game.add.image(0,0, "buttonblue");
@@ -371,10 +373,10 @@ MainState.prototype = {
         this.chipboxButton4.on('pointerdown', this.chipOnClick4.bind(this));
 
 
-        this.chipboxButton1.setScale(0.5);
-        this.chipboxButton2.setScale(0.5);
-        this.chipboxButton3.setScale(0.5);
-        this.chipboxButton4.setScale(0.5);
+        this.chipboxButton1.setScale(this.scale);
+        this.chipboxButton2.setScale(this.scale);
+        this.chipboxButton3.setScale(this.scale);
+        this.chipboxButton4.setScale(this.scale);
 
         var style = { font: _fontString(30), fill: "#FFFFFF"};
         this.chipboxText1 = game.add.text(0, 0, "AllIn", style);
@@ -417,8 +419,7 @@ MainState.prototype = {
         this.chipboxGroup.add(this.chipboxSliderGroove);
         this.chipboxGroup.add(this.chipboxSliderHandle);
         this.chipboxGroup.add(this.chipboxTextSlider);
-        this.chipboxGroup.visible = false;
-        this.chipboxGroup.setDepth(10);
+        this.chipboxGroup.setVisible(false);
 
         var buttonPosRate1 = {x:0.468, y:0.881};
         var buttonPosRate2 = {x:0.594, y:0.881};
@@ -511,39 +512,47 @@ MainState.prototype = {
         this.waitButtonGroup3.add(this.imgCallEveryWait);
 
         this._setWaitButtonsVisible(false);
+        console.log("current scale",this.scale)
+        this.chipbox.x = this.button3.x - this.button3.width * 0.5;
+        this.chipbox.y = this.button3.y - this.button3.height * 0.5 - this.chipbox.height * this.scale;
+        // console.log("chipbox with height",this.chipbox.width, this.chipbox.height)
+        //
+        // console.log("chipbox axis",this.chipbox.x, this.chipbox.y)
 
-        this.chipbox.x = this.button3.x + this.button3.width * 0.01;
-        this.chipbox.y = this.button3.y - this.chipbox.height * 0.99;
 
-        var chipboxButtonGap = 0.1;
-        var chipboxButtonStart = 0.28;
+        var chipboxButtonGap = 0.14;
+        var chipboxButtonStart = 0.4;
         //this.chipbox.width = this.button3.width * 0.92;
-        this.chipboxButton1.x = this.chipbox.x + this.chipbox.width * 0.1;
-        this.chipboxButton1.y = this.chipbox.y + this.chipbox.height * chipboxButtonStart;
-        this.chipboxButton1.width = this.chipbox.width * 0.3;
+        this.chipboxButton1.x = this.chipbox.x +this.chipbox.width*0.5*this.scale;
+        this.chipboxButton1.y = this.chipbox.y + this.chipboxButton1.height*0.5;
+        // this.chipboxButton1.width = this.chipbox.width * 0.3;
         //this.chipboxButton1.height = this.chipbox.height * 0.18;
-        this.chipboxButton2.x = this.chipbox.x + this.chipbox.width * 0.1;
-        this.chipboxButton2.y = this.chipbox.y + this.chipbox.height * (chipboxButtonStart + chipboxButtonGap);
+        this.chipboxButton2.x = this.chipbox.x +this.chipbox.width*0.5*this.scale;
+        this.chipboxButton2.y = this.chipbox.y +this.chipboxButton2.height *0.5+ this.chipbox.height * ( chipboxButtonGap);
         this.chipboxButton2.width = this.chipbox.width * 0.3;
         //this.chipboxButton2.height = this.chipbox.height * 0.18;
-        this.chipboxButton3.x = this.chipbox.x + this.chipbox.width * 0.1;
-        this.chipboxButton3.y = this.chipbox.y + this.chipbox.height * (chipboxButtonStart + chipboxButtonGap*2);
+        this.chipboxButton3.x = this.chipbox.x + +this.chipbox.width*0.5*this.scale;
+        this.chipboxButton3.y = this.chipbox.y + this.chipboxButton3.height *0.5+this.chipbox.height * ( chipboxButtonGap*2) ;
         this.chipboxButton3.width = this.chipbox.width * 0.3;
         //this.chipboxButton3.height = this.chipbox.height * 0.18;
-        this.chipboxButton4.x = this.chipbox.x + this.chipbox.width * 0.1;
-        this.chipboxButton4.y = this.chipbox.y + this.chipbox.height * (chipboxButtonStart + chipboxButtonGap*3);
+        this.chipboxButton4.x = this.chipbox.x + this.chipbox.width*0.5*this.scale;
+        this.chipboxButton4.y = this.chipbox.y + this.chipboxButton4.height *0.5 + this.chipbox.height * (chipboxButtonGap*3) ;
         this.chipboxButton4.width = this.chipbox.width * 0.3;
         //this.chipboxButton4.height = this.chipbox.height * 0.18;
         this.chipboxText1.x = this.chipboxButton1.x ;
         this.chipboxText1.y = this.chipboxButton1.y ;
+        this.chipboxText1.setOrigin(0.5,0.5);
         this.chipboxText2.x = this.chipboxButton2.x ;
         this.chipboxText2.y = this.chipboxButton2.y ;
+        this.chipboxText2.setOrigin(0.5,0.5);
         this.chipboxText3.x = this.chipboxButton3.x ;
         this.chipboxText3.y = this.chipboxButton3.y ;
+        this.chipboxText3.setOrigin(0.5,0.5);
         this.chipboxText4.x = this.chipboxButton4.x ;
         this.chipboxText4.y = this.chipboxButton4.y ;
+        this.chipboxText4.setOrigin(0.5,0.5);
         this.chipboxTextSlider.x = this.chipbox.x ;
-        this.chipboxTextSlider.y = this.chipboxButton1.y - this.chipboxButton1.height * 1.3//+ this.chipboxButton1.height ;
+        this.chipboxTextSlider.y = this.chipboxButton1.y - this.chipbox.height * 1.3 ;
         //this.chipboxSliderGroove.width = this.chipbox.width * 0.1;
         //this.chipboxSliderGroove.height = this.chipbox.height * 0.7;
         console.log("chipbox",this.chipbox.x)
