@@ -357,14 +357,24 @@ User.prototype = {
 		if (imageid == null || imageid == undefined) {
 			return
 		}
+		if (imageid!==""){
+			this.param["userImage"] = imageid;
+			this.imagebody.setScale(1, 1);
 
-		if(imageid == "") {
-			imageid = "defaultProfile"
+			let userImage = this.game.load.image(imageid,imageid);
+			if (this.imagebody && this.userImage){
+				this.imagebody.setTexture(userImage);
+			}
+			return;
 		}
+
 		this.param["userImage"] = imageid;
 	    this.imagebody.setScale(1, 1);
-		let userImage = this.game.textures.get(imageid);
-		this.imagebody.setTexture(userImage)
+		let userImage = this.game.textures.get("defaultProfile");
+		if (this.imagebody && userImage){
+			console.log("this.imagebody",this.imagebody)
+			this.imagebody.setTexture(userImage)
+		}
 
 		// this.imagebody.setScale(this.rect.width * 0.9 / this.imagebody.width, this.rect.height * 0.595 / this.imagebody.height);
 	},

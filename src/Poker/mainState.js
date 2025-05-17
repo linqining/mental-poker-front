@@ -1017,8 +1017,8 @@ MainState.prototype = {
         else if(data.type == "message")
         {
         }
-        else if(data.type == "presence")
-        {
+        else if(data.type == "presence") {
+            // console.log("presence data",JSON.stringify(data))
             if(data.action == "active")         //服务器广播进入房间的玩家
             {
             }
@@ -1103,8 +1103,8 @@ MainState.prototype = {
             userIndex += this.userList.length;
         }
         var user = this.userList[userIndex];
-        if(occupant.profile && occupant.profile != "")
-        {
+        if(occupant.profile && occupant.profile != "") {
+            console.log("user profile",occupant.profile)
             this.game.load.image("userImage" + userIndex, occupant.profile, true);
             // this.game.load.start();
         }
@@ -1489,12 +1489,16 @@ MainState.prototype = {
         var lstCardImage = [];
         for(var i = 0; i < publicCards.length; i++) {
             this.publicCards[i].visible = true;
-            this.publicCards[i].load.image(publicCards[i], this.publicCards[i].frame);
+            let frame = this.game.textures.get(publicCards[i]);
+            this.publicCards[i].setTexture(frame);
+            // this.publicCards[i].load.image(publicCards[i], this.publicCards[i].frame);
         }
         for(var i = publicCards.length; i < this.publicCards.length; i++) {
             if (this.publicCards[i].visible) {
                 this.publicCards[i].visible = false;
-                this.publicCards[i].load.image("cardBK", this.publicCards[i].frame);
+                // this.publicCards[i].load.image("cardBK", this.publicCards[i].frame);
+                let frame = this.game.textures.get("cardBK");
+                this.publicCards[i].setTexture(frame);
             }
         }
 
