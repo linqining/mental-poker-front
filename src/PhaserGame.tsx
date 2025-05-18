@@ -2,6 +2,10 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import StartGame from './game/main';
 import { EventBus } from './game/EventBus';
 import BetApi from './Poker/betapi.js';
+import {Transaction} from "@mysten/sui/transactions";
+// import { sponsorAndSignTransaction } from "../utils/sponsorAndSignTransaction";
+import {useSignAndExecuteTransaction, useSuiClient} from "@mysten/dapp-kit";
+
 
 
 export interface IRefPhaserGame
@@ -78,8 +82,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
             actionLogin? actionLogin(scene_instance) : null;
             // EventBus.removeListener('action_login');
         })
-        return () =>
-        {
+        return () => {
             EventBus.removeListener('current-scene-ready');
         }
     }, [currentActiveScene, ref,actionLogin]);

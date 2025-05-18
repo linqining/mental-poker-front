@@ -46,6 +46,11 @@ export class Hall extends Scene
             this.scene.start("Game");
         })
 
+        EventBus.removeListener("action_join_and_pay");
+        this.hundredMatch.setInteractive().on('pointerdown', () => {
+            EventBus.emit('action_join_and_pay', this);
+        })
+
         // this.gameText = this.add.text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
         //     fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
         //     stroke: '#000000', strokeThickness: 8,

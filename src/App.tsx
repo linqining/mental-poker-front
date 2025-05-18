@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react';
 import { IRefPhaserGame, PhaserGame } from './PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
-import { useCurrentAccount,ConnectButton} from "@mysten/dapp-kit";
+import {useCurrentAccount, ConnectButton, useSuiClient, useSignAndExecuteTransaction} from "@mysten/dapp-kit";
+import {EventBus} from "./game/EventBus.ts";
+import {Transaction} from "@mysten/sui/transactions";
 
 
-function App()
-{
+function App() {
     const account = useCurrentAccount();
     // The sprite can only be moved in the MainMenu Scene
     const [canMoveSprite, setCanMoveSprite] = useState(true);
@@ -91,6 +92,60 @@ function App()
 
     phaserRef.current?.scene?.data.set("current_account",account)
 
+    const {mutate:signAndExecuteTransaction} = useSignAndExecuteTransaction();
+    let client = useSuiClient();
+    const [joinProcessing, setJoinProcessing] = useState(false);
+    EventBus.removeListener('action_join_and_pay');
+    EventBus.on('action_join_and_pay', (scene_instance: Phaser.Scene) =>{
+        if(joinProcessing){
+            return;
+        }
+        setJoinProcessing(true);
+        console.log("trigger join and pay")
+        let tx = new Transaction()
+        const betAmountCoin = tx.splitCoins(tx.gas, [
+            0.1 * 1000000000,//0.1sui
+        ]);
+         tx.moveCall({
+            package: "0x83f58b771449cffeafdb2bcea86f6c7e9e21750cf4051e7b21e23f46c13da768",
+            module: "mental_poker",
+            function: "start_game",
+            arguments: [
+                betAmountCoin,
+                tx.object(`0xff471805784868ef6d7c4747b496e4ea84559f4574b1aabdf4773213a52a7d30`),
+            ]
+        });
+        let res =  signAndExecuteTransaction({transaction: tx},{
+            onSuccess: async ({ digest }) => {
+                const { effects,events,objectChanges } = await client.waitForTransaction({
+                    digest: digest,
+                    options: {
+                        showEffects: true,
+                        showObjectChanges: true,
+                        showEvents: true,
+                    },
+                });
+                console.log("effects",effects);
+                console.log("events",events);
+                console.log("object change",objectChanges);
+
+                let gameIDs = events?.find((obj) => {
+                    if (obj.parsedJson?.game_id) {
+                        return obj.parsedJson?.game_id;
+                    }
+                });
+                console.log("gameIDs",gameIDs)
+                setJoinProcessing(false);
+            },
+            onError: (error) => {
+                console.log("Error = ", error);
+                setJoinProcessing(false);
+            }
+        });
+        setJoinProcessing(false);
+        console.log("action_join_and_pay res",res)
+    })
+
     return (
         <div id="app">
             <div>
@@ -117,7 +172,6 @@ function App()
             </div>
         </div>
     )
-
 }
 
 export default App
