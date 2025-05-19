@@ -95,6 +95,8 @@ function App() {
     const {mutate:signAndExecuteTransaction} = useSignAndExecuteTransaction();
     let client = useSuiClient();
     const [joinProcessing, setJoinProcessing] = useState(false);
+    const PACKAGE = "0x114db1ee19a628a22aa6a5b2b64fce5ac67378ddb70cb0794a7ee5d594665495";
+    const GAME_TYPE = PACKAGE+"::mental_poker::PokerGame";
     EventBus.removeListener('action_join_and_pay');
     EventBus.on('action_join_and_pay', (scene_instance: Phaser.Scene) =>{
         if(joinProcessing){
@@ -107,12 +109,12 @@ function App() {
             0.1 * 1000000000,//0.1sui
         ]);
          tx.moveCall({
-            package: "0x83f58b771449cffeafdb2bcea86f6c7e9e21750cf4051e7b21e23f46c13da768",
+            package: PACKAGE,
             module: "mental_poker",
             function: "start_game",
             arguments: [
                 betAmountCoin,
-                tx.object(`0xff471805784868ef6d7c4747b496e4ea84559f4574b1aabdf4773213a52a7d30`),
+                tx.object(`0x1dd17f30470cc1ef182bb44611f190c89dbfccbb57b84e0305e73e2ec126cc32`),
             ]
         });
         let res =  signAndExecuteTransaction({transaction: tx},{
@@ -128,7 +130,26 @@ function App() {
                 console.log("effects",effects);
                 console.log("events",events);
                 console.log("object change",objectChanges);
-
+                let  gameID =""
+                if (events && events.length>0){
+                    for (var i=0;i<events?.length;i++){
+                        if (events[i].parsedJson && events[i].parsedJson.game_id) {
+                            gameID = events[i].parsedJson.game_id;
+                            console.log("found game id on event",gameID);
+                            break;
+                        }
+                    }
+                }
+                if (gameID=="" && objectChanges && objectChanges.length>0){
+                    for (var i=0;i<objectChanges.length;i++){
+                        if (objectChanges[i]["objectType"] == GAME_TYPE) {
+                            gameID = objectChanges[i]["objectId"];
+                            console.log("found game id on objchange",gameID);
+                            break;
+                        }
+                    }
+                }
+                console.log(gameID)
                 let gameIDs = events?.find((obj) => {
                     if (obj.parsedJson?.game_id) {
                         return obj.parsedJson?.game_id;
