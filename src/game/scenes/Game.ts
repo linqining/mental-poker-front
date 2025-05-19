@@ -3,8 +3,7 @@ import { Scene } from 'phaser';
 import User from '../../Poker/user';
 import MainState from '../../Poker/mainState';
 
-export class Game extends Scene
-{
+export class Game extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     table:Phaser.GameObjects.Image;
@@ -85,9 +84,9 @@ export class Game extends Scene
 
 
 
-    create () {
-
-        const roomID ="1";
+    create (data) {
+        console.log(data)
+        const roomID =data.game_id;
         const userAccount = this.registry.get("current_account")
         if (!userAccount ) {
             this.scene.start('MainMenu');
@@ -96,9 +95,9 @@ export class Game extends Scene
         this.camera = this.cameras.main;
 
         const betApi = this.game.registry.get("betApi");
-
+        betApi.setRoomID(roomID);
         this.gameState = new MainState(this);
-        this.gameState.create(this,betApi)
+        this.gameState.create(this,betApi,roomID,data.chip_amount);
 
         const exitGame = this.add.image(84, 42, 'exit_game');
         exitGame.setScale(0.7);

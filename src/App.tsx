@@ -16,9 +16,7 @@ function App() {
     const [spritePosition, setSpritePosition] = useState({ x: 0, y: 0 });
 
     const changeScene = () => {
-
-        if(phaserRef.current)
-        {     
+        if(phaserRef.current) {
             const scene = phaserRef.current.scene as MainMenu;
 
             if (scene)
@@ -30,8 +28,7 @@ function App() {
 
     const moveSprite = () => {
 
-        if(phaserRef.current)
-        {
+        if(phaserRef.current) {
 
             const scene = phaserRef.current.scene as MainMenu;
 
@@ -150,13 +147,21 @@ function App() {
                     }
                 }
                 console.log(gameID)
-                let gameIDs = events?.find((obj) => {
-                    if (obj.parsedJson?.game_id) {
-                        return obj.parsedJson?.game_id;
-                    }
-                });
-                console.log("gameIDs",gameIDs)
-                setJoinProcessing(false);
+                // let gameIDs = events?.find((obj) => {
+                //     if (obj.parsedJson?.game_id) {
+                //         return obj.parsedJson?.game_id;
+                //     }
+                // });
+                // console.log("gameIDs",gameIDs)
+                // setJoinProcessing(false);
+                if (gameID){
+                    scene_instance.scene.start('Game', {
+                        "game_id":gameID,
+                        "chip_amount": 100000000,
+                    })
+                }
+
+
             },
             onError: (error) => {
                 console.log("Error = ", error);

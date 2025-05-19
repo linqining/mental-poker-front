@@ -77,13 +77,14 @@ BetApi.prototype = {
 		this.betServer.sendCommand(data, callback);
 	},
 
-	enterRoom:function(callback, roomID) {
+	enterRoom:function(callback, roomID,chipAmount) {
         
         if(roomID != undefined ) {
             this.roomID = roomID
         }
         
-		var data = {type:"presence", id:"enterRoom", from:this.userID, to:this.roomID, action:"join"};
+		var data = {type:"presence", id:"enterRoom",
+			from:this.userID, to:this.roomID, action:"join",chips: chipAmount};
 		this.betServer.sendCommand(data, callback);
 	},
 

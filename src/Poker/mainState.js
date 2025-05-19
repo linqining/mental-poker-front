@@ -195,9 +195,11 @@ var gImageDir = "src/assets/2x"
 MainState.prototype = {
 
 
-    create: function(game,betApi) {
+    create: function(game,betApi,roomID,chipAmount) {
         this.game = game;
         this.betApi = betApi;
+        this.roomID = roomID;
+        this.chipAmount = chipAmount;
 
         this.soundSendCard = game.sound.add("sendcard");
         this.soundReorderCard = game.sound.add("reordercard");
@@ -1003,7 +1005,7 @@ MainState.prototype = {
                     console.log("enter random room:");
                     this.betApi.enterRoom(function(isOK){
                                 console.log("enterRoom is " +  isOK);
-                    }, "1");
+                    }, this.roomID,this.chipAmount);
                 // }
             }
         }
