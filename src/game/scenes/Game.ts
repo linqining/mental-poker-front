@@ -15,9 +15,9 @@ export class Game extends Scene {
         super('Game');
     }
     preload(){
-        const gImageDir = 'src/Poker/assets/2x/';
+        const gImageDir = 'assets_poker/2x/';
         this.load.image('gamecenterbackground', gImageDir+'background.png')
-        this.load.image('playerBK', 'src/assets/Desktop/player_frame.png')
+        this.load.image('playerBK', 'assets_guopai/Desktop/player_frame.png')
         this.load.image('userBK', gImageDir+'player-guest.png')
         this.load.image('blankBK', gImageDir+'player-blank.png')
         this.load.image('winBK', gImageDir+'win-frame-bg.png')
@@ -25,13 +25,13 @@ export class Game extends Scene {
         this.load.image('buttonblue', gImageDir+'btn-big-green.png')
         this.load.image('buttongrey', gImageDir+'btn-big-green.png')
         this.load.image('buttonyellow', gImageDir+'btn-big-blue.png')
-        this.load.image('fold_btn','src/assets/operate/fold.png')
-        this.load.image('call_btn','src/assets/operate/call.png')
-        this.load.image('raise_btn','src/assets/operate/raise.png')
+        this.load.image('fold_btn','assets_guopai/operate/fold.png')
+        this.load.image('call_btn','assets_guopai/operate/call.png')
+        this.load.image('raise_btn','assets_guopai/operate/raise.png')
         this.load.image('animeCoins', gImageDir+'coin.png')
         this.load.image('light', gImageDir+'roomLight.png')
 
-        var cardDir = "src/assets/cards/"
+        var cardDir = "assets_guopai/cards/"
 
         var cardImageName = [ "clubs", "diamonds","hearts","spades"];
         var cardName = [  "C", "D","H","S"]; // 黑桃，红心，梅花，方块
@@ -44,16 +44,16 @@ export class Game extends Scene {
             }
         }
 
-        this.load.image("cardBK", 'src/assets/cards/CardBack.png')
+        this.load.image("cardBK", 'assets_guopai/cards/CardBack.png')
         this.load.image("chipPool", gImageDir+'chip-pool.png')
-        this.load.image("chip01", 'src/assets/Desktop/chips.png')
+        this.load.image("chip01", 'assets_guopai/Desktop/chips.png')
         this.load.image("chip05", gImageDir+'texas_chip05.png')
         this.load.image("chip1k", gImageDir+'texas_chip1k.png')
         this.load.image("chip5k", gImageDir+'texas_chip5k.png')
         this.load.image("chip10w", gImageDir+'texas_chip10w.png')
         this.load.image("chip50w", gImageDir+'texas_chip50w.png')
 
-        this.load.image("dcardBK", 'src/assets/cards/CardBack.png')
+        this.load.image("dcardBK", 'assets_guopai/cards/CardBack.png')
         // this.load.image("dcardBK", gImageDir+'card_backs_rotate.png');
 
 
@@ -69,11 +69,11 @@ export class Game extends Scene {
         this.load.image("dealer", gImageDir+'dealer.png')
         this.load.image("waitingRound", gImageDir+'win-frameWaiting.png')
         this.load.image("card_typebg", gImageDir+'card_typebg.png')
-        this.load.image("defaultProfile", 'src/assets/Common/avatar.png')
+        this.load.image("defaultProfile", 'assets_guopai/Common/avatar.png')
         this.load.image("buttonrules", gImageDir+'btn-rules.png')
 
-        const soundDir = "src/Poker/assets/sound/"
-        this.load.audio('sendcard', 'src/assets/audio/desk_new_card.wav')
+        const soundDir = "assets_poker/sound/"
+        this.load.audio('sendcard', 'assets_guopai/audio/desk_new_card.wav')
         this.load.audio('click', soundDir+'click.mp3')
         this.load.audio('chipsmoving',soundDir+ 'chipsmoving.mp3')
         this.load.audio('reordercard', soundDir+'reordercard.mp3')

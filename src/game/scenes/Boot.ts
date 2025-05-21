@@ -15,15 +15,15 @@ export class Boot extends Scene
         this.load.image('background', 'assets/loading/loading.png');
         this.load.image('guest_login','assets/loading/guest_login.png')
         this.load.image('loading_avatar','avatars/avater0.png')
-        this.load.image('hall_background','src/assets/main/Main_atlas3.png')
-        this.load.image('common_button','src/assets/main/common.png')
-        this.load.image('hundred_button','src/assets/main/hundred.png')
-        this.load.image('match_button','src/assets/main/match.png')
+        this.load.image('hall_background','assets_guopai/main/Main_atlas3.png')
+        this.load.image('common_button','assets_guopai/main/common.png')
+        this.load.image('hundred_button','assets_guopai/main/hundred.png')
+        this.load.image('match_button','assets_guopai/main/match.png')
 
-        this.load.image("table_background","src/assets/Desktop/Desktop_atlas1.png")
-        this.load.image("table","src/assets/Desktop/Desktop_atlas2.png")
+        this.load.image("table_background","assets_guopai/Desktop/Desktop_atlas1.png")
+        this.load.image("table","assets_guopai/Desktop/Desktop_atlas2.png")
 
-        this.load.image("exit_game","src/assets/joinmatch/JoinMatch_atlas0.png")
+        this.load.image("exit_game","assets_guopai/joinmatch/JoinMatch_atlas0.png")
     }
 
     create ()

@@ -20,7 +20,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("../assets/loading/PreLoading_atlas1.png");
+    background-image: url("../../public/assets_guopai/loading/PreLoading_atlas1.png");
     background-size: 142% 142%;
     background-position: 22%;
     z-index: -1;
@@ -51,7 +51,7 @@
 
 
 .guest-login {
-    background-image: url(src/assets/lanzh/guest_login.png);
+    background-image: url(../../public/assets_guopai/lanzh/guest_login.png);
     width: 100px;
     height: 31px;
     background-repeat: no-repeat;

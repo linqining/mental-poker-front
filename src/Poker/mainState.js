@@ -189,7 +189,7 @@ var MainState = function(game) {
     this.initRoomDone = false
 }
 
-var gImageDir = "src/assets/2x"
+var gImageDir = "assets_guopai/2x"
 
 
 MainState.prototype = {

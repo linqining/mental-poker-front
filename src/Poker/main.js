@@ -5,7 +5,7 @@ var gParam = {ws_server:"localhost:8989/ws", user_name:"", joinroom:null, platfo
 //var gParam = {ws_server:"172.24.222.54:8989/ws", user_name:"", joinroom:null, platform:"PC", app_token:null}
 
 
-var gImageDir = "assets/2x/"
+var gImageDir = "assets_poker/2x/"
 var gFontScale = 1.0;
 var Native
 
