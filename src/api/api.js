@@ -1,9 +1,8 @@
 import service from '../utils/request'
 
-export const joinRoomApi = (data) => {
+export const reconnect = (address) => {
   return service({
-    url: '/api/join_room',
-    method: 'post',
-    data
+    url: '/reconnect/'+address,
+    method: 'get',
   })
 }

@@ -92,10 +92,17 @@ function App() {
     const {mutate:signAndExecuteTransaction} = useSignAndExecuteTransaction();
     let client = useSuiClient();
     const [joinProcessing, setJoinProcessing] = useState(false);
-    const PACKAGE = "0x114db1ee19a628a22aa6a5b2b64fce5ac67378ddb70cb0794a7ee5d594665495";
+    const PACKAGE = "0x63aeecd28b9bc9cf5476bac7a6ad3e62e5427c15f0a210335df271e75c89baa9";
+    const GAMEDATAOBJID = "0x0a84bc3803250c79790245cf2c8ea8f74f9aa48efe5f40a30a205d9233cc5126";
     const GAME_TYPE = PACKAGE+"::mental_poker::PokerGame";
     EventBus.removeListener('action_join_and_pay');
     EventBus.on('action_join_and_pay', (scene_instance: Phaser.Scene) =>{
+
+        // scene_instance.scene.start('Game', {
+        //     "game_id":'0xcf6537e367c51f8931a5f6e8852c868af187697abacfa0e0ec25d992430745ea',
+        //     "chip_amount": 100000000,
+        // })
+
         if(joinProcessing){
             return;
         }
@@ -111,7 +118,7 @@ function App() {
             function: "start_game",
             arguments: [
                 betAmountCoin,
-                tx.object(`0x1dd17f30470cc1ef182bb44611f190c89dbfccbb57b84e0305e73e2ec126cc32`),
+                tx.object(GAMEDATAOBJID),
             ]
         });
         let res =  signAndExecuteTransaction({transaction: tx},{
@@ -160,8 +167,6 @@ function App() {
                         "chip_amount": 100000000,
                     })
                 }
-
-
             },
             onError: (error) => {
                 console.log("Error = ", error);

@@ -46,9 +46,8 @@ BetApi.prototype = {
 		this.betServer.sendCommand(data, callback);
 	},
 
-	loginCertification:function(strName, callback) {
-
-		var data = {mechanism:"plain", text:strName}
+	loginCertification:function(address, callback) {
+		var data = {mechanism:"plain", text:address}
 		this.betServer.sendCommand(data, callback);
 	},
 
@@ -78,18 +77,15 @@ BetApi.prototype = {
 	},
 
 	enterRoom:function(callback, roomID,chipAmount) {
-        
         if(roomID != undefined ) {
             this.roomID = roomID
         }
-        
 		var data = {type:"presence", id:"enterRoom",
 			from:this.userID, to:this.roomID, action:"join",chips: chipAmount};
 		this.betServer.sendCommand(data, callback);
 	},
 
 	leaveRoom:function(callback) {
-
 		var data = {type:"presence", id:"leaveRoom", from:this.userID, to:this.roomID, action:"gone"};
 		this.betServer.sendCommand(data, callback);
 	},

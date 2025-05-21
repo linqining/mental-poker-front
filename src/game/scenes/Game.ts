@@ -102,7 +102,7 @@ export class Game extends Scene {
         const exitGame = this.add.image(84, 42, 'exit_game');
         exitGame.setScale(0.7);
         exitGame.setInteractive().on('pointerdown', () => {
-            betApi.disconnect();
+            betApi.leaveRoom();
             this.scene.start("Hall");
         })
 

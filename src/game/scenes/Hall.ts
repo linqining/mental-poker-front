@@ -1,8 +1,8 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
+import {reconnect} from "../../api/api";
 
-export class Hall extends Scene
-{
+export class Hall extends Scene {
     camera: Phaser.Cameras.Scene2D.Camera;
     background: Phaser.GameObjects.Image;
     commonMatch: Phaser.GameObjects.Image;
@@ -10,13 +10,23 @@ export class Hall extends Scene
     tournamentMatch: Phaser.GameObjects.Image;
     gameText: Phaser.GameObjects.Text;
 
-    constructor ()
-    {
+    constructor () {
         super('Hall');
     }
+    preload(){
+        const userAccount = this.registry.get("current_account")
+        reconnect(userAccount.address).then((res)=>{
+            console.log("reconnect success",res.data)
+            if (res.data.room_id){
+                this.scene.start("Game",{
+                    "game_id":res.data.room_id,
+                    "chip_amount": 100000000,
+                });
+            }
+        });
+    }
 
-    create ()
-    {
+    create () {
         this.camera = this.cameras.main;
 
         if (!this.registry.get("current_account") ) {

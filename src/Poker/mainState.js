@@ -1161,8 +1161,8 @@ MainState.prototype = {
                                                });
                     return;
                 }
+                this.game.scene.start('Hall');
             }
-            
         }
         
         user.clean();
