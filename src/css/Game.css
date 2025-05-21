@@ -1,0 +1,13 @@
+#game-container{
+    width: 100%;
+    height: 100vh;
+    /*background-color: #003836;*/
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    display: flex
+;
+    justify-content: center;
+    align-items: anchor-center;
+}

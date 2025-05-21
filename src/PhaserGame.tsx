@@ -2,9 +2,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 import StartGame from './game/main';
 import { EventBus } from './game/EventBus';
 import BetApi from './Poker/betapi.js';
-import {Transaction} from "@mysten/sui/transactions";
-// import { sponsorAndSignTransaction } from "../utils/sponsorAndSignTransaction";
-import {useSignAndExecuteTransaction, useSuiClient} from "@mysten/dapp-kit";
+import "../src/css/Game.css";
 
 
 

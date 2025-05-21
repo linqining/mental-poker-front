@@ -182,23 +182,9 @@ function App() {
             <div>
                 <PhaserGame ref={phaserRef} currentActiveScene={currentScene} account={account}
                             actionLogin={actionLoginFunction}/>
-                <div>
-                    <div>
-                        <button className="button" onClick={changeScene}>Change Scene</button>
-                    </div>
-                    <div>
-                        <button disabled={canMoveSprite} className="button" onClick={moveSprite}>Toggle Movement
-                        </button>
-                    </div>
-                    <div className="spritePosition">Sprite Position:
-                        <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
-                    </div>
-                    <div>
-                        <button className="button" onClick={addSprite}>Add New Sprite</button>
-                    </div>
-                </div>
+
             </div>
-            <div ref={connectBTNRef} className="connect-button" style={{visibility: "visible"}}>
+            <div ref={connectBTNRef} className="connect-button" style={{visibility: "hidden"}}>
                 <ConnectButton className="connectBtn" />
             </div>
         </div>
